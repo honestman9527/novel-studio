@@ -1,0 +1,41 @@
+{
+  "name": "ns",
+  "version": "0.1.0",
+  "description": "NS is a local-file based multi-novel writing studio with brainstorming, research, memory, architecture, drafting, finishing, and illustration-prompt skills.",
+  "author": {
+    "name": "sunik",
+    "url": "https://github.com/honestman9527"
+  },
+  "homepage": "https://github.com/honestman9527/novel-studio",
+  "repository": "https://github.com/honestman9527/novel-studio",
+  "license": "MIT",
+  "keywords": [
+    "novel",
+    "writing",
+    "fiction",
+    "skills",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Novel Studio",
+    "shortDescription": "Local-file based multi-novel writing studio for Codex.",
+    "longDescription": "Novel Studio helps Codex manage multi-novel workspaces with brainstorming, long-term memory, architecture, research, drafting, chapter audits, source logs, and illustration prompts.",
+    "developerName": "sunik",
+    "category": "Writing",
+    "capabilities": [
+      "Write",
+      "Research",
+      "Local Files"
+    ],
+    "websiteURL": "https://github.com/honestman9527/novel-studio",
+    "defaultPrompt": [
+      "规划一个多小说创作工作区。",
+      "为这部小说建立本地长期记忆。",
+      "基于当前小说记忆写下一章。"
+    ],
+    "brandColor": "#7C3AED",
+    "composerIcon": "./assets/ns-icon.svg",
+    "logo": "./assets/ns-logo.svg"
+  }
+}

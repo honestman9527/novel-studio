@@ -42,6 +42,13 @@ BASE_FILES: dict[str, str] = {
     "07-finish/sequel-hooks.md": "# 番外与续作方向\n\n",
 }
 
+MINIMAL_SHORT_FILES = [
+    "00-meta/project.md",
+    "02-bible/characters.md",
+    "03-outline/structure.md",
+    "07-finish/blurb.md",
+]
+
 WORKSPACE_FILES: dict[str, str] = {
     "00-workspace/index.md": "# NS 工作区索引\n\n| 小说 | 标题 | 模式 | 类型 | 状态 | 最近更新 | 路径 |\n| --- | --- | --- | --- | --- | --- | --- |\n",
     "00-workspace/shared-source-log.md": "# 共享素材来源\n\n| 日期 | 主题 | 来源 | 链接 | 可复用方向 |\n| --- | --- | --- | --- | --- |\n",
@@ -125,8 +132,12 @@ def main() -> int:
     parser.add_argument("--mode", choices=["short", "novella", "long", "serial"], default="long")
     parser.add_argument("--genre", action="append", default=[])
     parser.add_argument("--single-novel", action="store_true", help="把 workspace_dir 当作单本小说根目录，不创建 novels/<slug>")
+    parser.add_argument("--minimal-short", action="store_true", help="仅在 --mode short 时创建短篇最小结构")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
+
+    if args.minimal_short and args.mode != "short":
+        parser.error("--minimal-short 只能和 --mode short 一起使用")
 
     workspace = Path(args.workspace_dir).resolve()
     novel_slug = slugify(args.novel or args.title)
@@ -137,7 +148,10 @@ def main() -> int:
             write_file(workspace / relative, content, args.overwrite)
         root = workspace / "novels" / novel_slug
 
-    files = dict(BASE_FILES)
+    if args.minimal_short:
+        files = {relative: BASE_FILES[relative] for relative in MINIMAL_SHORT_FILES}
+    else:
+        files = dict(BASE_FILES)
     for genre in args.genre:
         files.update(GENRE_FILES.get(genre, {}))
 

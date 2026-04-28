@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import re
+import sys
 from pathlib import Path
 
 
@@ -17,13 +18,23 @@ TIME_PATTERN = re.compile(
 )
 FORESHADOW_PATTERN = re.compile(r"(伏笔|线索|秘密|疑点|预感|异样|暗示|真相|隐约|不对劲|钥匙|信物|梦境|旧照片)")
 
+SHARED_SCRIPT_DIR = Path(__file__).resolve().parents[2] / "ns" / "scripts"
+if str(SHARED_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPT_DIR))
+
+from ns_text_metrics import effective_word_count
+
 
 def strip_markdown(text: str) -> str:
     text = text.replace("\ufeff", "")
+    text = re.sub(r"\A\s*---\s*\n[\s\S]*?\n---\s*", "", text)
     text = re.sub(r"```[\s\S]*?```", "", text)
+    text = re.sub(r"<!--[\s\S]*?-->", "", text)
     text = re.sub(r"^#{1,6}\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"!\[(.*?)\]\(.*?\)", r"\1", text)
     text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
     text = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", text)
+    text = re.sub(r"`([^`]+)`", r"\1", text)
     return text
 
 
@@ -70,6 +81,83 @@ def ensure_file(path: Path, header: str, dry_run: bool) -> None:
     path.write_text(header, encoding="utf-8")
 
 
+def remove_sections_with_marker(text: str, heading_token: str, marker: str) -> tuple[str, int]:
+    lines = text.splitlines(keepends=True)
+    result = []
+    removed = 0
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        if line.startswith("## ") and heading_token in line:
+            end = index + 1
+            while end < len(lines) and not lines[end].startswith("## "):
+                end += 1
+            block = "".join(lines[index:end])
+            if marker in block:
+                removed += 1
+                index = end
+                continue
+        result.append(line)
+        index += 1
+    return "".join(result), removed
+
+
+def remove_lines_with_markers(text: str, markers: list[str]) -> tuple[str, int]:
+    lines = text.splitlines(keepends=True)
+    kept = []
+    removed = 0
+    for line in lines:
+        if any(marker in line for marker in markers):
+            removed += 1
+            continue
+        kept.append(line)
+    return "".join(kept), removed
+
+
+def update_text_file(path: Path, content: str, dry_run: bool, label: str) -> None:
+    if dry_run:
+        print(f"\n--- {path} ---\n{label}")
+        return
+    path.write_text(content, encoding="utf-8")
+
+
+def remove_existing_chapter_entries(root: Path, chapter_id: str, dry_run: bool) -> None:
+    progress_path = root / "00-meta/progress.md"
+    if progress_path.exists():
+        text = progress_path.read_text(encoding="utf-8")
+        updated, removed = remove_sections_with_marker(text, "自动回写", f"最近章节：{chapter_id}")
+        if removed:
+            update_text_file(progress_path, updated, dry_run, f"将移除 {removed} 个 {chapter_id} 自动回写进度块。")
+
+    summary_path = root / "07-finish/chapter-summary.md"
+    if summary_path.exists():
+        text = summary_path.read_text(encoding="utf-8")
+        updated, removed = remove_lines_with_markers(text, [f"| {chapter_id} ", f"| {chapter_id} |"])
+        if removed:
+            update_text_file(summary_path, updated, dry_run, f"将移除 {removed} 行 {chapter_id} 章节摘要。")
+
+    timeline_path = root / "02-bible/timeline.md"
+    if timeline_path.exists():
+        text = timeline_path.read_text(encoding="utf-8")
+        updated, removed = remove_lines_with_markers(text, [f"| {chapter_id} |"])
+        if removed:
+            update_text_file(timeline_path, updated, dry_run, f"将移除 {removed} 行 {chapter_id} 时间线。")
+
+    foreshadowing_path = root / "02-bible/foreshadowing.md"
+    if foreshadowing_path.exists():
+        text = foreshadowing_path.read_text(encoding="utf-8")
+        updated, removed = remove_sections_with_marker(text, "自动发现候选", f"## {chapter_id} 自动发现候选")
+        if removed:
+            update_text_file(foreshadowing_path, updated, dry_run, f"将移除 {removed} 个 {chapter_id} 伏笔候选块。")
+
+    revision_path = root / "05-revisions/revision-log.md"
+    if revision_path.exists():
+        text = revision_path.read_text(encoding="utf-8")
+        updated, removed = remove_lines_with_markers(text, [f"| {chapter_id} |"])
+        if removed:
+            update_text_file(revision_path, updated, dry_run, f"将移除 {removed} 行 {chapter_id} 修改记录。")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="根据章节文本追加回写小说长期记忆。")
     parser.add_argument("project_dir")
@@ -79,6 +167,7 @@ def main() -> int:
     parser.add_argument("--title", default="")
     parser.add_argument("--summary", default="")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--append-duplicate", action="store_true", help="保留旧行为：不清理同 chapter-id 的既有自动回写记录。")
     args = parser.parse_args()
 
     root = Path(args.project_dir).resolve()
@@ -92,7 +181,10 @@ def main() -> int:
     summary = args.summary or compact_summary(text)
     times = unique(TIME_PATTERN.findall(text))
     foreshadow_hits = unique(FORESHADOW_PATTERN.findall(text))
-    char_count = len(re.findall(r"[\u4e00-\u9fff]", text))
+    word_count = effective_word_count(text)
+
+    if not args.append_duplicate:
+        remove_existing_chapter_entries(root, chapter_id, args.dry_run)
 
     ensure_file(root / "00-meta/progress.md", "# 进度\n\n", args.dry_run)
     ensure_file(
@@ -118,7 +210,7 @@ def main() -> int:
 
     append(
         root / "00-meta/progress.md",
-        f"\n## {now} 自动回写\n\n- 最近章节：{chapter_id} {title}\n- 中文字符数：{char_count}\n- 摘要：{summary}\n- 待人工复核：人物状态、系统/副本结果、伏笔状态、名词表。\n",
+        f"\n## {now} 自动回写\n\n- 最近章节：{chapter_id} {title}\n- 有效字数：{word_count}\n- 摘要：{summary}\n- 待人工复核：人物状态、系统/副本结果、伏笔状态、名词表。\n",
         args.dry_run,
     )
     append(root / "07-finish/chapter-summary.md", f"| {chapter_id} {title} | {summary} | 待人工补充 |\n", args.dry_run)
