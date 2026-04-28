@@ -39,15 +39,24 @@ claude plugin install ns@novel-studio
 claude --plugin-dir D:\projects\novel-studio
 ```
 
-## Codex 插件生态
+## Codex 安装与启用
 
-Codex 插件 manifest 位于：
+先安装并启动 Codex：
+
+```powershell
+npm install -g @openai/codex
+codex
+```
+
+首次启动后按提示登录 ChatGPT 账号。在 Codex 的 `Plugins` 面板中安装或启用插件。
+
+本仓库的 Codex 插件 manifest 位于：
 
 ```text
 .codex-plugin/plugin.json
 ```
 
-它声明了插件名 `ns`、技能目录 `./skills/`、展示信息和 `assets/` 下的图标资源。维护 Codex 入口时优先保持这些字段和 Claude manifest 的基础元信息一致：`name`、`version`、`description`、`author`、`homepage`、`repository`、`license` 和 `keywords`。
+本地开发时，确保 Codex 读取这个 manifest，并使用仓库根目录下的 `skills/` 与 `assets/`。维护 Codex 入口时优先保持这些字段和 Claude manifest 的基础元信息一致：`name`、`version`、`description`、`author`、`homepage`、`repository`、`license` 和 `keywords`。
 
 安装后可用的技能入口：
 

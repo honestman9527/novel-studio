@@ -7,7 +7,7 @@
   "version": "0.1.0",
   "plugins": [
     {
-      "name": "ns",
+      "name": "novel-studio",
       "source": {
         "source": "github",
         "repo": "honestman9527/novel-studio"
