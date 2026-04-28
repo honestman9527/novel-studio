@@ -4,6 +4,11 @@ Novel Studio 是一个面向 Claude Code 的小说创作插件仓库。插件名
 
 这个仓库只管理 Novel Studio 一个插件。个人插件市场路由仓库是 `honestman9527/my-skills`，它会指向这个独立插件仓库。
 
+仓库同时提供 Claude Code 和 Codex 两套插件生态入口：
+
+- Claude Code：`.claude-plugin/plugin.json` 和 `.claude-plugin/marketplace.json`
+- Codex：`.codex-plugin/plugin.json`
+
 ## Claude Code 在线安装
 
 推荐从个人插件市场安装：
@@ -34,6 +39,16 @@ claude plugin install ns@novel-studio
 claude --plugin-dir D:\projects\novel-studio
 ```
 
+## Codex 插件生态
+
+Codex 插件 manifest 位于：
+
+```text
+.codex-plugin/plugin.json
+```
+
+它声明了插件名 `ns`、技能目录 `./skills/`、展示信息和 `assets/` 下的图标资源。维护 Codex 入口时优先保持这些字段和 Claude manifest 的基础元信息一致：`name`、`version`、`description`、`author`、`homepage`、`repository`、`license` 和 `keywords`。
+
 安装后可用的技能入口：
 
 ```text
@@ -49,12 +64,12 @@ claude --plugin-dir D:\projects\novel-studio
 ## 技能分工
 
 - `ns`: 总入口、流程路由和项目管理。
-- `ns-brainstorm`: 写作前脑暴，收束题材、卖点、主角和开篇钩子。
-- `ns-memory`: 初始化、读取和回写本地长期记忆。
+- `ns-brainstorm`: 写作前脑暴，收束题材、卖点、主角和开篇钩子，并可写入脑暴记录。
+- `ns-memory`: 初始化、读取和回写本地长期记忆，支持短篇最小结构。
 - `ns-architect`: 撰写世界观、人物、势力、规则、大纲和章节纲。
-- `ns-research`: 联网查找素材、考据、视觉参考并记录来源。
-- `ns-draft`: 正文写作、续写、改写、润色、章节检查和完稿收尾。
-- `ns-illustration`: 生成封面、角色、场景、道具和分镜插画提示词。
+- `ns-research`: 联网查找素材、考据、视觉参考并记录来源，默认按 URL 去重。
+- `ns-draft`: 正文写作、续写、改写、润色、章节检查、有效字数审计和完稿收尾。
+- `ns-illustration`: 生成封面、角色、场景、道具和分镜插画提示词，并可写入 `06-art/prompts.md`。
 
 ## 多小说工作区
 
@@ -96,6 +111,38 @@ python skills/ns-memory/scripts/init_novel_project.py ./book-a --single-novel --
 python skills/ns-memory/scripts/apply_chapter_backwrite.py ./novel-workspace ./novel-workspace/novels/book-a/04-drafts/volumes/volume-001/chapters/ch001.md --novel book-a --chapter-id ch001 --title "第001章"
 ```
 
+初始化一次性短篇最小结构：
+
+```powershell
+python skills/ns-memory/scripts/init_novel_project.py ./novel-workspace --novel short-a --title "短篇 A" --mode short --minimal-short
+```
+
+## 常用辅助脚本
+
+章节有效字数和占位检查：
+
+```powershell
+python skills/ns-draft/scripts/chapter_audit.py ./novel-workspace/novels/book-a/04-drafts/volumes/volume-001/chapters/ch001.md
+```
+
+素材来源记录，默认按 URL 去重：
+
+```powershell
+python skills/ns-research/scripts/append_source_log.py ./novel-workspace --novel book-a --topic "清代驿站" --source "示例来源" --url "https://example.com/source" --material "可转化素材" --position "02-bible/realism.md"
+```
+
+插画提示词写入，默认按“类型 + 标题 + 目标模型”替换旧记录：
+
+```powershell
+python skills/ns-illustration/scripts/append_art_prompt.py ./novel-workspace --novel book-a --type character --title "主角立绘" --target-model "通用中文" --prompt "黑发青年，旧风衣，站在雨夜街口" --negative "文字，水印" --stable "黑发，灰眼，旧风衣" --variable "表情、光线和背景"
+```
+
+开发自检：
+
+```powershell
+python skills/ns/scripts/smoke_test_ns_scripts.py
+```
+
 ## 仓库结构
 
 ```text
@@ -106,10 +153,15 @@ novel-studio/
   assets/
   skills/
     ns/
+      scripts/
     ns-brainstorm/
     ns-memory/
+      scripts/
     ns-architect/
     ns-research/
+      scripts/
     ns-draft/
+      scripts/
     ns-illustration/
+      scripts/
 ```

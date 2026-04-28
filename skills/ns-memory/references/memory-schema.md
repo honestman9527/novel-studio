@@ -87,7 +87,7 @@
 
 ## 单本短篇最小结构
 
-短篇可以只保留：
+短篇默认也可使用完整结构；一次性短篇可用 `init_novel_project.py --mode short --minimal-short` 只保留：
 
 - `00-meta/project.md`
 - `02-bible/characters.md`

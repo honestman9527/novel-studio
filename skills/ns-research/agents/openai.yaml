@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Research"
   short_description: "为小说查找网络素材、考据资料、灵感案例并沉淀来源笔记"
-  default_prompt: "Use $ns-research to gather grounded material and source notes for this story."
+  default_prompt: "使用 $ns-research 为这个故事查找可靠素材并记录来源。"
