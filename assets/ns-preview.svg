@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="NS workflow preview">
+  <rect width="1200" height="720" rx="34" fill="#F8FAFC"/>
+  <rect x="56" y="56" width="1088" height="608" rx="28" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <text x="100" y="126" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="44" font-weight="800">NS Workflow</text>
+  <text x="102" y="164" fill="#64748B" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22">A local memory folder keeps every draft, rule, clue, and source connected.</text>
+  <g font-family="Inter, Segoe UI, Arial, sans-serif">
+    <rect x="100" y="222" width="210" height="116" rx="16" fill="#F5F3FF" stroke="#C4B5FD"/>
+    <text x="126" y="266" fill="#5B21B6" font-size="22" font-weight="700">Brainstorm</text>
+    <text x="126" y="301" fill="#475569" font-size="17">Premise and promise</text>
+    <rect x="360" y="222" width="210" height="116" rx="16" fill="#EFF6FF" stroke="#93C5FD"/>
+    <text x="386" y="266" fill="#1D4ED8" font-size="22" font-weight="700">Memory</text>
+    <text x="386" y="301" fill="#475569" font-size="17">Local project files</text>
+    <rect x="620" y="222" width="210" height="116" rx="16" fill="#ECFDF5" stroke="#86EFAC"/>
+    <text x="646" y="266" fill="#047857" font-size="22" font-weight="700">Architect</text>
+    <text x="646" y="301" fill="#475569" font-size="17">Bible and outline</text>
+    <rect x="880" y="222" width="210" height="116" rx="16" fill="#FFF7ED" stroke="#FDBA74"/>
+    <text x="906" y="266" fill="#C2410C" font-size="22" font-weight="700">Research</text>
+    <text x="906" y="301" fill="#475569" font-size="17">Sources and details</text>
+    <rect x="230" y="430" width="270" height="128" rx="18" fill="#EEF2FF" stroke="#A5B4FC"/>
+    <text x="262" y="480" fill="#3730A3" font-size="25" font-weight="800">Draft</text>
+    <text x="262" y="519" fill="#475569" font-size="18">Write, revise, finish</text>
+    <rect x="700" y="430" width="270" height="128" rx="18" fill="#FEFCE8" stroke="#FACC15"/>
+    <text x="732" y="480" fill="#A16207" font-size="25" font-weight="800">Illustration Prompts</text>
+    <text x="732" y="519" fill="#475569" font-size="18">Characters, covers, scenes</text>
+  </g>
+  <path d="M310 280h50M570 280h50M830 280h50M465 338l-84 92M724 338l84 92" stroke="#94A3B8" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="360" cy="280" r="8" fill="#7C3AED"/>
+  <circle cx="620" cy="280" r="8" fill="#2563EB"/>
+  <circle cx="880" cy="280" r="8" fill="#16A34A"/>
+</svg>

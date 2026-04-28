@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Brainstorm"
+  short_description: "小说开写前的创意发散、题材定位、卖点收束与方案选择"
+  default_prompt: "Use $ns-brainstorm to explore and shape this novel idea before drafting."

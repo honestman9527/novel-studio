@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Draft"
+  short_description: "写作短篇长篇小说正文、章节续写、改写润色与完稿收尾"
+  default_prompt: "Use $ns-draft to write the next scene or chapter using the current novel memory."

@@ -1,0 +1,32 @@
+{
+  "name": "novel-studio",
+  "owner": {
+    "name": "sunik"
+  },
+  "description": "Claude Code marketplace for the NS novel writing plugin.",
+  "version": "0.1.0",
+  "plugins": [
+    {
+      "name": "ns",
+      "source": {
+        "source": "github",
+        "repo": "honestman9527/novel-studio"
+      },
+      "description": "NS is a local-file based multi-novel writing studio with brainstorming, research, memory, architecture, drafting, finishing, and illustration-prompt skills.",
+      "version": "0.1.0",
+      "author": {
+        "name": "sunik"
+      },
+      "homepage": "https://github.com/honestman9527/novel-studio",
+      "repository": "https://github.com/honestman9527/novel-studio",
+      "license": "MIT",
+      "category": "Writing",
+      "tags": [
+        "novel",
+        "writing",
+        "fiction",
+        "skills"
+      ]
+    }
+  ]
+}

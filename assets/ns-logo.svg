@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" role="img" aria-label="NS logo">
+  <defs>
+    <linearGradient id="mark" x1="40" y1="38" x2="282" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C3AED"/>
+      <stop offset="0.58" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="320" rx="36" fill="#F8FAFC"/>
+  <rect x="40" y="40" width="240" height="240" rx="42" fill="url(#mark)"/>
+  <path d="M88 103c0-11 9-20 20-20h39c17 0 32 6 44 17v139c-12-9-27-14-44-14h-39c-11 0-20-9-20-20V103z" fill="#FFFFFF"/>
+  <path d="M192 100c12-11 27-17 44-17h39c11 0 20 9 20 20v102c0 11-9 20-20 20h-39c-17 0-32 5-44 14V100z" fill="#EDE9FE"/>
+  <path d="M117 124h44M117 153h44M117 182h30M219 124h42M219 153h42M219 182h28" stroke="#7C3AED" stroke-width="9" stroke-linecap="round"/>
+  <path d="M162 63l8 18 18 8-18 8-8 18-8-18-18-8 18-8 8-18z" fill="#FACC15"/>
+  <text x="330" y="142" fill="#111827" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="58" font-weight="800">NS</text>
+  <text x="333" y="192" fill="#475569" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="500">Brainstorm. Build memory. Draft. Finish. Visualize.</text>
+  <path d="M334 226h390" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+</svg>

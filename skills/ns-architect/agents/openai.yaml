@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Architect"
+  short_description: "搭建小说主框架、背景设定、人物关系、大纲与记忆资料库"
+  default_prompt: "Use $ns-architect to build the framework, setting, cast, and outline for this novel."
