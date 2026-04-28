@@ -2,7 +2,7 @@
 
 Novel Studio 是一个面向 Claude Code 的小说创作插件仓库。插件名是 `ns`，技能统一以 `NS` 作为识别前缀，适合长篇、短篇、连载、系统文、无限流、悬疑、言情、奇幻、科幻、历史和现实题材。
 
-这个仓库只管理 Novel Studio 一个插件。个人插件市场路由仓库是 `honestman9527/my-skills`，它会指向这个独立插件仓库。
+这个仓库只管理 Novel Studio 一个插件。个人插件市场路由仓库是 `honestman9527/my-marketplace`，它会指向这个独立插件仓库。
 
 仓库同时提供 Claude Code 和 Codex 两套插件生态入口：
 
@@ -14,8 +14,8 @@ Novel Studio 是一个面向 Claude Code 的小说创作插件仓库。插件名
 推荐从个人插件市场安装：
 
 ```powershell
-claude plugin marketplace add honestman9527/my-skills
-claude plugin install ns@my-skills
+claude plugin marketplace add honestman9527/my-marketplace
+claude plugin install ns@my-marketplace
 ```
 
 也可以直接把本仓库作为 marketplace 添加：
@@ -28,8 +28,8 @@ claude plugin install ns@novel-studio
 在 Claude Code 交互界面中也可以使用：
 
 ```text
-/plugin marketplace add honestman9527/my-skills
-/plugin install ns@my-skills
+/plugin marketplace add honestman9527/my-marketplace
+/plugin install ns@my-marketplace
 /reload-plugins
 ```
 
