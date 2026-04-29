@@ -1,75 +1,75 @@
 ---
 name: ns-memory
-description: "小说长期记忆与本地资料库技能。用于创建、读取、更新 NS 小说工作区；一个工作区可管理多本小说，每本小说一个文件夹，让长篇、短篇、连载、系统文、无限流等项目在多轮对话和多次写作中保持人物、世界观、时间线、伏笔、素材来源、章节进度和完稿资料一致；当用户要求建立项目、记住设定、保存资料、继续之前的小说、更新大纲或本地记忆时使用。"
+description: "小说长期记忆与本地资料库技能。用于创建、读取、更新单本 NS 小说项目：当前文件夹就是这部小说根目录，唯一记忆目录固定为 novel-studio/，正文放在 volumes/、extras/ 等卷和番外目录中；通过 YAML 文件维护项目约束、计划、记忆、连续性、正文索引、资料来源、视觉设定和完稿资料；当用户要求建立项目、记住设定、保存资料、继续之前的小说、更新大纲、维护计划或本地记忆时使用。"
 ---
 
 # NS Memory
 
-用本地文件夹作为长期记忆。默认一个工作区可管理多本小说，每本小说一个独立文件夹。
+只使用新版结构：当前文件夹是一部小说，`novel-studio/` 是唯一记忆目录，正文放入 `volumes/`、`extras/` 等目录。
 
-## 初始化
-
-可运行脚本创建目录和模板：
-
-```bash
-python scripts/init_novel_project.py <workspace-dir> --novel my-book --title "我的小说" --mode long --genre system
-```
-
-`--mode` 可选 `short`、`novella`、`long`、`serial`。`--genre` 可多次填写，如 `--genre system --genre infinite-flow`。
-
-如果用户明确只想建单本小说根目录，可加 `--single-novel`。
-短篇默认仍创建完整结构，方便后续扩展；如果用户明确只写一次性短篇，可使用 `--mode short --minimal-short` 创建最小结构。
-
-## 工作区结构
+## 默认结构
 
 ```text
-<workspace-dir>/
-  00-workspace/
-    index.md
-    shared-source-log.md
-  novels/
-    <novel-slug>/
-      00-meta/
-      01-brainstorm/
-      02-bible/
-      03-outline/
-      04-drafts/
-      05-revisions/
-      06-art/
-      07-finish/
+<novel-root>/
+  novel-studio/
+    project.yaml
+    plan.yaml
+    memory.yaml
+    continuity.yaml
+    index.yaml
+    style.yaml
+    research.yaml
+    art.yaml
+    finish.yaml
+    logs/
+  volumes/
+    volume-001/
+      ch001.md
+  extras/
 ```
 
-工作区级文件只做多本小说索引和共享素材；单本小说资料必须写入 `novels/<novel-slug>/`。
+## 初始化原则
+
+优先直接创建和编辑 YAML/Markdown，不把脚本作为主流程。需要快速生成空结构时，才运行可选脚手架：
+
+```bash
+python scripts/init_novel_project.py . --title "我的小说" --mode long --genre system
+```
+
+脚手架只生成新版目录：`novel-studio/`、`volumes/volume-001/ch001.md` 和 `extras/`。
 
 ## 记忆结构
 
-读取 [memory-schema.md](references/memory-schema.md) 获取完整目录说明。单本小说核心目录：
+读取 [memory-schema.md](references/memory-schema.md) 获取完整说明。核心文件：
 
-- `00-meta/`：项目概览、创作契约、进度、素材来源。
-- `01-brainstorm/`：脑暴记录、方向取舍、废案。
-- `02-bible/`：世界观、人物、势力、系统、无限流、副本、时间线、名词表、伏笔。
-- `03-outline/`：全书结构、卷纲、章节纲。
-- `04-drafts/`：正文草稿。
-- `05-revisions/`：修改记录和版本说明。
-- `06-art/`：视觉设定和插画提示词。
-- `07-finish/`：简介、梗概、章节摘要、完稿总结。
+- `novel-studio/project.yaml`：项目身份、类型、承诺、禁区。
+- `novel-studio/plan.yaml`：卷、章节、番外和下一步计划。
+- `novel-studio/memory.yaml`：人物、世界、关系、名词、伏笔和类型模块。
+- `novel-studio/continuity.yaml`：当前状态、事件台账、待收束线索和改写影响。
+- `novel-studio/index.yaml`：正文文件索引。
+- `novel-studio/style.yaml`：文风和章节结构契约。
+- `novel-studio/research.yaml`：资料来源、待查问题和事实边界。
+- `novel-studio/art.yaml`：视觉圣经和提示词索引。
+- `novel-studio/finish.yaml`：简介、梗概、章节摘要、人物表和续作方向。
+
+## 章节约束
+
+章节文件必须放在卷或番外目录中，例如 `volumes/volume-001/ch001.md`、`extras/extra-001.md`。每章必须包含：
+
+1. YAML frontmatter：`id`、`type`、`volume`、`title`、`status`、`pov`、`timeline`、`word_target`、`memory_read`、`memory_write`。
+2. `## 写作目标`：本章功能、冲突、出场人物、承接内容、变化、钩子。
+3. `## 正文`：唯一可发布正文区域。
+4. `## 章末回写`：用 YAML 块记录摘要、人物变化、世界变化、时间线事件、伏笔、待收束线索、下一入口。
 
 ## 更新协议
 
-1. 写作前读取 `00-meta/project.md`、`00-meta/progress.md` 和当前任务相关资料。
-2. 新增事实只写入一个主文件，其他位置用引用或摘要。
-3. 写完章节后更新：进度、时间线、人物状态、事件与伏笔、名词表、素材来源、章节摘要。
-4. 不确定的内容写入 `01-brainstorm/open-questions.md`，不要混入已确定设定。
-5. 改动已出场设定时，记录兼容解释或列出需要回修的章节。
+1. 写作前读取 `project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`style.yaml`。
+2. 写完章节后，先补本章 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+3. 新事实只写入一个主 YAML 字段，避免多处散记。
+4. 不确定内容写入 `continuity.yaml.loose_threads` 或 `research.yaml.open_questions`。
+5. 改写旧章节时，更新 `continuity.yaml.revision_notes` 和 `novel-studio/logs/revision.md`。
 
-## 章节后自动回写
+## 可选辅助
 
-写完章节后可运行：
-
-```bash
-python scripts/apply_chapter_backwrite.py <workspace-dir>/novels/my-book <chapter-file> --chapter-id ch001 --title 第001章
-```
-
-脚本会追加更新 `00-meta/progress.md`、`07-finish/chapter-summary.md`、`02-bible/timeline.md`、`02-bible/foreshadowing.md` 和 `05-revisions/revision-log.md`。它只做机械辅助；人物状态、系统奖励、副本结果和重大设定仍要人工复核后写入对应 bible 文件。
-脚本默认按 `chapter-id` 幂等更新：重跑同一章时会先清理旧的自动回写记录，再追加最新记录。需要保留重复历史时加 `--append-duplicate`。
-回写里的“有效字数”与 `$ns-draft` 的章节审计口径一致：排除 Markdown 元信息、非正文结构和纯占位行，中日韩文字按单字计，英文/数字按词或连续串计。
+- `scripts/init_novel_project.py`：只在需要快速脚手架时使用。
+- `scripts/apply_chapter_backwrite.py`：只生成回写候选到 `novel-studio/logs/auto-backwrite.md`，不能替代人工更新 YAML。

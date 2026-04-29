@@ -13,7 +13,7 @@
 
 ## 系统文
 
-必备文件：`02-bible/system.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.system`
 
 字段：
 
@@ -37,7 +37,7 @@
 
 ## 无限流
 
-必备文件：`02-bible/infinite-flow.md`、`02-bible/instances.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.infinite_flow`
 
 字段：
 
@@ -58,7 +58,7 @@
 
 ## 悬疑
 
-必备文件：`02-bible/mystery.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.mystery`
 
 字段：
 
@@ -76,7 +76,7 @@
 
 ## 言情
 
-必备文件：`02-bible/romance.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.romance`
 
 字段：
 
@@ -94,7 +94,7 @@
 
 ## 奇幻/仙侠
 
-必备文件：`02-bible/power-system.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.power_system`
 
 字段：
 
@@ -112,7 +112,7 @@
 
 ## 科幻
 
-必备文件：`02-bible/scifi.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.scifi`
 
 字段：
 
@@ -129,7 +129,7 @@
 
 ## 历史/现实
 
-必备文件：`02-bible/realism.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.realism`
 
 字段：
 
@@ -146,7 +146,7 @@
 
 ## 游戏/电竞
 
-必备文件：`02-bible/game.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.game`
 
 字段：
 
@@ -163,7 +163,7 @@
 
 ## 末世/灾变
 
-必备文件：`02-bible/apocalypse.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.apocalypse`
 
 字段：
 
@@ -180,7 +180,7 @@
 
 ## 都市/职场
 
-必备文件：`02-bible/urban.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.urban`
 
 字段：
 
@@ -197,7 +197,7 @@
 
 ## 公路/旅行
 
-必备文件：`02-bible/journey.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.journey`
 
 字段：
 
@@ -213,7 +213,7 @@
 
 ## 单元剧/群像
 
-必备文件：`02-bible/ensemble.md`
+写入位置：`novel-studio/memory.yaml` 的 `genre.ensemble`
 
 字段：
 

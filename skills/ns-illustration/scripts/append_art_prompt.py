@@ -12,6 +12,7 @@ from pathlib import Path
 
 
 PROMPTS_HEADER = "# 插画提示词\n\n"
+MEMORY_DIR = "novel-studio"
 PROMPT_TYPE_LABELS = {
     "character": "角色立绘",
     "cover": "封面",
@@ -30,6 +31,10 @@ def slugify(value: str) -> str:
     value = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", "-", value)
     value = value.strip("-")
     return value or "untitled"
+
+
+def resolve_memory_root(project_dir: str) -> Path:
+    return Path(project_dir).resolve() / MEMORY_DIR
 
 
 def clean_inline(value: str) -> str:
@@ -129,7 +134,7 @@ def append_art_prompt(
     notes: str,
     append_duplicate: bool,
 ) -> tuple[Path, int]:
-    path = project_dir / "06-art/prompts.md"
+    path = project_dir / "logs/art-prompts.md"
     ensure_prompts_file(path)
     text = path.read_text(encoding="utf-8")
     heading = section_heading(prompt_type, title, target_model)
@@ -156,8 +161,7 @@ def append_art_prompt(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="追加或替换一条 NS 插画提示词记录。")
-    parser.add_argument("project_dir", help="单本小说根目录，或带 --novel 的 NS 工作区目录")
-    parser.add_argument("--novel", help="如果 project_dir 是 NS 工作区，则指定 novels/<novel> 作为写入目标")
+    parser.add_argument("project_dir", help="小说根目录；默认写入 novel-studio/logs/art-prompts.md")
     parser.add_argument("--date", default=dt.date.today().isoformat())
     parser.add_argument("--type", choices=sorted(PROMPT_TYPE_LABELS), default="other", help="提示词类型")
     parser.add_argument("--title", required=True, help="角色、场景、封面或分镜标题")
@@ -171,9 +175,7 @@ def main() -> int:
     parser.add_argument("--append-duplicate", action="store_true", help="保留同类型、标题和目标模型的旧记录")
     args = parser.parse_args()
 
-    root = Path(args.project_dir).resolve()
-    if args.novel:
-        root = root / "novels" / slugify(args.novel)
+    root = resolve_memory_root(args.project_dir)
 
     path, removed = append_art_prompt(
         root,

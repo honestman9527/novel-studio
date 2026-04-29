@@ -1,4 +1,4 @@
 interface:
   display_name: "NS"
-  short_description: "小说创作插件总入口、多小说工作区、流程路由与阶段协作"
-  default_prompt: "使用 $ns 规划并管理一个多小说创作工作区。"
+  short_description: "小说创作插件总入口、novel-studio 记忆目录与卷结构正文"
+  default_prompt: "使用 $ns 把当前文件夹规划为一部小说项目。"

@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Memory"
-  short_description: "用本地工作区维护多本小说的长期记忆、资料库与进度"
-  default_prompt: "使用 $ns-memory 创建或更新这部小说的本地长期记忆。"
+  short_description: "用 novel-studio/ YAML 维护当前小说的长期记忆、资料库与进度"
+  default_prompt: "使用 $ns-memory 创建或更新这部小说的 novel-studio 记忆目录。"

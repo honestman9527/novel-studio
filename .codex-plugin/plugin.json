@@ -1,7 +1,7 @@
 {
   "name": "ns",
   "version": "0.1.0",
-  "description": "NS is a local-file based multi-novel writing studio with brainstorming, research, memory, architecture, drafting, finishing, and illustration-prompt skills.",
+  "description": "NS is a local-file based single-novel writing studio with YAML memory in novel-studio/ and chapter text organized by volumes and extras.",
   "author": {
     "name": "sunik",
     "url": "https://github.com/honestman9527"
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Novel Studio",
-    "shortDescription": "Local-file based multi-novel writing studio for Codex.",
-    "longDescription": "Novel Studio helps Codex manage multi-novel workspaces with brainstorming, long-term memory, architecture, research, drafting, chapter audits, source logs, and illustration prompts.",
+    "shortDescription": "Local-file based single-novel writing studio for Codex.",
+    "longDescription": "Novel Studio helps Codex write one novel from the current folder: YAML long-term memory lives in novel-studio/, while chapter text is organized under volumes/ and extras/.",
     "developerName": "sunik",
     "category": "Writing",
     "capabilities": [
@@ -30,8 +30,8 @@
     ],
     "websiteURL": "https://github.com/honestman9527/novel-studio",
     "defaultPrompt": [
-      "规划一个多小说创作工作区。",
-      "为这部小说建立本地长期记忆。",
+      "把当前文件夹初始化为一部小说项目。",
+      "为这部小说建立 novel-studio/ YAML 长期记忆。",
       "基于当前小说记忆写下一章。"
     ],
     "brandColor": "#7C3AED",

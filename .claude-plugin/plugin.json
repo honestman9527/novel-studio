@@ -1,6 +1,6 @@
 {
   "name": "ns",
-  "description": "NS is a local-file based multi-novel writing studio with brainstorming, research, memory, architecture, drafting, finishing, and illustration-prompt skills.",
+  "description": "NS is a local-file based single-novel writing studio with YAML memory in novel-studio/ and chapter text organized by volumes and extras.",
   "version": "0.1.0",
   "author": {
     "name": "sunik"

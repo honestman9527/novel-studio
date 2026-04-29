@@ -5,7 +5,7 @@ description: "小说素材调研技能。用于联网查找或整理小说素材
 
 # NS Research
 
-为小说提供可改造的素材，不替用户抄资料。需要事实、最新信息或来源链接时必须浏览网络，并把来源写入项目记忆。
+为小说提供可改造的素材，不替用户抄资料。需要事实、最新信息或来源链接时必须浏览网络，并把来源写入 `novel-studio/research.yaml` 或 `novel-studio/logs/research-log.md`。
 
 ## 调研流程
 
@@ -13,7 +13,7 @@ description: "小说素材调研技能。用于联网查找或整理小说素材
 2. 使用网络搜索或指定来源查证；优先官方、百科、论文、博物馆、新闻机构、专业资料库。
 3. 提炼可写素材：事实要点、可转化冲突、场景细节、禁用误区、可视元素。
 4. 记录来源：标题、链接、访问日期、用于哪一部分。
-5. 优先用 `scripts/append_source_log.py` 写入 `00-meta/source-log.md`，再把整理后的设定或素材写入相关 bible 文件。
+5. 优先人工更新 `research.yaml.sources`、`research.yaml.open_questions`、`research.yaml.fact_boundaries`；需要快速追加日志时才用脚本写入 `logs/research-log.md`。
 
 ## 输出格式
 
@@ -26,6 +26,6 @@ description: "小说素材调研技能。用于联网查找或整理小说素材
 
 不要仿写在世作者或具体作品的长段表达，不搬运小说正文、歌词或长篇受版权文本。可以总结类型结构、常见设定、读者期待和公开事实。
 
-## 辅助脚本
+## 可选辅助
 
-- `scripts/append_source_log.py`：追加素材来源记录，默认按 URL 去重。项目路径是 NS 工作区时可加 `--novel <slug>`。
+- `scripts/append_source_log.py`：只追加来源日志到 `novel-studio/logs/research-log.md`。正式记忆仍以 `research.yaml` 为准。

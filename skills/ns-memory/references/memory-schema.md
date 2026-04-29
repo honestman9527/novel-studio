@@ -1,127 +1,130 @@
 # Memory Schema
 
-本地工作区就是小说长期记忆仓库。一个工作区可以管理多本小说，每本小说一个文件夹。长篇、短篇、连载都使用同一套单本小说结构，只是文件数量不同。
+当前文件夹就是一部小说的项目根目录。只保留新版结构：`novel-studio/` 是唯一记忆目录；正文必须放进卷、番外等正文目录，不直接散落在根目录。
 
-## 工作区结构
-
-```text
-{workspace}/
-  00-workspace/
-    index.md
-    shared-source-log.md
-  novels/
-    {novel-slug}/
-      00-meta/
-      01-brainstorm/
-      02-bible/
-      03-outline/
-      04-drafts/
-      05-revisions/
-      06-art/
-      07-finish/
-```
-
-- `00-workspace/index.md`：多本小说索引、最近活动和状态。
-- `00-workspace/shared-source-log.md`：多个小说都可能复用的公共素材来源。
-- `novels/{novel-slug}/`：单本小说所有长期记忆。
-
-## 单本小说完整结构
+## 项目结构
 
 ```text
-{workspace}/novels/{novel-slug}/
-  00-meta/
-    project.md
-    writing-contract.md
-    progress.md
-    source-log.md
-  01-brainstorm/
-    premise-lab.md
-    options.md
-    open-questions.md
-  02-bible/
-    genre-contract.md
-    world.md
-    characters.md
-    relationships.md
-    factions.md
-    locations.md
-    timeline.md
-    glossary.md
-    artifacts.md
-    foreshadowing.md
-    system.md
-    infinite-flow.md
-    instances.md
-    mystery.md
-    romance.md
-    power-system.md
-    scifi.md
-    realism.md
-    game.md
-    apocalypse.md
-    urban.md
-    journey.md
-    ensemble.md
-  03-outline/
-    structure.md
-    volume-outline.md
-    chapter-outline.md
-  04-drafts/
-    short/
-    volumes/
-      volume-001/
-        chapters/
-  05-revisions/
-    revision-log.md
-  06-art/
-    visual-bible.md
-    prompts.md
-  07-finish/
-    blurb.md
-    synopsis-short.md
-    synopsis-long.md
-    chapter-summary.md
-    cast-list.md
-    sequel-hooks.md
+{novel-root}/
+  novel-studio/
+    project.yaml
+    plan.yaml
+    memory.yaml
+    continuity.yaml
+    index.yaml
+    style.yaml
+    research.yaml
+    art.yaml
+    finish.yaml
+    logs/
+      revision.md
+      research-log.md
+      art-prompts.md
+      auto-backwrite.md
+  volumes/
+    volume-001/
+      ch001.md
+      ch002.md
+  extras/
+    extra-001.md
 ```
 
-## 单本短篇最小结构
+- `novel-studio/`：长期记忆、计划、约束、索引、资料和日志。
+- `volumes/volume-*/`：正文章节。每卷一个目录，章节只放在卷目录里。
+- `extras/`：番外、间章、附录、设定短篇等非主线正文。
+- 只使用上面的目录约定。
 
-短篇默认也可使用完整结构；一次性短篇可用 `init_novel_project.py --mode short --minimal-short` 只保留：
+## YAML 职责
 
-- `00-meta/project.md`
-- `02-bible/characters.md`
-- `03-outline/structure.md`
-- `04-drafts/short/story.md`
-- `07-finish/blurb.md`
+- `project.yaml`：书名、项目代号、篇幅、类型、受众、核心承诺和禁区。
+- `plan.yaml`：当前入口、卷计划、章节计划、番外计划、下一步。
+- `memory.yaml`：世界观、人物、关系、势力、名词、道具、伏笔和类型模块。
+- `continuity.yaml`：当前状态、事件台账、未收束线索、改写影响。
+- `index.yaml`：正文文件索引，记录每个章节/番外路径、状态、有效字数。
+- `style.yaml`：文风、禁忌、必须保留、章节结构契约。
+- `research.yaml`：资料来源、待查问题、事实边界。
+- `art.yaml`：视觉圣经、角色/场景稳定要素、提示词索引。
+- `finish.yaml`：简介、梗概、章节摘要、人物表、续作/番外方向。
 
-## 核心文件职责
+## 章节文件结构
 
-- `project.md`：书名、题材、篇幅、视角、受众、核心卖点。
-- `writing-contract.md`：风格、禁忌、必须保留设定、更新规则。
-- `progress.md`：当前章节、已完成阶段、下一步。
-- `source-log.md`：网络素材和参考来源。
-- `genre-contract.md`：类型承诺和读者期待。
-- `characters.md`：人物目标、恐惧、秘密、弧光和当前状态。
-- `foreshadowing.md`：伏笔的埋设、推进、兑现和废弃处理。
-- `system.md`：系统文规则、面板、任务、奖励、限制和成长曲线。
-- `infinite-flow.md`：无限流空间规则、通关条件、惩罚和现实线。
-- `instances.md`：副本库、主题、规则、关键 NPC、奖励和伏笔。
-- `mystery.md`：谜面、证据链、误导链和公平线索。
-- `romance.md`：关系推进、信任变化和情感选择代价。
-- `power-system.md`：奇幻、仙侠、玄幻的力量体系和代价。
-- `scifi.md`：科技规则、社会后果和失控风险。
-- `realism.md`：历史/现实题材的考据边界和待查事实。
-- `game.md`：游戏或电竞规则、版本环境和比赛制度。
-- `apocalypse.md`：末世资源、秩序和生存风险。
-- `urban.md`：都市/职场行业规则、利益结构和现实压力。
-- `journey.md`：旅行路线、站点主题和关系变化。
-- `ensemble.md`：单元剧/群像的常驻人物、单元模板和长线变化。
+每个章节必须使用 YAML frontmatter，并保留三个固定一级工作区段。发布或导出正文时只取 `## 正文` 下的内容。
 
-## 回写时机
+````markdown
+---
+id: ch001
+type: main
+volume: volume-001
+title: "第001章"
+status: draft
+pov: ""
+timeline: ""
+word_target: "3000-5000"
+memory_read:
+  - novel-studio/project.yaml
+  - novel-studio/plan.yaml
+  - novel-studio/memory.yaml
+  - novel-studio/continuity.yaml
+memory_write:
+  - novel-studio/index.yaml
+  - novel-studio/continuity.yaml
+  - novel-studio/finish.yaml
+---
 
-- 写完一章：更新 `progress.md`、`chapter-summary.md`、`timeline.md`、`characters.md`、`foreshadowing.md`。
-- 新查资料：更新 `source-log.md` 和相关 bible 文件。
-- 新增角色：更新 `characters.md`、`relationships.md`。
-- 新副本/任务：更新 `instances.md` 或 `system.md`。
-- 完稿：更新 `07-finish/` 全部文件。
+# 第001章
+
+## 写作目标
+
+- 本章功能：
+- 主要冲突：
+- 出场人物：
+- 承接内容：
+- 本章变化：
+- 结尾钩子：
+
+## 正文
+
+这里写可发布正文。
+
+## 章末回写
+
+```yaml
+summary: ""
+character_updates: []
+world_updates: []
+timeline_events: []
+foreshadowing: []
+loose_threads: []
+next_entry: ""
+```
+````
+
+## 回写协议
+
+1. 写作前读取 `project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`style.yaml`。
+2. 写作时只把真正正文写入 `## 正文`，不要把长期设定混入正文段落。
+3. 写完一章先填写本章 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+4. 新事实只写入一个主 YAML 字段，其他文件引用路径或摘要。
+5. 不确定内容写入 `continuity.yaml.loose_threads` 或 `research.yaml.open_questions`。
+6. 改写旧章节时，更新 `continuity.yaml.revision_notes` 和 `logs/revision.md`。
+
+## 类型模块位置
+
+类型化资料统一收进 `memory.yaml.genre`：
+
+- `system`：系统规则、面板、任务、奖励、限制和成长曲线。
+- `infinite_flow`：空间规则、通关条件、惩罚、现实线和副本库。
+- `mystery`：谜面、证据链、误导链和公平线索。
+- `romance`：关系推进、信任变化和情感选择代价。
+- `power_system`：奇幻、仙侠、玄幻的力量体系和代价。
+- `scifi`：科技规则、社会后果和失控风险。
+- `realism`：历史/现实题材的考据边界和待查事实。
+- `game`：游戏或电竞规则、版本环境和比赛制度。
+- `apocalypse`：末世资源、秩序和生存风险。
+- `urban`：都市/职场行业规则、利益结构和现实压力。
+- `journey`：旅行路线、站点主题和关系变化。
+- `ensemble`：单元剧/群像的常驻人物、单元模板和长线变化。
+
+## 脚本原则
+
+日常写作优先直接编辑 Markdown 和 YAML。脚本只作为可选辅助：初始化空结构、统计有效字数、生成回写候选。脚本产物必须人工复核后再写入 YAML 主记忆。

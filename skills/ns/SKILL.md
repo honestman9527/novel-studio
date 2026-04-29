@@ -1,20 +1,20 @@
 ---
 name: ns
-description: "NS 小说创作插件总入口。用于路由和管理多小说工作区，一个工作区可管理多本小说，每本小说一个文件夹；当用户要启动完整小说项目、拆分创作阶段、选择该用哪个 NS 子技能、协调长期记忆/调研/架构/正文/插画/完稿流程，或请求继续管理一个多阶段小说工作流时使用。具体写正文、查资料、搭设定、生成插画提示词等明确单点任务优先触发对应子技能。"
+description: "NS 小说创作插件总入口。用于路由和管理单本小说项目：当前文件夹就是这部小说根目录，唯一记忆目录固定为 novel-studio/，正文必须放在 volumes/、extras/ 等卷和番外目录中；当用户要启动完整小说项目、拆分创作阶段、选择该用哪个 NS 子技能、协调 YAML 记忆/调研/架构/正文/插画/完稿流程，或请求继续管理一个多阶段小说工作流时使用。具体写正文、查资料、搭设定、生成插画提示词等明确单点任务优先触发对应子技能。"
 ---
 
 # NS
 
-作为小说创作套件的总入口，先判断阶段，再调用合适的子 skill。默认把一个本地工作区作为长期记忆仓库，工作区内可管理多本小说，每本小说一个文件夹。
+作为小说创作套件的总入口，先判断阶段，再调用合适的子 skill。默认心智模型是：当前文件夹就是一部小说；`novel-studio/` 是唯一记忆目录；正文必须写在 `volumes/`、`extras/` 等正文目录里。
 
-只在用户需要路由、阶段规划、多小说工作区管理或跨多个子 skill 协调时使用本 skill。用户已经明确要写正文、查资料、搭设定或生成插画提示词时，直接使用对应子 skill。
+只在用户需要路由、阶段规划、项目结构管理或跨多个子 skill 协调时使用本 skill。用户已经明确要写正文、查资料、搭设定或生成插画提示词时，直接使用对应子 skill。
 
 ## 子 Skill 路由
 
 | 需求 | 使用 |
 | --- | --- |
 | 写前发散、题材选择、卖点收束 | `$ns-brainstorm` |
-| 建立或更新长期记忆、本地项目结构 | `$ns-memory` |
+| 建立或更新 YAML 长期记忆、本地项目结构 | `$ns-memory` |
 | 搭主框架、世界观、人物、系统、无限流副本、大纲 | `$ns-architect` |
 | 查找网络素材、考据、案例、资料来源 | `$ns-research` |
 | 写正文、续写、改写、润色、完稿收尾 | `$ns-draft` |
@@ -22,40 +22,53 @@ description: "NS 小说创作插件总入口。用于路由和管理多小说工
 
 ## 默认工作流
 
-1. 先定位工作区：如果用户给了路径，使用该路径；否则建议创建 `novel-workspace/`。
-2. 先定位小说：如果工作区有多本小说，读取 `00-workspace/index.md`，让用户指定或按最近进度推断。
-3. 有想法但未成型：先用 `$ns-brainstorm`。
-4. 进入正式项目：用 `$ns-memory` 在 `novels/<novel-slug>/` 创建或读取单本小说记忆。
-5. 写正文前：用 `$ns-architect` 补齐必备资料。
-6. 需要事实、风俗、职业、地理、历史、科技或视觉参考：用 `$ns-research`，并把来源写入该小说的 `00-meta/source-log.md`。
-7. 开始创作：用 `$ns-draft`，每次写完回写当前小说记忆。
-8. 需要视觉资产：用 `$ns-illustration` 生成可复用提示词，写入当前小说的 `06-art/prompts.md`。
-9. 完稿：用 `$ns-draft` 生成简介、短梗概、长梗概、角色表、章节摘要和续作/番外方向。
+1. 定位小说根目录：如果用户给了路径，使用该路径；否则使用当前工作目录。
+2. 读取或创建 `novel-studio/`，优先直接编辑 YAML，不把脚本当主流程。
+3. 有想法但未成型：用 `$ns-brainstorm`，结果写入 `novel-studio/plan.yaml` 或 `novel-studio/memory.yaml` 的草案字段。
+4. 写正文前：用 `$ns-architect` 补齐 `project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`style.yaml`。
+5. 需要事实、风俗、职业、地理、历史、科技或视觉参考：用 `$ns-research`，写入 `research.yaml` 和 `logs/research-log.md`。
+6. 开始创作：用 `$ns-draft`，正文写到 `volumes/volume-001/ch001.md`、`volumes/volume-002/ch020.md` 或 `extras/extra-001.md`。
+7. 写完章节后：先补章节内 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+8. 需要视觉资产：用 `$ns-illustration`，写入 `art.yaml` 和 `logs/art-prompts.md`。
+9. 完稿：用 `$ns-draft` 更新 `finish.yaml`。
 
-## 多小说工作区
-
-推荐结构：
+## 项目结构
 
 ```text
-novel-workspace/
-  00-workspace/
-    index.md
-    shared-source-log.md
-  novels/
-    book-a/
-    book-b/
+my-novel/
+  novel-studio/
+    project.yaml
+    plan.yaml
+    memory.yaml
+    continuity.yaml
+    index.yaml
+    style.yaml
+    research.yaml
+    art.yaml
+    finish.yaml
+    logs/
+  volumes/
+    volume-001/
+      ch001.md
+      ch002.md
+  extras/
+    extra-001.md
 ```
 
-- 工作区级文件只记录多本小说的索引、共享素材和全局约定。
-- 单本小说的一切人物、正文、伏笔、完稿资料都写在 `novels/<novel-slug>/` 内。
-- 用户说“继续上一部”时，先查 `00-workspace/index.md` 的最近更新；无法确定时问一句确认。
+## 章节硬约束
+
+- 章节必须在卷或番外目录里，不能散放根目录。
+- 每章必须有 YAML frontmatter、`## 写作目标`、`## 正文`、`## 章末回写`。
+- 只有 `## 正文` 是可发布文本；目标和回写是创作工作区段。
+- `章末回写` 用 YAML 块记录摘要、人物变化、世界变化、时间线事件、伏笔、待收束线索和下一入口。
 
 ## 长短篇选择
 
-- 短篇：默认也可使用完整结构；一次性短篇可让 `$ns-memory` 使用 `--mode short --minimal-short`，只保留项目、人物、结构、正文和简介等最小文件。
-- 中篇/长篇/连载：使用 `$ns-memory` 的完整目录结构。
-- 系统文：必须维护系统规则、面板字段、成长曲线、任务/奖励和限制。
-- 无限流：必须维护主神/空间规则、副本库、通关条件、道具、队友关系和现实线。
+- 短篇：也使用 `volumes/volume-001/story.md`，记忆仍放 `novel-studio/`。
+- 中篇/长篇/连载：使用 `volumes/volume-*`，每卷维护阶段目标和章节计划。
+- 番外/间章：写入 `extras/`，并在 `index.yaml.extras` 登记。
+- 系统文：在 `memory.yaml.genre.system` 维护系统规则、面板字段、成长曲线、任务/奖励和限制。
+- 无限流：在 `memory.yaml.genre.infinite_flow` 维护空间规则、副本库、通关条件、道具、队友关系和现实线。
 
 ## 网络素材
 

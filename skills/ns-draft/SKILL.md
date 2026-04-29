@@ -5,24 +5,33 @@ description: "小说正文写作技能。用于写短篇、长篇、连载章节
 
 # NS Draft
 
-写可读正文，而不是只讲该怎么写。长篇写作必须先读取项目记忆；短篇一次性交付也要保留人物目标、冲突和结尾变化。
+写可读正文，而不是只讲该怎么写。当前文件夹就是小说根目录；记忆读取 `novel-studio/*.yaml`；正文写入 `volumes/` 或 `extras/`，不能散放根目录。
 
 ## 写前读取
 
-1. `00-meta/project.md`
-2. `00-meta/progress.md`
-3. `03-outline/chapter-outline.md`
-4. 当前章节相关的人物、时间线、伏笔、系统/副本资料
-5. 上一章或用户提供的续写文本
+1. `novel-studio/project.yaml`
+2. `novel-studio/plan.yaml`
+3. `novel-studio/memory.yaml`
+4. `novel-studio/continuity.yaml`
+5. `novel-studio/style.yaml`
+6. 上一章、当前卷计划或用户提供的续写文本
+
+## 章节文件结构
+
+每章必须保留：
+
+1. YAML frontmatter：`id`、`type`、`volume`、`title`、`status`、`pov`、`timeline`、`word_target`、`memory_read`、`memory_write`。
+2. `## 写作目标`：本章功能、主要冲突、出场人物、承接内容、本章变化、结尾钩子。
+3. `## 正文`：唯一可发布正文。
+4. `## 章末回写`：YAML 块，记录 `summary`、`character_updates`、`world_updates`、`timeline_events`、`foreshadowing`、`loose_threads`、`next_entry`。
 
 ## 正文流程
 
 1. 确认本章功能：推进主线、升级关系、揭示信息、兑现伏笔、制造选择、完成副本/任务节点。
 2. 写 4-8 个场景拍点：开场抓手、中段阻力、选择代价、反转、结尾钩子。
-3. 直接写正文。减少解释性旁白，多用行动、对白、环境反馈和选择。
-4. 写完后做章节复核：人物动机、时间线、设定一致性、节奏、钩子。
-5. 运行 `scripts/chapter_audit.py <chapter-file>` 检查有效字数、达标状态和明显占位。
-6. 更新本地记忆：先运行 `$ns-memory` 的 `scripts/apply_chapter_backwrite.py` 做机械回写，再人工补人物状态、系统奖励、副本结果、伏笔状态、新名词和新素材。
+3. 直接写 `## 正文`。减少解释性旁白，多用行动、对白、环境反馈和选择。
+4. 写完后补 `## 章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+5. 需要机器统计时再运行 `scripts/chapter_audit.py <chapter-file>`；不把脚本输出直接当最终记忆。
 
 ## 字数策略
 
@@ -34,16 +43,11 @@ description: "小说正文写作技能。用于写短篇、长篇、连载章节
 
 ## 完稿功能
 
-完稿后生成并写入 `07-finish/`：
+完稿后更新 `novel-studio/finish.yaml`：
 
-- `blurb.md`：读者向简介。
-- `synopsis-short.md`：300-800 字短梗概。
-- `synopsis-long.md`：完整剧情梗概。
-- `chapter-summary.md`：章节摘要。
-- `cast-list.md`：人物表。
-- `sequel-hooks.md`：番外、续作或修订方向。
-
-## 辅助脚本
-
-- `scripts/chapter_audit.py`：检查章节有效字数、达标状态和明显占位；需要机器读取时可加 `--json`。
-- `../ns-memory/scripts/apply_chapter_backwrite.py`：写完章节后追加进度、摘要、时间线和伏笔候选。
+- `blurb`：读者向简介。
+- `synopsis_short`：300-800 字短梗概。
+- `synopsis_long`：完整剧情梗概。
+- `chapter_summaries`：章节摘要。
+- `cast_list`：人物表。
+- `sequel_hooks`：番外、续作或修订方向。

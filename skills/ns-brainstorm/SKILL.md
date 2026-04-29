@@ -35,10 +35,10 @@ description: "小说开写前的头脑风暴技能。用于把模糊脑洞发展
 
 ## 落盘协议
 
-如果用户提供了小说工作区或当前小说路径，脑暴结束后把结果写入：
+如果用户提供了小说根目录或当前就在小说目录中，脑暴结束后把结果写入新版 YAML 记忆：
 
-- `01-brainstorm/premise-lab.md`：原始想法、推荐方案、项目种子。
-- `01-brainstorm/options.md`：所有备选方向、卖点、风险和状态。
-- `01-brainstorm/open-questions.md`：尚未确认但会影响后续架构的问题。
+- `novel-studio/plan.yaml`：推荐方案、下一步、卷/章节草案。
+- `novel-studio/memory.yaml`：已确定的人物、世界、冲突、类型模块。
+- `novel-studio/continuity.yaml`：尚未确认但会影响后续架构的问题。
 
-只写已讨论或明确假设的内容。用户还没选定方向时，不要把备选方案写成已确定设定；把它们保留在 `options.md`。
+只写已讨论或明确假设的内容。用户还没选定方向时，不要把备选方案写成已确定设定；把它们保留在 `plan.yaml` 的候选/下一步字段。
