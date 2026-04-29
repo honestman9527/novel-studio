@@ -30,9 +30,17 @@ my-novel/
       ch002.md
   extras/
     extra-001.md
+  visuals/
+    cover-prompts.md
+    image-prompts.md
+  briefs/
+    blurb.md
+    synopsis-short.md
 ```
 
 当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；正文必须放在 `volumes/`、`extras/` 等目录中。
+
+不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入记忆、架构、调研、起草、续写、轻改、重写、简介或插画提示词技能。
 
 ## Claude Code 在线安装
 
@@ -81,55 +89,41 @@ Codex 插件 manifest 位于：
 /ns:ns-architect
 /ns:ns-research
 /ns:ns-draft
+/ns:ns-continue
+/ns:ns-rewrite-light
+/ns:ns-rewrite-heavy
+/ns:ns-blurb
 /ns:ns-illustration
 ```
 
 ## 技能分工
 
-- `ns`：总入口、流程路由和阶段协作。
+- `ns`：总入口、流程路由和阶段协作；不知道用哪个技能时先用它分诊。
 - `ns-brainstorm`：写作前脑暴，收束题材、卖点、主角和开篇钩子。
 - `ns-memory`：维护 `novel-studio/` YAML 长期记忆。
 - `ns-architect`：撰写世界观、人物、势力、规则、大纲、卷纲、章节纲和连续性资料。
-- `ns-research`：联网查找素材、考据、视觉参考并记录来源。
-- `ns-draft`：正文写作、续写、改写、润色、章节检查和完稿收尾。
-- `ns-illustration`：生成封面、角色、场景、道具和分镜插画提示词。
+- `ns-research`：联网查找素材、考据、视觉参考并记录来源；创作素材优先从小说素材站、写作站、网文资料和类型小说相关网站提炼，事实考据再用官方/学术/专业来源核验。
+- `ns-draft`：起草新章节、新番外和新正文初稿。
+- `ns-continue`：顺着已有章节或片段续写。
+- `ns-rewrite-light`：轻改、小改、润色、局部扩写或压缩。
+- `ns-rewrite-heavy`：大改、重写、重构章节或剧情。
+- `ns-blurb`：生成简介、梗概、标签、pitch 和宣传文案，输出到 `briefs/`。
+- `ns-illustration`：生成封面、角色、场景、道具和分镜插画提示词，输出到 `visuals/`。
 
 ## 章节结构
 
 章节必须放在卷或番外目录中，例如 `volumes/volume-001/ch001.md`。每章必须包含 YAML frontmatter、`## 写作目标`、`## 正文`、`## 章末回写`。发布正文时只取 `## 正文`。
 
+用户给出明确字数、字数区间或“不少于/不低于”要求时，必须用章节审计脚本或等价精确计数核验后再报告实际字数，不能虚报估算。
+
 ## 常用命令
 
-日常写作优先直接编辑 YAML/Markdown；脚本只作为可选辅助。
-
-初始化当前目录为一部小说：
-
-```powershell
-python D:\projects\novel-studio\skills\ns-memory\scripts\init_novel_project.py . --title "第一本小说" --mode long --genre system --genre infinite-flow
-```
+日常写作直接编辑 YAML/Markdown。脚本只保留章节审计和开发烟测。
 
 章节有效字数和占位检查：
 
 ```powershell
 python D:\projects\novel-studio\skills\ns-draft\scripts\chapter_audit.py .\volumes\volume-001\ch001.md
-```
-
-生成自动回写候选：
-
-```powershell
-python D:\projects\novel-studio\skills\ns-memory\scripts\apply_chapter_backwrite.py . .\volumes\volume-001\ch001.md --chapter-id ch001 --title "第001章"
-```
-
-素材来源日志：
-
-```powershell
-python D:\projects\novel-studio\skills\ns-research\scripts\append_source_log.py . --topic "清代驿站" --source "示例来源" --url "https://example.com/source" --material "可转化素材" --position "novel-studio/research.yaml"
-```
-
-插画提示词日志：
-
-```powershell
-python D:\projects\novel-studio\skills\ns-illustration\scripts\append_art_prompt.py . --type character --title "主角立绘" --target-model "通用中文" --prompt "黑发青年，旧风衣，站在雨夜街口" --negative "文字，水印" --stable "黑发，灰眼，旧风衣" --variable "表情、光线和背景"
 ```
 
 开发自检：
@@ -152,5 +146,9 @@ novel-studio/
     ns-architect/
     ns-research/
     ns-draft/
+    ns-continue/
+    ns-rewrite-light/
+    ns-rewrite-heavy/
+    ns-blurb/
     ns-illustration/
 ```

@@ -5,7 +5,7 @@ description: "小说插画提示词生成技能。用于为小说角色、场景
 
 # NS Illustration
 
-从小说记忆或正文中提取视觉信息，生成稳定、可复用、可迭代的插画提示词。视觉记忆写入 `novel-studio/art.yaml`，长提示词日志可写入 `novel-studio/logs/art-prompts.md`。
+从小说记忆或正文中提取视觉信息，生成稳定、可复用、可迭代的插画提示词。生成内容写入项目根目录的 `visuals/`；`novel-studio/art.yaml` 只记录视觉索引和稳定设定。
 
 ## 输入优先级
 
@@ -33,8 +33,17 @@ description: "小说插画提示词生成技能。用于为小说角色、场景
 
 ## 落盘
 
-视觉风格、角色稳定要素和常用场景写入 `novel-studio/art.yaml`。长提示词、模型参数、负面词和迭代记录写入 `novel-studio/logs/art-prompts.md`。
+```text
+visuals/
+  cover-prompts.md
+  image-prompts.md
+  character-prompts.md
+  storyboard-prompts.md
+  style-bible.yaml
+```
 
-默认直接人工编辑 YAML/Markdown；需要快速追加提示词记录时才用 `scripts/append_art_prompt.py`。
+视觉风格、角色稳定要素和常用场景可同步摘要到 `novel-studio/art.yaml`。长提示词、模型参数、负面词和迭代记录必须写入 `visuals/`。
+
+默认直接人工编辑 YAML/Markdown，不使用脚本记录提示词。
 
 默认只生成提示词；用户明确要求生成图片时，再调用图像生成能力。

@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Illustration"
-  short_description: "为小说角色、场景、封面、分镜和气氛图生成插画提示词"
-  default_prompt: "使用 $ns-illustration 为这个小说角色或场景生成插画提示词。"
+  short_description: "生成封面和插画提示词并写入 visuals"
+  default_prompt: "使用 $ns-illustration 为这部小说生成封面或插画提示词。"

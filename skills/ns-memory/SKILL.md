@@ -26,17 +26,13 @@ description: "小说长期记忆与本地资料库技能。用于创建、读取
     volume-001/
       ch001.md
   extras/
+  visuals/
+  briefs/
 ```
 
 ## 初始化原则
 
-优先直接创建和编辑 YAML/Markdown，不把脚本作为主流程。需要快速生成空结构时，才运行可选脚手架：
-
-```bash
-python scripts/init_novel_project.py . --title "我的小说" --mode long --genre system
-```
-
-脚手架只生成新版目录：`novel-studio/`、`volumes/volume-001/ch001.md` 和 `extras/`。
+直接创建和编辑 YAML/Markdown，不使用脚本初始化。新项目至少创建 `novel-studio/project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`index.yaml`、`style.yaml`，以及 `volumes/volume-001/`、`extras/`、`visuals/`、`briefs/`。
 
 ## 记忆结构
 
@@ -49,8 +45,8 @@ python scripts/init_novel_project.py . --title "我的小说" --mode long --genr
 - `novel-studio/index.yaml`：正文文件索引。
 - `novel-studio/style.yaml`：文风和章节结构契约。
 - `novel-studio/research.yaml`：资料来源、待查问题和事实边界。
-- `novel-studio/art.yaml`：视觉圣经和提示词索引。
-- `novel-studio/finish.yaml`：简介、梗概、章节摘要、人物表和续作方向。
+- `novel-studio/art.yaml`：视觉记忆索引；提示词正文放 `visuals/`。
+- `novel-studio/finish.yaml`：完稿资料索引；简介和梗概正文放 `briefs/`。
 
 ## 章节约束
 
@@ -68,8 +64,5 @@ python scripts/init_novel_project.py . --title "我的小说" --mode long --genr
 3. 新事实只写入一个主 YAML 字段，避免多处散记。
 4. 不确定内容写入 `continuity.yaml.loose_threads` 或 `research.yaml.open_questions`。
 5. 改写旧章节时，更新 `continuity.yaml.revision_notes` 和 `novel-studio/logs/revision.md`。
-
-## 可选辅助
-
-- `scripts/init_novel_project.py`：只在需要快速脚手架时使用。
-- `scripts/apply_chapter_backwrite.py`：只生成回写候选到 `novel-studio/logs/auto-backwrite.md`，不能替代人工更新 YAML。
+6. 图片、封面、角色、场景、分镜提示词写入 `visuals/`。
+7. 简介、梗概、标签、pitch、封面文案写入 `briefs/`。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Rewrite Light"
+  short_description: "轻改、润色和局部文本优化"
+  default_prompt: "使用 $ns-rewrite-light 对这段小说做小改和润色。"

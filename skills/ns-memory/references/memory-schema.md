@@ -19,19 +19,31 @@
     logs/
       revision.md
       research-log.md
-      art-prompts.md
-      auto-backwrite.md
   volumes/
     volume-001/
       ch001.md
       ch002.md
   extras/
     extra-001.md
+  visuals/
+    cover-prompts.md
+    image-prompts.md
+    character-prompts.md
+    storyboard-prompts.md
+    style-bible.yaml
+  briefs/
+    blurb.md
+    synopsis-short.md
+    synopsis-long.md
+    tags.md
+    pitch.md
 ```
 
 - `novel-studio/`：长期记忆、计划、约束、索引、资料和日志。
 - `volumes/volume-*/`：正文章节。每卷一个目录，章节只放在卷目录里。
 - `extras/`：番外、间章、附录、设定短篇等非主线正文。
+- `visuals/`：图片、封面、角色、场景、分镜提示词和视觉输出稿。
+- `briefs/`：简介、梗概、标签、投稿 pitch 和宣传文案。
 - 只使用上面的目录约定。
 
 ## YAML 职责
@@ -43,8 +55,8 @@
 - `index.yaml`：正文文件索引，记录每个章节/番外路径、状态、有效字数。
 - `style.yaml`：文风、禁忌、必须保留、章节结构契约。
 - `research.yaml`：资料来源、待查问题、事实边界。
-- `art.yaml`：视觉圣经、角色/场景稳定要素、提示词索引。
-- `finish.yaml`：简介、梗概、章节摘要、人物表、续作/番外方向。
+- `art.yaml`：视觉记忆索引；具体提示词正文放 `visuals/`。
+- `finish.yaml`：完稿资料索引；具体简介和梗概正文放 `briefs/`。
 
 ## 章节文件结构
 
@@ -125,6 +137,12 @@ next_entry: ""
 - `journey`：旅行路线、站点主题和关系变化。
 - `ensemble`：单元剧/群像的常驻人物、单元模板和长线变化。
 
-## 脚本原则
+## 生成内容位置
 
-日常写作优先直接编辑 Markdown 和 YAML。脚本只作为可选辅助：初始化空结构、统计有效字数、生成回写候选。脚本产物必须人工复核后再写入 YAML 主记忆。
+- 图片、封面、角色、场景、分镜提示词：写入 `visuals/`。
+- 简介、梗概、标签、pitch、封面文案：写入 `briefs/`。
+- `novel-studio/art.yaml` 和 `novel-studio/finish.yaml` 只保留索引、状态和摘要，不存放长篇生成正文。
+
+## 工具原则
+
+日常写作优先直接编辑 Markdown 和 YAML。只保留章节审计这类检查工具；初始化、回写、素材记录、提示词记录都用 Markdown/YAML 约束完成。
