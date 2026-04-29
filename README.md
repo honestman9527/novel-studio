@@ -65,6 +65,35 @@ claude plugin install ns@dream-marketplace
 claude --plugin-dir D:\projects\novel-studio
 ```
 
+## 通过 npx skills 安装（跨平台通用）
+
+[`npx skills`](https://github.com/vercel-labs/skills) 是开放技能生态的 CLI 工具，一条命令即可将本仓库的技能安装到 **Claude Code、Codex、Cursor、Gemini CLI、OpenCode** 等任意支持 Agent Skills 的编码助手中。
+
+```bash
+npx skills add honestman9527/novel-studio
+```
+
+交互式提示会让你：
+
+1. 选择要安装的技能（可全选）
+2. 选择目标 Agent（Claude Code / Codex / Cursor / Gemini CLI …）
+3. 选择安装范围：**项目级**（仅当前仓库）或 **全局级**（所有项目）
+
+安装完成后，技能文件会被放入对应 Agent 的技能目录（如 `.claude/skills/`、`.codex/skills/` 等），Agent 下次启动即可识别。
+
+常用管理命令：
+
+```bash
+npx skills list              # 查看已安装技能
+npx skills check             # 检查可用更新
+npx skills update            # 更新所有技能到最新版本
+npx skills remove <技能名>    # 移除指定技能
+```
+
+> **提示：** 更多技能可在 [skills.sh](https://skills.sh/) 浏览和发现。
+
+---
+
 ## Codex CLI 安装
 
 ### 方式一：通过 Marketplace 安装（推荐）
