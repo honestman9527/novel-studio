@@ -44,25 +44,18 @@ my-novel/
 
 ## Claude Code 在线安装
 
-推荐从个人插件市场安装：
+推荐从插件市场安装：
 
 ```powershell
-claude plugin marketplace add honestman9527/my-marketplace
-claude plugin install ns@my-marketplace
-```
-
-也可以直接把本仓库作为 marketplace 添加：
-
-```powershell
-claude plugin marketplace add honestman9527/novel-studio
-claude plugin install ns@novel-studio
+claude plugin marketplace add honestman9527/dream-marketplace
+claude plugin install ns@dream-marketplace
 ```
 
 在 Claude Code 交互界面中也可以使用：
 
 ```text
-/plugin marketplace add honestman9527/my-marketplace
-/plugin install ns@my-marketplace
+/plugin marketplace add honestman9527/dream-marketplace
+/plugin install ns@dream-marketplace
 /reload-plugins
 ```
 
@@ -72,15 +65,57 @@ claude plugin install ns@novel-studio
 claude --plugin-dir D:\projects\novel-studio
 ```
 
-## Codex 插件生态
+## Codex CLI 安装
 
-Codex 插件 manifest 位于：
+### 方式一：通过 Marketplace 安装（推荐）
 
-```text
-.codex-plugin/plugin.json
+```bash
+codex plugin marketplace add honestman9527/novel-studio
+codex /plugins            # 在插件目录中选择 ns 并安装
 ```
 
-安装后可用的技能入口：
+### 方式二：手动安装
+
+1. 克隆仓库到本地：
+
+   ```bash
+   git clone https://github.com/honestman9527/novel-studio.git
+   ```
+
+2. 将插件放入 Codex 插件缓存目录：
+
+   ```bash
+   # Linux / macOS
+   mkdir -p "$CODEX_HOME/plugins/cache/local/ns/0.1.0"
+   cp -r novel-studio/* "$CODEX_HOME/plugins/cache/local/ns/0.1.0/"
+
+   # Windows (PowerShell)
+   $dest = "$env:USERPROFILE\.codex\plugins\cache\local\ns\0.1.0"
+   New-Item -ItemType Directory -Force -Path $dest
+   Copy-Item -Recurse novel-studio\* $dest
+   ```
+
+3. 在 `~/.codex/config.toml`（Windows 为 `%USERPROFILE%\.codex\config.toml`）中启用插件：
+
+   ```toml
+   [features]
+   plugins = true
+
+   [plugins."ns@local"]
+   enabled = true
+   ```
+
+4. 重启 Codex CLI，运行 `codex /plugins` 确认 `ns` 已出现。
+
+### 方式三：本地开发加载
+
+如果你正在开发或调试插件，可以直接用 `--plugin-dir` 加载本地目录：
+
+```bash
+codex --plugin-dir /path/to/novel-studio
+```
+
+### 安装后可用的技能入口
 
 ```text
 /ns:ns
