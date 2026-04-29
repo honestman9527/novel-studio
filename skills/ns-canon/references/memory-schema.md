@@ -38,7 +38,7 @@ media/
 ## YAML 职责
 
 - `project.yaml`：项目身份、类型、受众、承诺、禁区。
-- `plan.yaml`：卷、章节、番外、下一步。
+- `plan.yaml`：全书规模、卷、章节、番外、下一步。
 - `memory.yaml`：人物、世界、关系、名词、道具、伏笔、类型模块。
 - `continuity.yaml`：当前状态、事件、未收束线、改写影响。
 - `index.yaml`：正文条目路径、状态、字数、排序；不写 `content_root`。
@@ -68,6 +68,44 @@ media/
 - Markdown frontmatter 是两者的桥，只放身份、排序、时间、状态和可检索标签；不要把长梗概、正文摘要或大段设定塞进 frontmatter。
 - `index.yaml.entries` 同步章节 frontmatter 的 `id`、`volume_id`、`chapter_number`、`title`、`path`、`status`、`word_count`、`created_at`、`updated_at`。
 - 章节 `## 章末笔记` 是可选的普通 Markdown 记录；用于写概要、未收束线索、下一章钩子和修订备注，不要求 YAML。
+
+## 规模规划
+
+`plan.yaml` 是总章数、卷数和番外计划的唯一来源。规模字段是写作计划，不是硬锁；是否严格执行由 `limits_are` 决定。
+
+```yaml
+scale:
+  target_volumes: 3
+  target_main_chapters: 90
+  target_extras: 5
+  target_total_words: 300000
+  chapter_word_target: "3000-5000"
+  limits_are: soft
+volumes:
+  - id: volume-001
+    title: "第一卷"
+    planned_chapters: 30
+    chapter_range:
+      start: ch001
+      end: ch030
+    word_target: 100000
+    status: drafting
+extras:
+  - id: extra-001
+    title: "番外标题"
+    purpose: "补人物关系"
+    planned_words: 5000
+    status: planned
+```
+
+- `target_volumes`：预计卷数。
+- `target_main_chapters`：预计主线章节数，不含番外。
+- `target_extras`：预计番外篇数。
+- `target_total_words`：全书目标字数。
+- `chapter_word_target`：默认单章字数区间；章节 frontmatter 可覆盖。
+- `limits_are`：`soft` 表示计划可调整；`hard` 表示用户明确要求不要突破。
+- `volumes[].planned_chapters` 的合计应接近 `target_main_chapters`。
+- `extras[]` 只登记计划和功能，正文仍写入 `content/extras/`。
 
 ## 卷文件结构
 

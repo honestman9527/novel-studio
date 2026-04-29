@@ -103,7 +103,15 @@ def parse_simple_yaml(text: str) -> dict[str, Any]:
         parent = stack[-1][1]
 
         if line.startswith("- "):
-            item = parse_scalar(line[2:])
+            item_text = line[2:].strip()
+            if ": " in item_text:
+                key, value = item_text.split(":", 1)
+                item = {key.strip(): parse_scalar(value)}
+                if isinstance(parent, list):
+                    parent.append(item)
+                    stack.append((indent, item))
+                continue
+            item = parse_scalar(item_text)
             if isinstance(parent, list):
                 parent.append(item)
             continue
@@ -158,6 +166,13 @@ def index_paths(root: Path) -> set[str]:
     return {m.group(1).replace("\\", "/") for m in re.finditer(r"(?m)^\s*path:\s*[\"']?([^\"'\n]+)", text)}
 
 
+def project_yaml(root: Path, name: str) -> dict[str, Any]:
+    path = root / "novel-studio" / name
+    if not path.exists():
+        return {}
+    return parse_simple_yaml(path.read_text(encoding="utf-8"))
+
+
 def check_project(root: Path) -> list[Issue]:
     issues: list[Issue] = []
     ns_dir = root / "novel-studio"
@@ -170,6 +185,66 @@ def check_project(root: Path) -> list[Issue]:
         path = ns_dir / name
         if not path.exists():
             issues.append(Issue("warning", rel(path, root), "missing recommended project YAML file"))
+    return issues
+
+
+def as_int(value: Any) -> int | None:
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str) and value.isdigit():
+        return int(value)
+    return None
+
+
+def check_scale(root: Path) -> list[Issue]:
+    issues: list[Issue] = []
+    plan = project_yaml(root, "plan.yaml")
+    if not plan:
+        return issues
+
+    scale = plan.get("scale")
+    volumes = plan.get("volumes")
+    extras = plan.get("extras")
+    if not isinstance(scale, dict):
+        issues.append(Issue("warning", "novel-studio/plan.yaml", "missing plan.yaml scale block for target volumes/chapters/extras"))
+        return issues
+
+    target_volumes = as_int(scale.get("target_volumes"))
+    target_chapters = as_int(scale.get("target_main_chapters"))
+    target_extras = as_int(scale.get("target_extras"))
+
+    if volumes is not None and not isinstance(volumes, list):
+        issues.append(Issue("warning", "novel-studio/plan.yaml", "volumes should be a list"))
+        volumes = []
+    if extras is not None and not isinstance(extras, list):
+        issues.append(Issue("warning", "novel-studio/plan.yaml", "extras should be a list"))
+        extras = []
+
+    volumes_list = volumes if isinstance(volumes, list) else []
+    extras_list = extras if isinstance(extras, list) else []
+    if target_volumes is not None and volumes_list and len(volumes_list) != target_volumes:
+        issues.append(Issue("warning", "novel-studio/plan.yaml", f"scale.target_volumes is {target_volumes}, but volumes has {len(volumes_list)} items"))
+    if target_extras is not None and extras_list and len(extras_list) != target_extras:
+        issues.append(Issue("warning", "novel-studio/plan.yaml", f"scale.target_extras is {target_extras}, but extras has {len(extras_list)} items"))
+
+    planned_chapters = 0
+    for item in volumes_list:
+        if not isinstance(item, dict):
+            continue
+        planned = as_int(item.get("planned_chapters"))
+        if planned is not None:
+            planned_chapters += planned
+    if target_chapters is not None and planned_chapters and planned_chapters != target_chapters:
+        issues.append(Issue("warning", "novel-studio/plan.yaml", f"scale.target_main_chapters is {target_chapters}, but volume planned_chapters total is {planned_chapters}"))
+
+    chapters = chapter_files(root)
+    main_chapters = [path for path in chapters if "/extras/" not in rel(path, root)]
+    extra_chapters = [path for path in chapters if "/extras/" in rel(path, root)]
+    if target_chapters is not None and len(main_chapters) > target_chapters:
+        issues.append(Issue("warning", "content/", f"main chapter files exceed target_main_chapters: {len(main_chapters)} > {target_chapters}"))
+    if target_extras is not None and len(extra_chapters) > target_extras:
+        issues.append(Issue("warning", "content/extras/", f"extra files exceed target_extras: {len(extra_chapters)} > {target_extras}"))
+
     return issues
 
 
@@ -244,6 +319,7 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     issues = check_project(root)
+    issues.extend(check_scale(root))
     indexed = index_paths(root)
     for path in volume_files(root):
         issues.extend(check_volume(path, root))

@@ -67,7 +67,6 @@ def assert_scripts() -> None:
 
         for name in [
             "project.yaml",
-            "plan.yaml",
             "memory.yaml",
             "continuity.yaml",
             "style.yaml",
@@ -77,6 +76,26 @@ def assert_scripts() -> None:
             "publish.yaml",
         ]:
             (ns_dir / name).write_text("{}\n", encoding="utf-8")
+        (ns_dir / "plan.yaml").write_text(
+            "scale:\n"
+            "  target_volumes: 1\n"
+            "  target_main_chapters: 1\n"
+            "  target_extras: 0\n"
+            "  target_total_words: 13\n"
+            "  chapter_word_target: 10-20\n"
+            "  limits_are: soft\n"
+            "volumes:\n"
+            "  - id: volume-001\n"
+            "    title: 第一卷\n"
+            "    planned_chapters: 1\n"
+            "    chapter_range:\n"
+            "      start: ch001\n"
+            "      end: ch001\n"
+            "    word_target: 13\n"
+            "    status: drafting\n"
+            "extras: []\n",
+            encoding="utf-8",
+        )
         (ns_dir / "index.yaml").write_text(
             "entries:\n"
             "  - id: ch001\n"

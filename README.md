@@ -133,6 +133,8 @@ npx skills remove <技能名>    # 移除指定技能
 
 每章必须包含 YAML frontmatter、H1、`## 写作目标`、`## 正文`。frontmatter 记录 `chapter_number`、`title`、`display_title`、`volume_id`、`volume_title`、`created_at`、`updated_at`、`status` 和字数信息；发布正文时只取 `## 正文`。`## 章末笔记` 是可选普通 Markdown，不要求 YAML。
 
+全书规模只写在 `novel-studio/plan.yaml`：`scale.target_volumes`、`scale.target_main_chapters`、`scale.target_extras`、`scale.target_total_words`、`scale.chapter_word_target` 和 `scale.limits_are`。每卷用 `volumes[].planned_chapters` 和 `chapter_range` 记录计划章节数；番外用 `extras[]` 记录目的、预计字数和状态。
+
 用户给出明确字数、字数区间或“不少于/不低于”要求时，必须用章节审计脚本或等价精确计数核验后再报告实际字数，不能虚报估算。
 
 ## 常用命令

@@ -26,6 +26,8 @@ description: "小说正文写作技能。用于写新的正文内容：下一章
 ## 输出
 
 - 新章节写入 `content/volumes/` 或 `content/extras/`；旧项目沿用已登记目录。
+- 写主线章节前检查 `plan.yaml.scale` 和对应 `volumes[].planned_chapters`；`limits_are: hard` 时不要超出目标章数，除非用户明确同意。
+- 写番外前检查 `plan.yaml.extras[]`；计划外番外先登记目的、预计字数和状态。
 - 每章保留 frontmatter、H1、`## 写作目标`、`## 正文`。
 - 新建章节 frontmatter 必须包含第几章、章节标题、所属卷、创建时间、更新时间、状态、字数目标和记忆读写清单。
 - H1 用 `# 第001章 章节标题`；frontmatter 的 `display_title` 与 H1 保持一致。

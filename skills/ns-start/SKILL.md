@@ -52,6 +52,9 @@ media/
 ## 分工
 
 - `project.yaml` 管项目身份、类型、受众、承诺、禁区。
+- `plan.yaml.scale` 管预计卷数、主线章数、番外数、总字数、单章字数区间和限制强度。
+- `plan.yaml.volumes[]` 管每卷计划章节数、章节范围、目标字数和状态。
+- `plan.yaml.extras[]` 管番外目的、预计字数和状态。
 - `publish.yaml` 管正文根目录、排序、过滤和媒体目录。
 - `index.yaml` 只管正文条目路径、状态、字数和排序。
 - `_index.md` 是卷的人读入口；章节 frontmatter 是机器可读入口。
