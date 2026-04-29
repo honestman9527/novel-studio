@@ -5,7 +5,7 @@ description: "小说简介、卖点文案和梗概生成技能。用于生成或
 
 # NS Blurb
 
-负责简介和宣传/交付文案。对外展示内容集中放在项目根目录 `brief.md`；内部长梗概和交付资料放在 `novel-studio/notes/synopsis.md`；`novel-studio/finish.yaml` 只记录索引或摘要。
+负责简介和宣传/交付文案。对外展示内容集中放在项目根目录 `brief.md`；内部长梗概和交付资料放在 `novel-studio/notes/synopsis.md`；`novel-studio/finish.yaml` 只记录输出路径、状态和检查结果。
 
 ## 输入
 
@@ -53,7 +53,7 @@ novel-studio/
 
 - 简介不堆设定名词，优先主角欲望、代价、反差和读者期待。
 - 投稿梗概可以剧透；读者简介不要剧透终局。
-- 输出后在 `novel-studio/finish.yaml` 记录 `brief.md` 和 `novel-studio/notes/synopsis.md` 的路径。
+- 输出后只在 `novel-studio/finish.yaml` 记录 `brief.md` 和 `novel-studio/notes/synopsis.md` 的路径、状态和更新时间，不复制正文内容。
 - 用户要求简介、梗概、pitch 或标签在指定字数/字符数内时，必须精确计数后再报告；不能用“约 X 字”冒充结果。
 - 中文简介按实际中日韩文字和英文/数字连续串计数；如平台要求“字符数”而不是“字数”，按平台口径记录在文件中。
 - 若计数超出限制，继续压缩；若低于“至少/不少于”要求，继续补足。

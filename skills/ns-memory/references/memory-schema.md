@@ -66,12 +66,12 @@
 - `plan.yaml`：当前入口、卷计划、章节计划、番外计划、下一步。
 - `memory.yaml`：世界观、人物、关系、势力、名词、道具、伏笔和类型模块。
 - `continuity.yaml`：当前状态、事件台账、未收束线索、改写影响。
-- `index.yaml`：正文文件索引，记录每个章节/番外路径、状态、有效字数。
+- `index.yaml`：正文文件索引，记录每个章节/番外路径、状态、有效字数和排序；不保存 `content_root`。
 - `style.yaml`：文风、禁忌、必须保留、章节结构契约。
 - `research.yaml`：资料来源、待查问题、事实边界。
-- `art.yaml`：视觉记忆索引；具体提示词正文放 `visuals/`。
-- `finish.yaml`：完稿资料索引；对外简介正文放根目录 `brief.md`，内部梗概长文可放 `notes/synopsis.md`。
-- `publish.yaml`：发布/展示配置，包含 `content_root`、章节排序、slug、封面路径、是否隐藏工作区段等。
+- `art.yaml`：视觉一致性索引，只记录统一画风、角色/地点/道具稳定视觉要素、提示词文件路径和媒体文件路径；具体长提示词正文放 `visuals/`。
+- `finish.yaml`：完稿状态索引，只记录状态、里程碑、交付物路径和完稿检查结果；不存放简介、梗概、章节摘要等正文内容。
+- `publish.yaml`：发布/展示配置，是 `content_root` 的唯一来源，包含正文根目录、章节排序、slug、封面路径、是否隐藏工作区段等。
 
 ## Markdown 笔记职责
 
@@ -108,7 +108,6 @@ memory_read:
 memory_write:
   - novel-studio/index.yaml
   - novel-studio/continuity.yaml
-  - novel-studio/finish.yaml
 ---
 
 # 第001章
@@ -143,7 +142,7 @@ next_entry: ""
 
 1. 写作前读取 `project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`style.yaml`。
 2. 写作时只把真正正文写入 `## 正文`，不要把长期设定混入正文段落。
-3. 写完一章先填写本章 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+3. 写完一章先填写本章 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`；只有完稿、分卷完成或交付物变化时才更新 `finish.yaml`。
 4. 新事实只写入一个主 YAML 字段，其他文件引用路径或摘要。
 5. 不确定内容写入 `continuity.yaml.loose_threads` 或 `research.yaml.open_questions`。
 6. 改写旧章节时，更新 `continuity.yaml.revision_notes` 和 `logs/revision.md`。
@@ -171,7 +170,15 @@ next_entry: ""
 - 对外简介、标签、pitch、封面文案：写入根目录 `brief.md`。
 - 内部长梗概、投稿梗概、完稿梗概：写入 `novel-studio/notes/synopsis.md`。
 - 实际图片、封面、插图素材：写入 `media/`。
-- `novel-studio/art.yaml` 和 `novel-studio/finish.yaml` 只保留索引、状态和摘要，不存放长篇生成正文。
+- `novel-studio/art.yaml` 只保留视觉一致性和文件索引，不存放完整提示词。
+- `novel-studio/finish.yaml` 只保留完稿状态、里程碑和输出索引，不存放简介、梗概、章节摘要等正文内容。
+
+## 避免重复维护
+
+- `publish.yaml.site.content_root` 是正文根目录的唯一来源；不要在 `project.yaml` 或 `index.yaml` 重复维护。
+- `index.yaml` 只记录正文条目清单；每条路径使用相对项目根目录的路径，例如 `content/volumes/volume-001/ch001.md`。
+- `finish.yaml` 不参与日常章节回写；章节进度和字数写 `index.yaml`，连续性写 `continuity.yaml`，完稿里程碑才写 `finish.yaml`。
+- `art.yaml` 不保存长提示词；提示词正文写 `visuals/*.md`，真实图片写 `media/`。
 
 ## 工具原则
 

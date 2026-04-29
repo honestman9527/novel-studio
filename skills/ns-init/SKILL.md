@@ -85,12 +85,13 @@ title: ""
 slug: ""
 status: planning
 language: zh-CN
-content_root: content
 primary_genres: []
 audience: ""
 promise: ""
 boundaries: []
 ```
+
+不要在 `project.yaml` 里维护正文根目录；正文根目录只写在 `publish.yaml.site.content_root`。
 
 `publish.yaml` 至少包含：
 
@@ -111,11 +112,38 @@ chapter:
 `index.yaml` 至少包含：
 
 ```yaml
-content_root: content
 entries: []
 extras: []
 legacy_paths: []
 ```
+
+`index.yaml` 不再保存 `content_root`；正文根目录只以 `publish.yaml.site.content_root` 为准。`index.yaml.entries[*].path` 使用相对项目根目录的路径，例如 `content/volumes/volume-001/ch001.md`。
+
+`finish.yaml` 至少包含：
+
+```yaml
+status: drafting
+milestones: []
+outputs:
+  public_brief: brief.md
+  internal_synopsis: novel-studio/notes/synopsis.md
+```
+
+`finish.yaml` 只记录完稿状态、里程碑和输出文件索引，不存放简介、梗概、章节摘要等正文内容。
+
+`art.yaml` 至少包含：
+
+```yaml
+style_profile: ""
+visual_consistency:
+  characters: []
+  locations: []
+  recurring_props: []
+prompt_files: []
+media_files: []
+```
+
+`art.yaml` 只记录视觉一致性和文件索引；完整提示词写入 `visuals/*.md`，实际图片写入 `media/`。
 
 `notes/*.md` 可以用一级标题加空段落初始化，例如 `# 人物笔记`、`# 世界笔记`，不要写虚构内容占位。
 `brief.md` 可以初始化为 `# 作品简介`，下设 `## 读者简介`、`## 标签`、`## 卖点`、`## Pitch`、`## 封面文案`。

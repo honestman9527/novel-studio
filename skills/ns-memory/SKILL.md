@@ -48,12 +48,12 @@ description: "小说长期记忆与本地资料库技能。用于读取、更新
 - `novel-studio/plan.yaml`：卷、章节、番外和下一步计划。
 - `novel-studio/memory.yaml`：人物、世界、关系、名词、伏笔和类型模块。
 - `novel-studio/continuity.yaml`：当前状态、事件台账、待收束线索和改写影响。
-- `novel-studio/index.yaml`：正文文件索引。
+- `novel-studio/index.yaml`：正文文件索引，记录章节/番外路径、状态、字数和排序；不保存正文根目录。
 - `novel-studio/style.yaml`：文风和章节结构契约。
 - `novel-studio/research.yaml`：资料来源、待查问题和事实边界。
-- `novel-studio/art.yaml`：视觉记忆索引；提示词正文放 `visuals/`。
-- `novel-studio/finish.yaml`：完稿资料索引；对外简介正文放根目录 `brief.md`，内部梗概长文可放 `notes/synopsis.md`。
-- `novel-studio/publish.yaml`：发布/展示配置、正文根目录、排序、slug、封面和导出规则。
+- `novel-studio/art.yaml`：视觉一致性索引；完整提示词正文放 `visuals/`，实际图片放 `media/`。
+- `novel-studio/finish.yaml`：完稿状态索引；只记录状态、里程碑、交付物路径和检查结果。
+- `novel-studio/publish.yaml`：发布/展示配置，是正文根目录的唯一来源，记录排序、slug、封面和导出规则。
 - `novel-studio/notes/*.md`：人物、世界、时间线、术语、文风和未收束线索等便于人查看的长笔记。
 
 ## 章节约束
@@ -68,10 +68,16 @@ description: "小说长期记忆与本地资料库技能。用于读取、更新
 ## 更新协议
 
 1. 写作前读取 `project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`style.yaml`。
-2. 写完章节后，先补本章 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+2. 写完章节后，先补本章 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`；只有分卷完成、全书完稿或交付物变化时才更新 `finish.yaml`。
 3. 新事实只写入一个主 YAML 字段，避免多处散记。
 4. 不确定内容写入 `continuity.yaml.loose_threads` 或 `research.yaml.open_questions`。
 5. 改写旧章节时，更新 `continuity.yaml.revision_notes` 和 `novel-studio/logs/revision.md`。
 6. 图片、封面、角色、场景、分镜提示词写入 `visuals/`。
 7. 对外简介、标签、pitch、封面文案写入根目录 `brief.md`；内部梗概写入 `novel-studio/notes/synopsis.md`。
 8. 发布渠道需要的实际图片、封面、插图文件写入 `media/`。
+
+## 去重规则
+
+- `publish.yaml` 管正文根目录；`index.yaml` 只存条目路径，不再重复 `content_root`。
+- `finish.yaml` 不存简介、梗概或章节摘要正文，只存状态和输出索引。
+- `art.yaml` 不存完整提示词，只存视觉稳定要素和文件索引。

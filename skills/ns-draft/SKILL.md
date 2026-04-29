@@ -31,7 +31,7 @@ description: "小说新写作单元起草技能。用于新开卷、开新番外
 1. 确认新写作单元功能：新卷开局、番外补完、独立短篇闭环、序章钩子、尾声收束、系统新阶段或副本入口。
 2. 写 4-8 个场景拍点：开场抓手、中段阻力、选择代价、反转、结尾钩子。
 3. 直接写 `## 正文`。减少解释性旁白，多用行动、对白、环境反馈和选择。
-4. 写完后补 `## 章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+4. 写完后补 `## 章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`；只有分卷完成、全书完稿或交付物变化时才更新 `finish.yaml`。
 5. 需要机器统计时优先运行 `novel-studio/tools/word_count.py <chapter-file>`；开发插件自身时可运行 `scripts/chapter_audit.py <chapter-file>`；不把脚本输出直接当最终记忆。
 
 ## 字数策略

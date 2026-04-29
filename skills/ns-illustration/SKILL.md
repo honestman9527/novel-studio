@@ -5,7 +5,7 @@ description: "小说插画提示词生成技能。用于为小说角色、场景
 
 # NS Illustration
 
-从小说记忆或正文中提取视觉信息，生成稳定、可复用、可迭代的插画提示词。生成内容写入项目根目录的 `visuals/`；`novel-studio/art.yaml` 只记录视觉索引和稳定设定。
+从小说记忆或正文中提取视觉信息，生成稳定、可复用、可迭代的插画提示词。生成内容写入项目根目录的 `visuals/`；实际图片写入 `media/`；`novel-studio/art.yaml` 只记录视觉一致性、稳定设定和文件索引。
 
 ## 输入优先级
 
@@ -42,7 +42,7 @@ visuals/
   style-bible.yaml
 ```
 
-视觉风格、角色稳定要素和常用场景可同步摘要到 `novel-studio/art.yaml`。长提示词、模型参数、负面词和迭代记录必须写入 `visuals/`。
+视觉风格、角色稳定要素、常用场景、提示词文件路径和媒体文件路径可同步到 `novel-studio/art.yaml`。长提示词、模型参数、负面词和迭代记录必须写入 `visuals/`，不要复制进 `art.yaml`。
 
 默认直接人工编辑 YAML/Markdown，不使用脚本记录提示词。
 

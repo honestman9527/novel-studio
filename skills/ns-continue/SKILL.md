@@ -40,7 +40,7 @@ description: "小说线性续写技能。用于从现有章节、片段、上一
 - `## 正文`
 - `## 章末回写`
 
-写完后更新本章 `章末回写`，再人工同步 `novel-studio/index.yaml`、`novel-studio/continuity.yaml`、`novel-studio/finish.yaml`。
+写完后更新本章 `章末回写`，再人工同步 `novel-studio/index.yaml`、`novel-studio/continuity.yaml`、`novel-studio/memory.yaml`；只有分卷完成、全书完稿或交付物变化时才更新 `novel-studio/finish.yaml`。
 
 ## 边界
 

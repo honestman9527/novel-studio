@@ -47,7 +47,7 @@ description: "NS 小说创作插件总入口。用于路由和管理单本小说
 7. 新开卷、番外、独立短篇、序章、尾声或特殊篇：用 `$ns-draft`，正文写到 `content/volumes/volume-001/ch001.md`、`content/volumes/volume-002/ch020.md` 或 `content/extras/extra-001.md`。
 8. 写下一章、接上一章或续写已有文本：用 `$ns-continue`。
 9. 修改旧文本：不改事实的小改用 `$ns-rewrite-light`；改剧情、结构、人物选择的大改用 `$ns-rewrite-heavy`。
-10. 写完章节后：先补章节内 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
+10. 写完章节后：先补章节内 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`；只有分卷完成、全书完稿或交付物变化时才更新 `finish.yaml`。
 11. 需要视觉资产：用 `$ns-illustration`，生成内容放入根目录 `visuals/`，图片文件放 `media/`。
 12. 需要简介/梗概/标签：用 `$ns-blurb`，对外内容写入根目录 `brief.md`，内部梗概写入 `novel-studio/notes/synopsis.md`。
 
