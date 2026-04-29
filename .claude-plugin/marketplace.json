@@ -8,10 +8,7 @@
   "plugins": [
     {
       "name": "ns",
-      "source": {
-        "source": "github",
-        "repo": "honestman9527/novel-studio"
-      },
+      "source": "./",
       "description": "NS is a local-file based single-novel writing studio with YAML memory in novel-studio/ and chapter text organized by volumes and extras.",
       "version": "0.1.0",
       "author": {
