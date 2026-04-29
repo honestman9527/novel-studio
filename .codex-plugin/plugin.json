@@ -1,7 +1,7 @@
 {
   "name": "ns",
   "version": "0.1.0",
-  "description": "NS is a local-file based single-novel writing studio with YAML memory in novel-studio/ and chapter text organized by volumes and extras.",
+  "description": "NS is a local-file based single-novel writing studio with YAML/Markdown memory in novel-studio/ and publish-friendly chapter text under content/.",
   "author": {
     "name": "sunik",
     "url": "https://github.com/honestman9527"
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Novel Studio",
     "shortDescription": "Local-file based single-novel writing studio for Codex.",
-    "longDescription": "Novel Studio helps Codex write one novel from the current folder: YAML long-term memory lives in novel-studio/, while chapter text is organized under volumes/ and extras/.",
+    "longDescription": "Novel Studio helps Codex write one novel from the current folder: YAML and Markdown long-term memory lives in novel-studio/, project tools live in novel-studio/tools/, publishable chapter text is organized under content/volumes/ and content/extras/, and the public-facing intro lives in root brief.md.",
     "developerName": "sunik",
     "category": "Writing",
     "capabilities": [
@@ -31,12 +31,13 @@
     "websiteURL": "https://github.com/honestman9527/novel-studio",
     "defaultPrompt": [
       "把当前文件夹初始化为一部小说项目。",
+      "把已有 Markdown 小说项目接入 Novel Studio 并生成 novel-studio/tools/word_count.py。",
       "不知道用哪个技能时，使用 ns 判断并推进下一步。",
       "为这部小说建立 novel-studio/ YAML 长期记忆。",
       "基于当前小说计划起草新开卷或番外。",
       "接上一章结尾续写下一章并回写章末 YAML。",
       "生成封面提示词并保存到 visuals/。",
-      "生成小说简介并保存到 briefs/。"
+      "生成小说简介并保存到根目录 brief.md。"
     ],
     "brandColor": "#7C3AED",
     "composerIcon": "./assets/ns-icon.svg",

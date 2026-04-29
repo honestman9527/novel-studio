@@ -24,7 +24,7 @@ description: "小说轻改和小改技能。用于局部改写、润色、增强
 ## 字数规则
 
 - 用户要求保留、压缩、扩写到指定字数或指定比例时，不能凭感觉报告字数。
-- 对章节文件落盘后，用 `python skills/ns-draft/scripts/chapter_audit.py <chapter-file>` 统计有效字数；只报告统计结果。
+- 对章节文件落盘后，优先用 `python novel-studio/tools/word_count.py <chapter-file>` 统计有效字数；开发插件自身时可用 `python skills/ns-draft/scripts/chapter_audit.py <chapter-file>`；只报告统计结果。
 - 对未落盘片段，只能说“未审计”或给出明确的手工/机器计数方法；不能把估算当实际字数。
 
 ## 输出

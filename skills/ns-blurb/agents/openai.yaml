@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Blurb"
-  short_description: "生成简介、梗概、标签和宣传文案"
-  default_prompt: "使用 $ns-blurb 为这部小说生成简介和短梗概。"
+  short_description: "生成 brief.md 简介和 notes/synopsis.md 梗概"
+  default_prompt: "使用 $ns-blurb 为这部小说生成根目录 brief.md 和内部梗概。"

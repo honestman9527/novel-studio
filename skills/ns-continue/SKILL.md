@@ -1,11 +1,11 @@
 ---
 name: ns-continue
-description: "小说线性续写技能。用于从现有章节、片段、上一章结尾或当前卷计划继续往下写正文；当用户说续写、接着写、继续上一章、写下一章、下一回、从这里往后写、承接某段剧情、沿当前卷推进时使用。只负责延续正文和章末回写，不做大幅重构或全章改写；新开卷、番外、独立短篇、序章、尾声或不直接承接上一章的新单元走 ns-draft；大改走 ns-rewrite-heavy，小改润色走 ns-rewrite-light。"
+description: "小说线性续写技能。用于从现有章节、片段、上一章结尾或当前卷计划继续往下写正文；新项目正文写入 content/volumes/ 或 content/extras/，旧项目兼容 volumes/、extras/；当用户说续写、接着写、继续上一章、写下一章、下一回、从这里往后写、承接某段剧情、沿当前卷推进时使用。只负责延续正文和章末回写，不做大幅重构或全章改写；新开卷、番外、独立短篇、序章、尾声或不直接承接上一章的新单元走 ns-draft；大改走 ns-rewrite-heavy，小改润色走 ns-rewrite-light。"
 ---
 
 # NS Continue
 
-负责顺着既有文本或当前卷计划继续写，不重置方向。普通“下一章”默认属于本 skill；正文必须写在 `volumes/` 或 `extras/` 内，遵守章节结构契约。
+负责顺着既有文本或当前卷计划继续写，不重置方向。普通“下一章”默认属于本 skill；新项目正文必须写在 `content/volumes/` 或 `content/extras/` 内，旧项目兼容已有 `volumes/`、`extras/`，遵守章节结构契约。
 
 ## 写前读取
 
@@ -13,7 +13,8 @@ description: "小说线性续写技能。用于从现有章节、片段、上一
 2. `novel-studio/plan.yaml`
 3. `novel-studio/memory.yaml`
 4. `novel-studio/continuity.yaml`
-5. 当前章节文件、上一章结尾、当前卷计划和下一章目标
+5. `novel-studio/publish.yaml`
+6. 当前章节文件、上一章结尾、当前卷计划和下一章目标
 
 ## 续写原则
 
@@ -26,13 +27,13 @@ description: "小说线性续写技能。用于从现有章节、片段、上一
 ## 字数与续写量
 
 - 用户给出明确字数、字数区间或“至少/不低于/不少于”时，字数是硬性验收条件。
-- 续写到文件后，使用 `python skills/ns-draft/scripts/chapter_audit.py <chapter-file>` 统计有效字数；只报告机器统计结果，不虚报估算。
+- 续写到文件后，优先使用 `python novel-studio/tools/word_count.py <chapter-file>` 统计有效字数；开发插件自身时可使用 `python skills/ns-draft/scripts/chapter_audit.py <chapter-file>`；只报告机器统计结果，不虚报估算。
 - 如果只在对话中交付片段且没有落盘，必须说明字数未经过章节审计；有强字数要求时应优先落盘再统计。
 - 未达标时继续补写；无法在本轮补足时，写明当前有效字数、目标字数、差额和下一段承接点。
 
 ## 输出结构
 
-如果继续同一章，追加到该章 `## 正文` 下；如果开下一章，创建新的卷目录章节文件，并包含：
+如果继续同一章，追加到该章 `## 正文` 下；如果开下一章，优先创建 `content/volumes/volume-*/ch*.md`，旧项目沿用已登记的卷目录，并包含：
 
 - YAML frontmatter
 - `## 写作目标`

@@ -25,10 +25,24 @@ PLACEHOLDER_LINE_PATTERN = re.compile(
 )
 
 
-def story_text(text: str) -> str:
+def strip_frontmatter(text: str) -> str:
+    return re.sub(r"\A\s*---\s*\n[\s\S]*?\n---\s*", "", text.replace("\ufeff", ""))
+
+
+def body_section(text: str) -> str:
+    """Return content below `## 正文` until the next level-2 heading."""
+    text = strip_frontmatter(text)
+    match = re.search(r"(?m)^##\s*正文\s*$", text)
+    if not match:
+        return text
+    rest = text[match.end() :]
+    next_heading = re.search(r"(?m)^##\s+", rest)
+    return rest[: next_heading.start()] if next_heading else rest
+
+
+def story_text(text: str, include_all: bool = False) -> str:
     """Return countable story text after removing Markdown and placeholder-only lines."""
-    text = text.replace("\ufeff", "")
-    text = re.sub(r"\A\s*---\s*\n[\s\S]*?\n---\s*", "", text)
+    text = strip_frontmatter(text) if include_all else body_section(text)
     text = re.sub(r"```[\s\S]*?```", "", text)
     text = re.sub(r"<!--[\s\S]*?-->", "", text)
     text = re.sub(r"!\[(.*?)\]\(.*?\)", r"\1", text)
@@ -55,8 +69,8 @@ def story_text(text: str) -> str:
     return "\n".join(lines)
 
 
-def effective_word_metrics(text: str) -> dict[str, int]:
-    plain = story_text(text)
+def effective_word_metrics(text: str, include_all: bool = False) -> dict[str, int]:
+    plain = story_text(text, include_all=include_all)
     cjk_count = len(CJK_CHAR_PATTERN.findall(plain))
     latin_or_number_count = len(LATIN_OR_NUMBER_PATTERN.findall(plain))
     visible_count = len(re.sub(r"\s+", "", plain))
@@ -68,8 +82,8 @@ def effective_word_metrics(text: str) -> dict[str, int]:
     }
 
 
-def effective_word_count(text: str) -> int:
-    return effective_word_metrics(text)["effective"]
+def effective_word_count(text: str, include_all: bool = False) -> int:
+    return effective_word_metrics(text, include_all=include_all)["effective"]
 
 
 def placeholder_markers(text: str) -> list[str]:

@@ -5,7 +5,7 @@ description: "小说主框架与背景资料构建技能。用于撰写小说必
 
 # NS Architect
 
-把想法整理成可长期写作的结构资料。资料写入 `novel-studio/*.yaml`，正文只放在 `volumes/`、`extras/`。不要为完整而堆设定，只写会影响冲突、选择、节奏和读者期待的设定。
+把想法整理成可长期写作的结构资料。资料写入 `novel-studio/*.yaml` 和必要的 `novel-studio/notes/*.md`，新项目正文只放在 `content/volumes/`、`content/extras/`；旧项目兼容已有 `volumes/`、`extras/`。不要为完整而堆设定，只写会影响冲突、选择、节奏和读者期待的设定。
 
 ## 必备资源
 

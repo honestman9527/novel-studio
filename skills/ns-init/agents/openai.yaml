@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Init"
+  short_description: "初始化空小说项目或接入已有正文项目"
+  default_prompt: "使用 $ns-init 把当前文件夹初始化或接入为 Novel Studio 小说项目。"

@@ -29,7 +29,7 @@ description: "小说重写和大改技能。用于大幅改写章节、重构场
 - 不默默吞掉旧伏笔；被废弃的线索写进 `continuity.yaml.revision_notes`。
 - 不让重写后的章节和前后章节断裂；必要时列出需要一起回修的文件。
 - 不把旧稿全部删除为摘要；保留用户要求保留的台词、场景或设定。
-- 用户要求指定字数、字数区间或“不少于/不低于”时，必须重写后运行 `python skills/ns-draft/scripts/chapter_audit.py <chapter-file>` 统计有效字数；未统计不能声称达标。
+- 用户要求指定字数、字数区间或“不少于/不低于”时，必须重写后优先运行 `python novel-studio/tools/word_count.py <chapter-file>` 统计有效字数；开发插件自身时可运行 `python skills/ns-draft/scripts/chapter_audit.py <chapter-file>`；未统计不能声称达标。
 - 重写后不足目标字数时继续补写，或明确当前有效字数、目标字数、差额和下一段承接点。
 
 ## 输出

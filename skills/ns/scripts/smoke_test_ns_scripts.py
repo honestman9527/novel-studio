@@ -33,11 +33,16 @@ def assert_shared_metrics() -> None:
 title: 测试章
 ---
 # 第一章 测试
+## 写作目标
+这段不应该计入正文。
+## 正文
 这是AI-17计划。她说：“三天后再见。”
 | 备注 | 不应计入 |
 | --- | --- |
 - [ ] 待办项不应计入
 （略）
+## 章末回写
+summary: 不应该计入
 """
     metrics = effective_word_metrics(sample)
     assert metrics["effective"] == 13, metrics
@@ -56,8 +61,9 @@ def assert_scripts() -> None:
 
         audit = run_script(str(AUDIT_SCRIPT), str(chapter), "--min", "10", "--max", "20", "--json")
         audit_data = json.loads(audit.stdout)
-        assert audit_data["status"] == "达标", audit_data
-        assert audit_data["metrics"]["effective"] == 19, audit_data
+        assert audit_data["total_effective"] == 13, audit_data
+        assert audit_data["files"][0]["status"] == "达标", audit_data
+        assert audit_data["files"][0]["metrics"]["effective"] == 13, audit_data
 
 
 def main() -> int:
