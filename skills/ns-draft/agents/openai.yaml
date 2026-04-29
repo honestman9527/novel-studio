@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Draft"
-  short_description: "起草新章节、新番外和新正文初稿"
-  default_prompt: "使用 $ns-draft 基于当前小说计划起草一个新章节。"
+  short_description: "起草新开卷、番外、序章、尾声和独立短篇"
+  default_prompt: "使用 $ns-draft 基于当前小说计划起草一个新写作单元。"

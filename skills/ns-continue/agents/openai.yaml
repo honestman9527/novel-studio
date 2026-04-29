@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Continue"
-  short_description: "顺着现有章节和记忆继续写正文"
-  default_prompt: "使用 $ns-continue 续写当前小说的下一段或下一章。"
+  short_description: "接上一章、写下一章或顺着当前卷续写"
+  default_prompt: "使用 $ns-continue 接上一章结尾写当前小说的下一章。"

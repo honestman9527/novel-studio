@@ -1,6 +1,6 @@
 ---
 name: ns
-description: "NS 小说创作插件总入口。用于路由和管理单本小说项目：当前文件夹就是这部小说根目录，唯一记忆目录固定为 novel-studio/，正文必须放在 volumes/、extras/ 等卷和番外目录中；当用户不知道该用哪个技能、请求含糊、混合多个写作动作，或要启动完整小说项目、拆分创作阶段、协调 YAML 记忆/调研/架构/新章起草/续写/轻改/重写/简介/插画提示词流程时，优先使用本入口并根据需求判断应转入哪个 NS 子技能。具体单点任务也可直接触发对应子技能。"
+description: "NS 小说创作插件总入口。用于路由和管理单本小说项目：当前文件夹就是这部小说根目录，唯一记忆目录固定为 novel-studio/，正文必须放在 volumes/、extras/ 等卷和番外目录中；当用户不知道该用哪个技能、请求含糊、混合多个写作动作，或要启动完整小说项目、拆分创作阶段、协调 YAML 记忆/调研/架构/新开卷与番外起草/下一章续写/轻改/重写/简介/插画提示词流程时，优先使用本入口并根据需求判断应转入哪个 NS 子技能。具体单点任务也可直接触发对应子技能。"
 ---
 
 # NS
@@ -17,8 +17,8 @@ description: "NS 小说创作插件总入口。用于路由和管理单本小说
 | 建立或更新 YAML 长期记忆、本地项目结构 | `$ns-memory` |
 | 搭主框架、世界观、人物、系统、无限流副本、大纲 | `$ns-architect` |
 | 查找网络素材、考据、案例、资料来源 | `$ns-research` |
-| 起草新章节、新番外、新正文初稿 | `$ns-draft` |
-| 接着已有章节或片段继续写 | `$ns-continue` |
+| 新开卷、新番外、独立短篇、序章、尾声、特殊篇初稿 | `$ns-draft` |
+| 接上一章、写下一章、接着已有章节或片段继续写 | `$ns-continue` |
 | 小改、轻改、润色、局部扩写/压缩 | `$ns-rewrite-light` |
 | 大改、重写、重构章节或剧情 | `$ns-rewrite-heavy` |
 | 简介、梗概、标签、宣传文案 | `$ns-blurb` |
@@ -27,7 +27,8 @@ description: "NS 小说创作插件总入口。用于路由和管理单本小说
 ## 模糊请求判断
 
 - “不知道用什么”“帮我看看下一步”：先读 `novel-studio/` 的现有状态，再选择最缺的一环。
-- “继续写”“接着写”：已有正文片段或上一章结尾时用 `$ns-continue`；从章节纲新开一章时用 `$ns-draft`。
+- “继续写”“接着写”“写下一章”：已有正文片段、上一章结尾或当前卷线性推进时用 `$ns-continue`。
+- “新开卷”“写番外”“写序章/尾声”“开一个独立短篇”：不直接承接上一章结尾时用 `$ns-draft`。
 - “改一下”“优化一下”：不改变事实、结构和人物选择时用 `$ns-rewrite-light`；会改变剧情、场景顺序、结局方向或设定时用 `$ns-rewrite-heavy`。
 - “查点素材”“找参考”：需要来源、事实、最新信息或可追溯素材时用 `$ns-research`。
 - “简介/卖点/标签/投稿梗概/封面文案”：用 `$ns-blurb`，输出到根目录 `briefs/`。
@@ -40,8 +41,8 @@ description: "NS 小说创作插件总入口。用于路由和管理单本小说
 3. 有想法但未成型：用 `$ns-brainstorm`，结果写入 `novel-studio/plan.yaml` 或 `novel-studio/memory.yaml` 的草案字段。
 4. 写正文前：用 `$ns-architect` 补齐 `project.yaml`、`plan.yaml`、`memory.yaml`、`continuity.yaml`、`style.yaml`。
 5. 需要事实、风俗、职业、地理、历史、科技或视觉参考：用 `$ns-research`，写入 `research.yaml` 和 `logs/research-log.md`。
-6. 起草新正文：用 `$ns-draft`，正文写到 `volumes/volume-001/ch001.md`、`volumes/volume-002/ch020.md` 或 `extras/extra-001.md`。
-7. 续写已有文本：用 `$ns-continue`。
+6. 新开卷、番外、独立短篇、序章、尾声或特殊篇：用 `$ns-draft`，正文写到 `volumes/volume-001/ch001.md`、`volumes/volume-002/ch020.md` 或 `extras/extra-001.md`。
+7. 写下一章、接上一章或续写已有文本：用 `$ns-continue`。
 8. 修改旧文本：不改事实的小改用 `$ns-rewrite-light`；改剧情、结构、人物选择的大改用 `$ns-rewrite-heavy`。
 9. 写完章节后：先补章节内 `章末回写`，再人工更新 `index.yaml`、`continuity.yaml`、`memory.yaml`、`finish.yaml`。
 10. 需要视觉资产：用 `$ns-illustration`，生成内容放入根目录 `visuals/`。

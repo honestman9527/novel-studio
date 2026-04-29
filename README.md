@@ -47,8 +47,8 @@ my-novel/
 推荐从个人插件市场安装：
 
 ```powershell
-claude plugin marketplace add honestman9527/my-skills
-claude plugin install ns@my-skills
+claude plugin marketplace add honestman9527/my-marketplace
+claude plugin install ns@my-marketplace
 ```
 
 也可以直接把本仓库作为 marketplace 添加：
@@ -61,8 +61,8 @@ claude plugin install ns@novel-studio
 在 Claude Code 交互界面中也可以使用：
 
 ```text
-/plugin marketplace add honestman9527/my-skills
-/plugin install ns@my-skills
+/plugin marketplace add honestman9527/my-marketplace
+/plugin install ns@my-marketplace
 /reload-plugins
 ```
 
@@ -103,8 +103,8 @@ Codex 插件 manifest 位于：
 - `ns-memory`：维护 `novel-studio/` YAML 长期记忆。
 - `ns-architect`：撰写世界观、人物、势力、规则、大纲、卷纲、章节纲和连续性资料。
 - `ns-research`：联网查找素材、考据、视觉参考并记录来源；创作素材优先从小说素材站、写作站、网文资料和类型小说相关网站提炼，事实考据再用官方/学术/专业来源核验。
-- `ns-draft`：起草新章节、新番外和新正文初稿。
-- `ns-continue`：顺着已有章节或片段续写。
+- `ns-draft`：起草新开卷、新番外、独立短篇、序章、尾声和特殊篇初稿。
+- `ns-continue`：接上一章、写下一章，顺着已有章节、片段或当前卷计划续写。
 - `ns-rewrite-light`：轻改、小改、润色、局部扩写或压缩。
 - `ns-rewrite-heavy`：大改、重写、重构章节或剧情。
 - `ns-blurb`：生成简介、梗概、标签、pitch 和宣传文案，输出到 `briefs/`。
