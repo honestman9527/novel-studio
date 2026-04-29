@@ -1,4 +1,0 @@
-interface:
-  display_name: "NS Illustration"
-  short_description: "生成封面和插画提示词并写入 visuals"
-  default_prompt: "使用 $ns-illustration 为这部小说生成封面或插画提示词。"

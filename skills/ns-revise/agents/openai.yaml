@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Revise"
+  short_description: "修订已有正文，支持润色、小改、扩写、压缩和结构重写"
+  default_prompt: "使用 $ns-revise 修订这段小说，并判断是轻改还是结构改。"

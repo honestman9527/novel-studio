@@ -1,4 +1,0 @@
-interface:
-  display_name: "NS Architect"
-  short_description: "搭建小说主框架、背景设定、人物关系、大纲与记忆资料库"
-  default_prompt: "使用 $ns-architect 为这部小说搭建框架、设定、人物和大纲。"

@@ -1,4 +1,0 @@
-interface:
-  display_name: "NS Rewrite Heavy"
-  short_description: "重写章节、重构剧情和大改方案"
-  default_prompt: "使用 $ns-rewrite-heavy 按新方案重写这一章。"

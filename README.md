@@ -47,7 +47,7 @@ my-novel/
 
 当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；新项目正文默认放在 `content/volumes/`、`content/extras/` 等通用发布/展示友好的目录中。旧项目已有 `volumes/`、`extras/` 时可以兼容维护，不强制搬迁。
 
-不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入记忆、架构、调研、起草、续写、轻改、重写、简介或插画提示词技能。
+不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入启动、创意、框架、canon 记忆、调研、写作、修订、文案或视觉提示词技能。
 
 ## Claude Code 在线安装
 
@@ -122,11 +122,11 @@ codex /plugins            # 在插件目录中选择 ns 并安装
 
    ```bash
    # Linux / macOS
-   mkdir -p "$CODEX_HOME/plugins/cache/local/ns/0.1.0"
-   cp -r novel-studio/* "$CODEX_HOME/plugins/cache/local/ns/0.1.0/"
+   mkdir -p "$CODEX_HOME/plugins/cache/local/ns/1.1.0"
+   cp -r novel-studio/* "$CODEX_HOME/plugins/cache/local/ns/1.1.0/"
 
    # Windows (PowerShell)
-   $dest = "$env:USERPROFILE\.codex\plugins\cache\local\ns\0.1.0"
+   $dest = "$env:USERPROFILE\.codex\plugins\cache\local\ns\1.1.0"
    New-Item -ItemType Directory -Force -Path $dest
    Copy-Item -Recurse novel-studio\* $dest
    ```
@@ -155,37 +155,35 @@ codex --plugin-dir /path/to/novel-studio
 
 ```text
 /ns:ns
-/ns:ns-init
-/ns:ns-brainstorm
-/ns:ns-memory
-/ns:ns-architect
+/ns:ns-start
+/ns:ns-ideate
+/ns:ns-build
+/ns:ns-canon
 /ns:ns-research
-/ns:ns-draft
-/ns:ns-continue
-/ns:ns-rewrite-light
-/ns:ns-rewrite-heavy
-/ns:ns-blurb
-/ns:ns-illustration
+/ns:ns-write
+/ns:ns-revise
+/ns:ns-pitch
+/ns:ns-visual
 ```
 
 ## 技能分工
 
-- `ns`：总入口、流程路由和阶段协作；不知道用哪个技能时先用它分诊。
-- `ns-init`：初始化空项目或接入已有正文项目，创建 `content/`、`novel-studio/`、根目录 `brief.md`、Markdown/YAML 记忆和 `novel-studio/tools/word_count.py`。
-- `ns-brainstorm`：写作前脑暴，收束题材、卖点、主角和开篇钩子。
-- `ns-memory`：维护 `novel-studio/` YAML 长期记忆。
-- `ns-architect`：撰写世界观、人物、势力、规则、大纲、卷纲、章节纲和连续性资料。
+- `ns`：总入口，按目标产物路由到最小可用子技能。
+- `ns-start`：初始化空项目或接入已有正文项目，只创建结构、基础记忆和 `novel-studio/tools/word_count.py`。
+- `ns-ideate`：创意发散与收束，只产出题材方向、卖点、主角欲望和开篇钩子。
+- `ns-build`：搭建故事圣经，只负责世界观、人物、类型规则、大纲、卷纲和章节计划。
+- `ns-canon`：维护 `novel-studio/` canon 记忆，只处理已定事实、连续性、索引和进度。
 - `ns-research`：联网查找素材、考据、视觉参考并记录来源；创作素材优先从小说素材站、写作站、网文资料和类型小说相关网站提炼，事实考据再用官方/学术/专业来源核验。
-- `ns-draft`：起草新开卷、新番外、独立短篇、序章、尾声和特殊篇初稿。
-- `ns-continue`：接上一章、写下一章，顺着已有章节、片段或当前卷计划续写。
-- `ns-rewrite-light`：轻改、小改、润色、局部扩写或压缩。
-- `ns-rewrite-heavy`：大改、重写、重构章节或剧情。
-- `ns-blurb`：生成简介、标签、pitch 和宣传文案到根目录 `brief.md`，内部梗概写入 `novel-studio/notes/synopsis.md`。
-- `ns-illustration`：生成封面、角色、场景、道具和分镜插画提示词，输出到 `visuals/`。
+- `ns-write`：写新的正文内容，统一负责下一章、续写、新开卷、番外、序章、尾声和独立短篇。
+- `ns-revise`：修订已有正文，统一负责润色、小改、扩写、压缩、重写和结构改。
+- `ns-pitch`：生成简介、标签、pitch 和宣传文案到根目录 `brief.md`，内部梗概写入 `novel-studio/notes/synopsis.md`。
+- `ns-visual`：生成封面、角色、场景、道具和分镜插画提示词，输出到 `visuals/`。
 
-## 章节结构
+## 卷和章节结构
 
-章节必须放在卷或番外目录中，新项目路径例如 `content/volumes/volume-001/ch001.md`、`content/extras/extra-001.md`。每章必须包含 YAML frontmatter、`## 写作目标`、`## 正文`、`## 章末回写`。发布正文时只取 `## 正文`。
+章节必须放在卷或番外目录中，新项目路径例如 `content/volumes/volume-001/ch001.md`、`content/extras/extra-001.md`。每卷用 `_index.md` 维护卷简介、卷承诺、主要人物和章节目录；`## 卷末笔记` 可选。
+
+每章必须包含 YAML frontmatter、H1、`## 写作目标`、`## 正文`。frontmatter 记录 `chapter_number`、`title`、`display_title`、`volume_id`、`volume_title`、`created_at`、`updated_at`、`status` 和字数信息；发布正文时只取 `## 正文`。`## 章末笔记` 是可选普通 Markdown，不要求 YAML。
 
 用户给出明确字数、字数区间或“不少于/不低于”要求时，必须用章节审计脚本或等价精确计数核验后再报告实际字数，不能虚报估算。
 
@@ -202,7 +200,15 @@ python .\novel-studio\tools\word_count.py .\content\volumes --json
 开发插件自身时也可以直接运行内置审计脚本：
 
 ```powershell
-python D:\projects\novel-studio\skills\ns-draft\scripts\chapter_audit.py .\content\volumes\volume-001\ch001.md
+python D:\projects\novel-studio\skills\ns-write\scripts\chapter_audit.py .\content\volumes\volume-001\ch001.md
+```
+
+结构体检、连续性检查和正文导出：
+
+```powershell
+python D:\projects\novel-studio\skills\ns-canon\scripts\schema_doctor.py .
+python D:\projects\novel-studio\skills\ns-canon\scripts\continuity_check.py .
+python D:\projects\novel-studio\skills\ns-write\scripts\export_text.py . -o export\novel.md
 ```
 
 开发自检：
@@ -220,15 +226,13 @@ novel-studio/
   assets/
   skills/
     ns/
-    ns-init/
-    ns-brainstorm/
-    ns-memory/
-    ns-architect/
+    ns-start/
+    ns-ideate/
+    ns-build/
+    ns-canon/
     ns-research/
-    ns-draft/
-    ns-continue/
-    ns-rewrite-light/
-    ns-rewrite-heavy/
-    ns-blurb/
-    ns-illustration/
+    ns-write/
+    ns-revise/
+    ns-pitch/
+    ns-visual/
 ```

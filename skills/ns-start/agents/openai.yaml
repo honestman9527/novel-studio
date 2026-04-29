@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Start"
+  short_description: "初始化空小说项目，或把已有 Markdown 正文接入 NS"
+  default_prompt: "使用 $ns-start 把当前文件夹初始化或接入为 Novel Studio 小说项目。"

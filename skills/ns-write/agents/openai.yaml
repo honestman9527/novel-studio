@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Write"
+  short_description: "写下一章、续写片段、新开单元，并完成字数审计和回写"
+  default_prompt: "使用 $ns-write 接上一章结尾写下一章，并回写章节记忆。"

@@ -1,0 +1,20 @@
+{
+  "name": "novel-studio",
+  "interface": {
+    "displayName": "Novel Studio"
+  },
+  "plugins": [
+    {
+      "name": "ns",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Writing"
+    }
+  ]
+}

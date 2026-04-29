@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Pitch"
+  short_description: "生成 brief.md 简介、标签、卖点、pitch 和内部梗概"
+  default_prompt: "使用 $ns-pitch 为这部小说生成简介、标签、卖点和梗概。"

@@ -1,7 +1,7 @@
 {
   "name": "ns",
   "description": "NS is a local-file based single-novel writing studio with YAML/Markdown memory in novel-studio/ and publish-friendly chapter text under content/.",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "author": {
     "name": "sunik"
   },

@@ -1,4 +1,4 @@
 interface:
   display_name: "NS"
-  short_description: "不知道用哪个技能时的小说创作总入口和分诊器"
-  default_prompt: "使用 $ns 判断当前小说需求该转入哪个子技能，并继续推进。"
+  short_description: "Novel Studio 总入口，按目标产物路由到最小可用子技能"
+  default_prompt: "使用 $ns 判断当前小说需求该进入哪个子技能，并直接推进下一步。"
