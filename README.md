@@ -1,11 +1,11 @@
 # Novel Studio
 
-Novel Studio 是一个面向 Claude Code 和 Codex 的小说创作插件仓库。插件名是 `ns`，技能统一以 `NS` 作为识别前缀，适合长篇、短篇、连载、系统文、无限流、悬疑、言情、奇幻、科幻、历史和现实题材。
+Novel Studio 是一个面向 Claude Code Marketplace 和 Agent Skills 生态的小说创作仓库。插件名是 `ns`，技能统一以 `NS` 作为识别前缀，适合长篇、短篇、连载、系统文、无限流、悬疑、言情、奇幻、科幻、历史和现实题材。
 
-仓库同时提供 Claude Code 和 Codex 两套插件生态入口：
+仓库只保留 Claude Code marketplace 插件入口；其它支持 Agent Skills 的工具通过 `npx skills` 按需安装技能：
 
-- Claude Code：`.claude-plugin/plugin.json` 和 `.claude-plugin/marketplace.json`
-- Codex：`.codex-plugin/plugin.json`
+- Claude Code marketplace：`.claude-plugin/plugin.json` 和 `.claude-plugin/marketplace.json`
+- Codex / Cursor / Gemini CLI / OpenCode 等：`npx skills add honestman9527/novel-studio`
 
 ## 核心模型
 
@@ -72,9 +72,9 @@ claude plugin install ns@dream-marketplace
 claude --plugin-dir D:\projects\novel-studio
 ```
 
-## 通过 npx skills 安装（跨平台通用）
+## 其它 Agent 安装
 
-[`npx skills`](https://github.com/vercel-labs/skills) 是开放技能生态的 CLI 工具，一条命令即可将本仓库的技能安装到 **Claude Code、Codex、Cursor、Gemini CLI、OpenCode** 等任意支持 Agent Skills 的编码助手中。
+[`npx skills`](https://github.com/vercel-labs/skills) 是开放技能生态的 CLI 工具。除 Claude Code marketplace 外，其它支持 Agent Skills 的编码助手统一使用它安装，并在交互提示中按需选择技能。
 
 ```bash
 npx skills add honestman9527/novel-studio
@@ -82,8 +82,8 @@ npx skills add honestman9527/novel-studio
 
 交互式提示会让你：
 
-1. 选择要安装的技能（可全选）
-2. 选择目标 Agent（Claude Code / Codex / Cursor / Gemini CLI …）
+1. 选择要安装的技能（按需选择即可）
+2. 选择目标 Agent（Codex / Cursor / Gemini CLI / OpenCode …）
 3. 选择安装范围：**项目级**（仅当前仓库）或 **全局级**（所有项目）
 
 安装完成后，技能文件会被放入对应 Agent 的技能目录（如 `.claude/skills/`、`.codex/skills/` 等），Agent 下次启动即可识别。
@@ -98,58 +98,6 @@ npx skills remove <技能名>    # 移除指定技能
 ```
 
 > **提示：** 更多技能可在 [skills.sh](https://skills.sh/) 浏览和发现。
-
----
-
-## Codex CLI 安装
-
-### 方式一：通过 Marketplace 安装（推荐）
-
-```bash
-codex plugin marketplace add honestman9527/novel-studio
-codex /plugins            # 在插件目录中选择 ns 并安装
-```
-
-### 方式二：手动安装
-
-1. 克隆仓库到本地：
-
-   ```bash
-   git clone https://github.com/honestman9527/novel-studio.git
-   ```
-
-2. 将插件放入 Codex 插件缓存目录：
-
-   ```bash
-   # Linux / macOS
-   mkdir -p "$CODEX_HOME/plugins/cache/local/ns/1.1.0"
-   cp -r novel-studio/* "$CODEX_HOME/plugins/cache/local/ns/1.1.0/"
-
-   # Windows (PowerShell)
-   $dest = "$env:USERPROFILE\.codex\plugins\cache\local\ns\1.1.0"
-   New-Item -ItemType Directory -Force -Path $dest
-   Copy-Item -Recurse novel-studio\* $dest
-   ```
-
-3. 在 `~/.codex/config.toml`（Windows 为 `%USERPROFILE%\.codex\config.toml`）中启用插件：
-
-   ```toml
-   [features]
-   plugins = true
-
-   [plugins."ns@local"]
-   enabled = true
-   ```
-
-4. 重启 Codex CLI，运行 `codex /plugins` 确认 `ns` 已出现。
-
-### 方式三：本地开发加载
-
-如果你正在开发或调试插件，可以直接用 `--plugin-dir` 加载本地目录：
-
-```bash
-codex --plugin-dir /path/to/novel-studio
-```
 
 ### 安装后可用的技能入口
 
@@ -222,7 +170,6 @@ python skills/ns/scripts/smoke_test_ns_scripts.py
 ```text
 novel-studio/
   .claude-plugin/
-  .codex-plugin/
   assets/
   skills/
     ns/
