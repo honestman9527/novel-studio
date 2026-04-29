@@ -9,6 +9,7 @@ description: "小说视觉提示词技能。用于为角色、场景、封面、
 
 ## 读取
 
+- `NOVEL.md`
 - `art.yaml`
 - `memory.yaml`
 - 当前章节 `## 正文`

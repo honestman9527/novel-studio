@@ -12,6 +12,7 @@ description: "小说正文修订技能。用于修改已有章节或片段：润
 - 待改章节或片段。
 - `project.yaml`
 - `plan.yaml`
+- `NOVEL.md`
 - `memory.yaml`
 - `continuity.yaml`
 - `style.yaml`

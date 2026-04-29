@@ -13,6 +13,7 @@ Novel Studio 只保留新版单本小说目录模型：
 
 ```text
 my-novel/
+  NOVEL.md
   novel-studio/
     project.yaml
     plan.yaml
@@ -45,7 +46,9 @@ my-novel/
     illustrations/
 ```
 
-当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；新项目正文默认放在 `content/volumes/`、`content/extras/` 等通用发布/展示友好的目录中。旧项目已有 `volumes/`、`extras/` 时可以兼容维护，不强制搬迁。
+当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；新项目正文默认放在 `content/volumes/`、`content/extras/`。旧项目已有 `volumes/`、`extras/` 时可沿用。
+
+`NOVEL.md` 放在项目根目录，记录必须遵守、不要写/不要改、风格偏好、内容边界、结构偏好和待确认。生成或修改内容前先读它；`ns-start` 创建模板，`ns-canon` 维护。
 
 不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入启动、创意、框架、canon 记忆、调研、写作、修订、文案或视觉提示词技能。
 
@@ -120,7 +123,7 @@ npx skills remove <技能名>    # 移除指定技能
 - `ns-start`：初始化空项目或接入已有正文项目，只创建结构、基础记忆和 `novel-studio/tools/word_count.py`。
 - `ns-ideate`：创意发散与收束，只产出题材方向、卖点、主角欲望和开篇钩子。
 - `ns-build`：搭建故事圣经，只负责世界观、人物、类型规则、大纲、卷纲和章节计划。
-- `ns-canon`：维护 `novel-studio/` canon 记忆，只处理已定事实、连续性、索引和进度。
+- `ns-canon`：维护 `NOVEL.md` 和 `novel-studio/` canon 记忆，只处理全局约束、已定事实、连续性、索引和进度。
 - `ns-research`：联网查找素材、考据、视觉参考并记录来源；创作素材优先从小说素材站、写作站、网文资料和类型小说相关网站提炼，事实考据再用官方/学术/专业来源核验。
 - `ns-write`：写新的正文内容，统一负责下一章、续写、新开卷、番外、序章、尾声和独立短篇。
 - `ns-revise`：修订已有正文，统一负责润色、小改、扩写、压缩、重写和结构改。

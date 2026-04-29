@@ -11,6 +11,7 @@ description: "小说文案与梗概技能。用于生成或改写书名卖点、
 
 - `project.yaml`
 - `plan.yaml`
+- `NOVEL.md`
 - `memory.yaml`
 - `finish.yaml`
 - `notes/synopsis.md`

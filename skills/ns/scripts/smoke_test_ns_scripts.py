@@ -103,6 +103,14 @@ def assert_scripts() -> None:
             "    status: draft\n",
             encoding="utf-8",
         )
+        (project / "NOVEL.md").write_text(
+            "# NOVEL\n\n"
+            "## 必须遵守\n\n"
+            "- 保持测试章结构。\n\n"
+            "## 不要写/不要改\n\n"
+            "- 不要改测试人物。\n",
+            encoding="utf-8",
+        )
         volume_index.write_text(
             "---\n"
             "id: volume-001\n"

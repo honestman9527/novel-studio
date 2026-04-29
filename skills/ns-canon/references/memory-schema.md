@@ -5,6 +5,7 @@
 ## 目录
 
 ```text
+NOVEL.md
 novel-studio/
   project.yaml
   plan.yaml
@@ -58,16 +59,42 @@ media/
 - `notes/style.md`：文风样例。
 - `notes/synopsis.md`：内部梗概、投稿梗概、完稿梗概。
 - `notes/open-threads.md`：伏笔和待确认问题。
+- `NOVEL.md`：根目录全局约束，记录必须遵守、不要写/不要改、风格偏好和内容边界。
 - `visuals/*.md`：完整提示词。
 - `media/`：实际图片素材。
 
 ## YAML 和 Markdown 协作
 
 - YAML 文件保存项目级事实、索引、计划和连续性。
-- Markdown 文件保存作者可读内容：卷说明、章节目标、正文、可选章末笔记和长文笔记。
+- `NOVEL.md` 保存根目录全局约束。
+- 其它 Markdown 保存作者可读内容：卷说明、章节目标、正文、可选章末笔记和长文笔记。
 - Markdown frontmatter 是两者的桥，只放身份、排序、时间、状态和可检索标签；不要把长梗概、正文摘要或大段设定塞进 frontmatter。
 - `index.yaml.entries` 同步章节 frontmatter 的 `id`、`volume_id`、`chapter_number`、`title`、`path`、`status`、`word_count`、`created_at`、`updated_at`。
 - 章节 `## 章末笔记` 是可选的普通 Markdown 记录；用于写概要、未收束线索、下一章钩子和修订备注，不要求 YAML。
+
+## 全局约束
+
+`NOVEL.md` 放在小说根目录。生成或修改内容前先读它。只写短句，不存长设定、章节摘要或正文。
+
+建议结构：
+
+```markdown
+# NOVEL
+
+## 必须遵守
+
+## 不要写/不要改
+
+## 风格偏好
+
+## 内容边界
+
+## 结构偏好
+
+## 待确认
+```
+
+用户说“以后都要”“不要再写”“这个不能改”“保留这个味道”时，优先更新 `NOVEL.md`。已定事实写 `memory.yaml`，文风规则写 `style.yaml`，长说明写 `notes/`。
 
 ## 规模规划
 
@@ -206,7 +233,8 @@ memory_write:
 
 - `publish.yaml.site.content_root` 是正文根目录唯一来源。
 - `index.yaml` 只存正文条目。
+- `NOVEL.md` 只存全局约束，不复制设定库和大纲。
 - 卷 `_index.md` 存卷简介和章节目录，不替代 `plan.yaml` 的计划；`## 卷末笔记` 可选。
 - `finish.yaml` 不参与日常章节回写。
 - `art.yaml` 不存完整提示词。
-- YAML 是事实源；Markdown 是长文说明或展示面板。
+- YAML 管结构化事实；`NOVEL.md` 管全局约束；其它 Markdown 管长说明或展示。

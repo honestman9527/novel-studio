@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Check Novel Studio project structure, chapter metadata, and index coverage."""
+"""Check Novel Studio project structure, NOVEL.md, chapter metadata, and index coverage."""
 
 from __future__ import annotations
 
@@ -33,6 +33,8 @@ REQUIRED_PROJECT_FILES = [
     "finish.yaml",
     "publish.yaml",
 ]
+REQUIRED_ROOT_MARKDOWN = ["NOVEL.md"]
+REQUIRED_NOVEL_SECTIONS = ["必须遵守", "不要写/不要改"]
 REQUIRED_VOLUME_FIELDS = ["id", "type", "volume_number", "title", "status", "created_at", "updated_at"]
 REQUIRED_VOLUME_SECTIONS = ["卷简介", "卷承诺", "本卷主要人物", "章节目录"]
 REQUIRED_CHAPTER_FIELDS = [
@@ -185,6 +187,26 @@ def check_project(root: Path) -> list[Issue]:
         path = ns_dir / name
         if not path.exists():
             issues.append(Issue("warning", rel(path, root), "missing recommended project YAML file"))
+    for name in REQUIRED_ROOT_MARKDOWN:
+        path = root / name
+        if not path.exists():
+            issues.append(Issue("warning", rel(path, root), "missing recommended root Markdown file"))
+    return issues
+
+
+def check_novel_md(root: Path) -> list[Issue]:
+    issues: list[Issue] = []
+    path = root / "NOVEL.md"
+    if not path.exists():
+        return issues
+
+    text = path.read_text(encoding="utf-8")
+    if len(text) > 4000:
+        issues.append(Issue("warning", rel(path, root), "NOVEL.md should stay short; move long notes into notes/ or YAML"))
+    found = headings(text)
+    for section in REQUIRED_NOVEL_SECTIONS:
+        if section not in found:
+            issues.append(Issue("warning", rel(path, root), f"missing section: ## {section}"))
     return issues
 
 
@@ -319,6 +341,7 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     issues = check_project(root)
+    issues.extend(check_novel_md(root))
     issues.extend(check_scale(root))
     indexed = index_paths(root)
     for path in volume_files(root):

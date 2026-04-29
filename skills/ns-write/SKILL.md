@@ -11,6 +11,7 @@ description: "小说正文写作技能。用于写新的正文内容：下一章
 
 - `project.yaml`
 - `plan.yaml`
+- `NOVEL.md`
 - `memory.yaml`
 - `continuity.yaml`
 - `style.yaml`
