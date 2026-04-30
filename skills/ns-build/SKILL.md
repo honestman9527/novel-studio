@@ -15,6 +15,7 @@ description: "小说框架构建技能。用于把已选方向整理成故事圣
 ## 类型模块
 
 需要类型规则时读 [genre-modules.md](references/genre-modules.md)，只选相关模块。
+多类型作品先定主类型，再选 1-2 个辅助模块；不要把所有类型都写进项目。
 
 ## 策略
 
