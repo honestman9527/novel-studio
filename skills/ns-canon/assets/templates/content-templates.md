@@ -1,6 +1,6 @@
 # Content Templates
 
-需要创建新项目、卷或章节时读取本文件；只维护模板，不解释职责。
+需要创建新项目、卷、章节或 notes 时读取本文件。只维护模板，不解释职责。
 
 ## NOVEL.md
 
@@ -91,7 +91,7 @@ word_count:
 
 ## Note
 
-按主题创建，例如 `notes/people.md`、`notes/world.md`、`notes/timeline.md`、`notes/synopsis.md`。不要把多个主题堆进一个过长文件。
+按主题创建，例如 `notes/people.md`、`notes/world.md`、`notes/timeline.md`、`notes/synopsis.md`。
 
 ````markdown
 # 主题名称

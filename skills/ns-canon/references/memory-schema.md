@@ -1,6 +1,6 @@
 # Memory Schema
 
-当前文件夹就是小说根目录。`novel-studio/` 是唯一结构化记忆目录；新正文放 `content/volumes/`、`content/extras/`。文件模板见 [content-templates.md](content-templates.md)。
+当前文件夹就是小说根目录。`novel-studio/` 是唯一结构化记忆目录；新正文放 `content/volumes/`、`content/extras/`。文件职责详解见 [file-roles.md](file-roles.md)，文件模板见 [content-templates.md](../assets/templates/content-templates.md)。
 
 ## 目录
 

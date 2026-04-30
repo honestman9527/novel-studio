@@ -1,65 +1,46 @@
 ---
 name: ns-canon
-description: "小说 canon 记忆维护技能。用于读取、更新单本 NS 项目的全局约束、已定事实、计划、连续性、正文索引、风格约束、来源边界、视觉索引和 notes/*.md 长文记忆；在用户同意后维护 NOVEL.md。当用户要求记住设定、保存资料、更新大纲、整理进度、记录必须遵守/不要写、处理章末笔记、修正连续性、修改/拆分 notes、处理过长文件或接手旧小说记忆时使用。初始化走 ns-start。"
+description: "小说 canon 记忆维护技能。用于更新单本 NS 项目的全局约束、已定事实、计划、连续性、正文索引、风格、来源边界、视觉索引和 notes/*.md；用户同意后维护 NOVEL.md。当用户要求记住设定、保存资料、更新大纲/进度、处理章末笔记、修正连续性、整理 notes、拆分过长文件或接手旧小说记忆时使用。"
 ---
 
 # NS Canon
 
-只维护约束、事实和进度，不新写正文，不创造未要求的新设定。
+只维护约束、事实和进度；不写新正文，不主动造设定。
 
-读取 [memory-schema.md](references/memory-schema.md) 获取结构规则；新建卷或章节时读取 [content-templates.md](references/content-templates.md)。
+读取 [memory-schema.md](references/memory-schema.md) 获取结构规则；需要判断 YAML/Markdown 文件职责时读取 [file-roles.md](references/file-roles.md)；新建卷、章节或 notes 时读取 [content-templates.md](assets/templates/content-templates.md)。
 
-## 职责
+## 文件职责
 
-- `project.yaml`：项目身份。
-- `plan.yaml`：全书规模、卷、章节、番外、下一步。
-- `NOVEL.md`：用户同意后维护的全局约束。
-- `memory.yaml`：人物、世界、关系、伏笔、类型模块。
-- `continuity.yaml`：当前状态、事件、未收束线、修订影响。
-- `index.yaml`：正文条目路径、状态、字数、排序。
-- `style.yaml`：文风和章节契约。
-- `research.yaml`：来源和事实边界。
-- `publish.yaml`：正文根目录和发布规则。
-- `finish.yaml`：完稿状态和输出索引。
-- `art.yaml`：视觉一致性和文件索引。
-- `notes/*.md`：人物档案、世界说明、时间线、梗概、风格样例、待确认问题和其它长文记忆。
+- YAML：项目身份、计划、人物/世界摘要、连续性、索引、来源、发布、完稿和视觉索引。
+- Markdown：正文、卷简介、章末笔记、brief、visuals、logs、notes 长说明。
+- `NOVEL.md`：全局约束；创建或修改要有用户本轮明确同意。
 
 ## 写入边界
 
-- `NOVEL.md` 可以读取；创建或修改前必须确认用户本轮已明确同意。用户直接说“写进 NOVEL.md”“更新/修改全局约束”，或明确回答同意，才视为写入同意。
-- 未经同意时，不把设定或偏好偷偷写入 `NOVEL.md`；改写为 `continuity.yaml.open_questions`、`memory.yaml` 摘要或 `notes/*.md`，并在回复里说明还没写 `NOVEL.md`。
-- 当 YAML 字段、frontmatter、`NOVEL.md`、`brief.md` 或单个 notes 文件会变成长篇说明时，保留摘要和路径，把长内容拆到按主题命名的 `notes/*.md`。
-- 单个 notes 文件承载一个主题；人物、世界、时间线、梗概、风格样例不要混在同一个长文件里。
+- 未经同意，不写 `NOVEL.md`；可先记录到待确认、YAML 摘要或 notes。
+- YAML/frontmatter/`NOVEL.md` 保持短小；长说明拆到按主题命名的 notes。
+- 单个 notes 文件只承载一个主题。
 
 ## YAML/Markdown 协作
 
-- 先判断唯一来源：结构化事实归 YAML，正文和长说明归 Markdown，frontmatter 只做连接层。
-- 章节和卷的 Markdown frontmatter 是 YAML 记忆与正文文件的连接层。
-- frontmatter 只放身份、排序、状态、时间、字数和标签；长说明写 Markdown 正文区或 `notes/*.md`。
-- `index.yaml.entries` 必须能从章节 frontmatter 和审计字数重建。
-- `NOVEL.md` 放根目录，只写全局约束：必须遵守、不要写/不要改、风格偏好、内容边界、结构偏好和待确认；写入前需要用户同意。
-- 卷 `_index.md` 维护卷简介、卷承诺和章节目录；`plan.yaml` 维护计划，不互相复制长文本。
-- 章节 `## 章末笔记` 是可选 Markdown；没有章末笔记时，直接从正文和上下文更新 canon。
-- 总卷数、总章数、番外数和总字数目标只写在 `plan.yaml.scale`。
+- 先定唯一来源：结构化事实归 YAML，正文和长说明归 Markdown，frontmatter 只做连接层。
+- `index.yaml.entries` 应能从章节 frontmatter 和审计字数重建。
+- 卷 `_index.md` 维护人读简介和目录；`plan.yaml` 维护计划。
+- 章节笔记可辅助回写 canon，但不是必填。
 
 ## 同步顺序
 
-- 新建或移动章节：先写章节 Markdown 和 frontmatter，再同步 `index.yaml`，最后更新卷 `_index.md` 目录。
-- 修改正文或章末笔记：先审计字数和更新时间，再同步 `index.yaml`、`continuity.yaml`、`memory.yaml`。
-- 修改卷计划或全书规模：先改 `plan.yaml`，再同步卷 `_index.md` 的目录说明，不把计划长文复制进卷文件。
-- 修改 notes 长文：保留 YAML 摘要和 notes 路径；不要把 notes 全文回灌进 YAML。
-- 修改 `publish.yaml.site.content_root` 后，检查 `index.yaml.entries[].path` 是否仍位于正文根目录下。
+- 新建/移动章节：章节 Markdown + frontmatter -> `index.yaml` -> 卷 `_index.md`。
+- 改正文/章末笔记：审计字数 -> 更新 frontmatter -> `index.yaml`、`continuity.yaml`、`memory.yaml`。
+- 改规模/卷计划：`plan.yaml` -> 必要的卷 `_index.md` 说明。
+- 改 notes：YAML 只留摘要和路径。
 
 ## 规则
 
-- 新事实只写一个主 YAML 字段，避免重复记录。
-- 不确定内容写入 `continuity.yaml.loose_threads` 或 `research.yaml.open_questions`。
-- 写完章节后，优先读可选的 `## 章末笔记`，再更新 `index.yaml`、`continuity.yaml`、`memory.yaml`。
-- 用户说“以后都要”“不要再写”“这个不能改”“保留这个味道”时，确认这是全局约束；已同意时写 `NOVEL.md`，否则先记录为待确认。
-- 只有分卷完成、全书完稿或交付物变化时更新 `finish.yaml`。
-- YAML 管结构化事实；`NOVEL.md` 管全局约束；其它 Markdown 管长说明或展示。
-- 调整规模时先改 `plan.yaml.scale` 和 `plan.yaml.volumes/extras`，再同步卷 `_index.md` 的目录说明。
-- 修改 notes 是 canon 的正常触发场景；必要时同步 YAML 摘要，避免 notes 和结构化记忆分叉。
+- 新事实只写一个主 YAML 字段；不确定内容写到 loose/open questions。
+- “以后都要/不要再写/不能改/保持味道”先判断是否全局约束，再按同意规则处理 `NOVEL.md`。
+- `finish.yaml` 只在分卷完成、全书完稿或交付物变化时更新。
+- 修改 notes 后同步必要 YAML 摘要，避免分叉。
 
 ## 工具
 

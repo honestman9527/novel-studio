@@ -1,11 +1,11 @@
 ---
 name: ns-revise
-description: "小说正文修订技能。用于修改已有章节或片段：润色、小改、对白优化、节奏调整、局部扩写/压缩、去 AI 味、重写场景、调整 POV、重构章节顺序或按新方案大改剧情；负责区分轻改与结构改，并在影响事实或连续性时同步可选章末笔记、continuity.yaml、memory.yaml、plan.yaml、notes/*.md 和 logs/revision.md。"
+description: "小说正文修订技能。用于修改已有章节或片段：润色、小改、对白优化、节奏调整、扩写/压缩、去 AI 味、重写场景、调整 POV 或结构改；区分轻改与结构改，并按影响同步章末笔记、continuity.yaml、memory.yaml、plan.yaml、notes/*.md 和 logs/revision.md。"
 ---
 
 # NS Revise
 
-只修改已有文本。新写下一章走 `$ns-write`。
+只改已有文本；新写走 `$ns-write`。
 
 ## 读取
 
@@ -19,28 +19,27 @@ description: "小说正文修订技能。用于修改已有章节或片段：润
 
 ## 模式
 
-- `light`：润色、压缩、扩写、对白、画面感、语病和节奏；不改变事件结果、人物选择、世界规则或长期设定。
-- `structural`：重写场景、改变冲突、调整 POV、改开头结尾、按新大纲重构章节；必须同步记忆和连续性。
+- `light`：润色、压缩、扩写、对白、画面和节奏；不改事件结果或长期设定。
+- `structural`：重写场景、改变冲突、调整 POV、改开头结尾或按新大纲重构；同步记忆和连续性。
 
 ## 流程
 
-1. 明确保留什么、改变什么、修订解决什么问题。
-2. 轻改可直接给改后文本；结构改先给场景顺序或替换方案。
-3. 落盘时只替换目标片段或目标章节。
-4. 事实变化同步到 canon；若章节已有 `## 章末笔记`，用普通 Markdown 补一条修订备注，并更新 frontmatter 的 `updated_at` 和必要的 `word_count`。
-5. 结构改同步 `plan.yaml`、`continuity.yaml`、`memory.yaml`、`index.yaml`、必要的 `notes/*.md` 和 `logs/revision.md`。
-6. 新的全局禁忌、偏好或不可改规则交给 `$ns-canon`，并在用户同意后才写入 `NOVEL.md`。
+1. 明确保留项、修改目标和修订范围。
+2. 轻改可直接改；结构改先给替换方案或场景顺序。
+3. 只替换目标片段或目标章节。
+4. 更新 `updated_at`、必要的 `word_count` 和 `index.yaml`。
+5. 结构改再同步 `plan.yaml`、`continuity.yaml`、`memory.yaml`、必要 notes 和 `logs/revision.md`。
+6. 新全局规则交给 `$ns-canon`，经同意再写 `NOVEL.md`。
 
 ## Notes
 
-长修订原因、替换方案和人物/时间线变化写 `notes/*.md` 或 `logs/revision.md`，YAML 只保留结果摘要和路径。不要把修订过程堆进章节 frontmatter。
+修订过程写 logs；长人物/时间线变化写 notes。YAML 和 frontmatter 只留结果摘要、索引和路径。
 
 ## 同步顺序
 
-1. 替换目标 Markdown 片段或章节。
-2. 统计字数并更新 frontmatter 的 `word_count` 与 `updated_at`。
-3. 轻改只同步 `index.yaml`；结构改再同步 `plan.yaml`、`continuity.yaml`、`memory.yaml` 和必要 notes。
-4. 只把修订结果写入 YAML，修订过程写 `logs/revision.md`。
+1. 改 Markdown。
+2. 统计字数，更新 frontmatter。
+3. 轻改同步 `index.yaml`；结构改同步相关 YAML/notes/logs。
 
 ## 字数
 
