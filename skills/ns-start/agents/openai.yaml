@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Start"
-  short_description: "初始化空小说项目，同意后创建 NOVEL.md，或接入已有 Markdown 正文"
+  short_description: "初始化空小说项目，或接入已有 Markdown 正文"
   default_prompt: "使用 $ns-start 把当前文件夹初始化或接入为 Novel Studio 小说项目。"

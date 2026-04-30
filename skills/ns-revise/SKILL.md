@@ -12,7 +12,7 @@ description: "小说正文修订技能。用于修改已有章节或片段：润
 - 待改章节或片段。
 - `project.yaml`
 - `plan.yaml`
-- `NOVEL.md`（存在时读取；不要自行创建或修改）
+- 根指导文件（存在时读取；不要自行创建或修改）
 - `memory.yaml`
 - `continuity.yaml`
 - `style.yaml`
@@ -29,7 +29,7 @@ description: "小说正文修订技能。用于修改已有章节或片段：润
 3. 只替换目标片段或目标章节。
 4. 更新 `updated_at`、必要的 `word_count` 和 `index.yaml`。
 5. 结构改再同步 `plan.yaml`、`continuity.yaml`、`memory.yaml`、必要 notes 和 `logs/revision.md`。
-6. 新全局规则交给 `$ns-canon`，经同意再写 `NOVEL.md`。
+6. 新全局指导交给 `$ns-guidance`。
 
 ## Notes
 

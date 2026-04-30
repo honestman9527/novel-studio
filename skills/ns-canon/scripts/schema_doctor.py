@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Check Novel Studio project structure, NOVEL.md, chapter metadata, and index coverage."""
+"""Check Novel Studio project structure, root guidance file, chapter metadata, and index coverage."""
 
 from __future__ import annotations
 
@@ -33,8 +33,7 @@ REQUIRED_PROJECT_FILES = [
     "finish.yaml",
     "publish.yaml",
 ]
-REQUIRED_ROOT_MARKDOWN = ["NOVEL.md"]
-REQUIRED_NOVEL_SECTIONS = ["必须遵守", "不要写/不要改"]
+ROOT_GUIDANCE_FILES = ["AGENTS.md", "CLAUDE.md"]
 REQUIRED_VOLUME_FIELDS = ["id", "type", "volume_number", "title", "status", "created_at", "updated_at"]
 REQUIRED_VOLUME_SECTIONS = ["卷简介", "卷承诺", "本卷主要人物", "章节目录"]
 REQUIRED_CHAPTER_FIELDS = [
@@ -50,7 +49,7 @@ REQUIRED_CHAPTER_FIELDS = [
     "word_count",
 ]
 REQUIRED_CHAPTER_SECTIONS = ["写作目标", "正文"]
-MAX_NOVEL_CHARS = 4000
+MAX_ROOT_GUIDANCE_CHARS = 4000
 MAX_MEMORY_YAML_CHARS = 8000
 MAX_BRIEF_CHARS = 6000
 MAX_NOTE_CHARS = 12000
@@ -223,26 +222,23 @@ def check_project(root: Path) -> list[Issue]:
         path = ns_dir / name
         if not path.exists():
             issues.append(Issue("warning", rel(path, root), "missing recommended project YAML file"))
-    for name in REQUIRED_ROOT_MARKDOWN:
-        path = root / name
-        if not path.exists():
-            issues.append(Issue("warning", rel(path, root), "missing optional root Markdown file; create only after user consent"))
     return issues
 
 
-def check_novel_md(root: Path) -> list[Issue]:
-    issues: list[Issue] = []
-    path = root / "NOVEL.md"
-    if not path.exists():
-        return issues
+def root_guidance_files(root: Path) -> list[Path]:
+    return [root / name for name in ROOT_GUIDANCE_FILES if (root / name).exists()]
 
-    text = path.read_text(encoding="utf-8")
-    if len(text) > MAX_NOVEL_CHARS:
-        issues.append(Issue("warning", rel(path, root), "NOVEL.md should stay short; move long detail into notes/ and keep only constraints here"))
-    found = headings(text)
-    for section in REQUIRED_NOVEL_SECTIONS:
-        if section not in found:
-            issues.append(Issue("warning", rel(path, root), f"missing section: ## {section}"))
+
+def check_root_guidance(root: Path) -> list[Issue]:
+    issues: list[Issue] = []
+    files = root_guidance_files(root)
+    if len(files) > 1:
+        names = ", ".join(rel(path, root) for path in files)
+        issues.append(Issue("warning", ".", f"multiple root guidance files exist; write to first by priority only: {names}"))
+    for path in files:
+        text = path.read_text(encoding="utf-8")
+        if len(text) > MAX_ROOT_GUIDANCE_CHARS:
+            issues.append(Issue("warning", rel(path, root), "root guidance file should stay short; move long detail into notes/"))
     return issues
 
 
@@ -451,7 +447,7 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     issues = check_project(root)
-    issues.extend(check_novel_md(root))
+    issues.extend(check_root_guidance(root))
     issues.extend(check_file_lengths(root))
     issues.extend(check_scale(root))
     entries = index_entries(root)

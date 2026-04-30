@@ -11,7 +11,7 @@ description: "小说文案与梗概技能。用于生成或改写书名卖点、
 
 - `project.yaml`
 - `plan.yaml`
-- `NOVEL.md`（存在时读取；不要自行创建或修改）
+- 根指导文件（存在时读取；不要自行创建或修改）
 - `memory.yaml`
 - `finish.yaml`
 - `notes/synopsis.md`
@@ -28,4 +28,4 @@ description: "小说文案与梗概技能。用于生成或改写书名卖点、
 - 读者简介抓欲望、代价、反差和主冲突；投稿/完稿梗概可以剧透。
 - 不堆设定名词，不夸不存在的内容。
 - 有字数/字符数要求时精确计数。
-- 新全局约束交给 `$ns-canon`，经同意再写 `NOVEL.md`。
+- 新全局指导交给 `$ns-guidance`。

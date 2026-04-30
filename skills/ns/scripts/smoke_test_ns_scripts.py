@@ -103,8 +103,8 @@ def assert_scripts() -> None:
             "    status: draft\n",
             encoding="utf-8",
         )
-        (project / "NOVEL.md").write_text(
-            "# NOVEL\n\n"
+        (project / "AGENTS.md").write_text(
+            "# Novel Studio Guidance\n\n"
             "## 必须遵守\n\n"
             "- 保持测试章结构。\n\n"
             "## 不要写/不要改\n\n"

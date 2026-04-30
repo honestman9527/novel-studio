@@ -1,0 +1,4 @@
+interface:
+  display_name: "NS Guidance"
+  short_description: "维护 AGENTS.md 或 CLAUDE.md 中的作者根指导"
+  default_prompt: "使用 $ns-guidance 把这些全局指导整理进 AGENTS.md 或 CLAUDE.md。"
