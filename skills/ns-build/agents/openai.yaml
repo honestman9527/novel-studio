@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Build"
-  short_description: "搭建小说世界观、人物关系、类型规则、大纲、卷计划和章节地图"
+  short_description: "搭建小说世界观、人物关系、类型规则、大纲、卷计划和必要 notes"
   default_prompt: "使用 $ns-build 为这部小说搭建设定、人物、大纲和卷计划。"

@@ -4,6 +4,8 @@
 
 ## NOVEL.md
 
+只在用户同意创建或修改 `NOVEL.md` 时使用。
+
 ````markdown
 # NOVEL
 
@@ -85,4 +87,18 @@ word_count:
 - 已解决：
 - 下一章钩子：
 - 修订备注：
+````
+
+## Note
+
+按主题创建，例如 `notes/people.md`、`notes/world.md`、`notes/timeline.md`、`notes/synopsis.md`。不要把多个主题堆进一个过长文件。
+
+````markdown
+# 主题名称
+
+## 摘要
+
+## 细节
+
+## 待确认
 ````

@@ -48,7 +48,11 @@ my-novel/
 
 当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；新项目正文默认放在 `content/volumes/`、`content/extras/`。旧项目已有 `volumes/`、`extras/` 时可沿用。
 
-`NOVEL.md` 放在项目根目录，记录必须遵守、不要写/不要改、风格偏好、内容边界、结构偏好和待确认。生成或修改内容前先读它；`ns-start` 创建模板，`ns-canon` 维护。
+`NOVEL.md` 放在项目根目录，记录必须遵守、不要写/不要改、风格偏好、内容边界、结构偏好和待确认。生成或修改内容前先读它；创建或修改 `NOVEL.md` 需要用户明确同意，`ns-start` 只在同意后创建模板，`ns-canon` 只在同意后维护。
+
+长人物档案、世界说明、时间线、梗概、资料摘要和风格样例写入 `novel-studio/notes/*.md`。YAML、frontmatter、`NOVEL.md` 和单个 notes 文件都要保持短小；内容变长时按主题拆分 notes。
+
+YAML 和 Markdown 的协作遵循唯一来源：结构化事实、计划、索引和发布配置写 YAML；正文、卷简介、章末笔记和长说明写 Markdown；章节/卷 frontmatter 只做两者之间的连接层。新建或移动章节时，先写章节 Markdown 和 frontmatter，再同步 `index.yaml` 与卷 `_index.md`；修改正文后先审计字数，再回写 `index.yaml`、`continuity.yaml` 和 `memory.yaml`。
 
 不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入启动、创意、框架、canon 记忆、调研、写作、修订、文案或视觉提示词技能。
 
@@ -120,10 +124,10 @@ npx skills remove <技能名>    # 移除指定技能
 ## 技能分工
 
 - `ns`：总入口，按目标产物路由到最小可用子技能。
-- `ns-start`：初始化空项目或接入已有正文项目，只创建结构、基础记忆和 `novel-studio/tools/word_count.py`。
+- `ns-start`：初始化空项目或接入已有正文项目，只创建结构、基础记忆和 `novel-studio/tools/word_count.py`；`NOVEL.md` 模板需要同意后创建。
 - `ns-ideate`：创意发散与收束，只产出题材方向、卖点、主角欲望和开篇钩子。
-- `ns-build`：搭建故事圣经，只负责世界观、人物、类型规则、大纲、卷纲和章节计划。
-- `ns-canon`：维护 `NOVEL.md` 和 `novel-studio/` canon 记忆，只处理全局约束、已定事实、连续性、索引和进度。
+- `ns-build`：搭建故事圣经，只负责世界观、人物、类型规则、大纲、卷纲、章节计划和必要的长文 notes。
+- `ns-canon`：维护 `novel-studio/` canon 记忆、notes、已定事实、连续性、索引和进度；`NOVEL.md` 只在用户同意后写。
 - `ns-research`：联网查找素材、考据、视觉参考并记录来源；创作素材优先从小说素材站、写作站、网文资料和类型小说相关网站提炼，事实考据再用官方/学术/专业来源核验。
 - `ns-write`：写新的正文内容，统一负责下一章、续写、新开卷、番外、序章、尾声和独立短篇。
 - `ns-revise`：修订已有正文，统一负责润色、小改、扩写、压缩、重写和结构改。

@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Ideate"
-  short_description: "把模糊脑洞收束成题材卖点、主角欲望、读者期待和开篇钩子"
-  default_prompt: "使用 $ns-ideate 把这个小说想法发散并收束成可写方向。"
+  short_description: "把模糊脑洞收束成题材卖点、主角欲望、读者期待和必要 notes"
+  default_prompt: "使用 $ns-ideate 把这个小说想法发散并收束成可写方向，必要时保留 ideation notes。"

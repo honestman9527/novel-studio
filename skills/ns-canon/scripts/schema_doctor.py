@@ -50,6 +50,13 @@ REQUIRED_CHAPTER_FIELDS = [
     "word_count",
 ]
 REQUIRED_CHAPTER_SECTIONS = ["写作目标", "正文"]
+MAX_NOVEL_CHARS = 4000
+MAX_MEMORY_YAML_CHARS = 8000
+MAX_BRIEF_CHARS = 6000
+MAX_NOTE_CHARS = 12000
+MAX_LOG_CHARS = 12000
+MAX_VISUAL_CHARS = 12000
+YAML_LENGTH_EXEMPTIONS = {"index.yaml"}
 
 
 @dataclass
@@ -175,11 +182,19 @@ def volume_files(root: Path) -> list[Path]:
 
 
 def index_paths(root: Path) -> set[str]:
+    return {entry["path"] for entry in index_entries(root) if isinstance(entry.get("path"), str)}
+
+
+def index_entries(root: Path) -> list[dict[str, Any]]:
     index = root / "novel-studio" / "index.yaml"
     if not index.exists():
-        return set()
+        return []
     text = index.read_text(encoding="utf-8")
-    return {m.group(1).replace("\\", "/") for m in re.finditer(r"(?m)^\s*path:\s*[\"']?([^\"'\n]+)", text)}
+    parsed = parse_simple_yaml(text)
+    entries = parsed.get("entries")
+    if isinstance(entries, list):
+        return [entry for entry in entries if isinstance(entry, dict)]
+    return [{"path": path.replace("\\", "/")} for path in re.findall(r"(?m)^\s*path:\s*[\"']?([^\"'\n]+)", text)]
 
 
 def project_yaml(root: Path, name: str) -> dict[str, Any]:
@@ -187,6 +202,13 @@ def project_yaml(root: Path, name: str) -> dict[str, Any]:
     if not path.exists():
         return {}
     return parse_simple_yaml(path.read_text(encoding="utf-8"))
+
+
+def publish_content_root(root: Path) -> str:
+    publish = project_yaml(root, "publish.yaml")
+    site = publish.get("site")
+    content_root = site.get("content_root") if isinstance(site, dict) else None
+    return str(content_root).replace("\\", "/").strip("/") if content_root else ""
 
 
 def check_project(root: Path) -> list[Issue]:
@@ -204,7 +226,7 @@ def check_project(root: Path) -> list[Issue]:
     for name in REQUIRED_ROOT_MARKDOWN:
         path = root / name
         if not path.exists():
-            issues.append(Issue("warning", rel(path, root), "missing recommended root Markdown file"))
+            issues.append(Issue("warning", rel(path, root), "missing optional root Markdown file; create only after user consent"))
     return issues
 
 
@@ -215,12 +237,79 @@ def check_novel_md(root: Path) -> list[Issue]:
         return issues
 
     text = path.read_text(encoding="utf-8")
-    if len(text) > 4000:
-        issues.append(Issue("warning", rel(path, root), "NOVEL.md should stay short; move long notes into notes/ or YAML"))
+    if len(text) > MAX_NOVEL_CHARS:
+        issues.append(Issue("warning", rel(path, root), "NOVEL.md should stay short; move long detail into notes/ and keep only constraints here"))
     found = headings(text)
     for section in REQUIRED_NOVEL_SECTIONS:
         if section not in found:
             issues.append(Issue("warning", rel(path, root), f"missing section: ## {section}"))
+    return issues
+
+
+def text_size(path: Path) -> int:
+    try:
+        return len(path.read_text(encoding="utf-8"))
+    except UnicodeDecodeError:
+        return path.stat().st_size
+
+
+def check_file_lengths(root: Path) -> list[Issue]:
+    issues: list[Issue] = []
+    ns_dir = root / "novel-studio"
+    if ns_dir.exists():
+        for path in ns_dir.glob("*.yaml"):
+            if path.name in YAML_LENGTH_EXEMPTIONS:
+                continue
+            if text_size(path) > MAX_MEMORY_YAML_CHARS:
+                issues.append(Issue("warning", rel(path, root), "YAML is long; keep summaries here and move long detail into notes/"))
+
+        notes_dir = ns_dir / "notes"
+        if notes_dir.exists():
+            for path in notes_dir.glob("*.md"):
+                if text_size(path) > MAX_NOTE_CHARS:
+                    issues.append(Issue("warning", rel(path, root), "notes file is long; split by topic"))
+
+        logs_dir = ns_dir / "logs"
+        if logs_dir.exists():
+            for path in logs_dir.glob("*.md"):
+                if text_size(path) > MAX_LOG_CHARS:
+                    issues.append(Issue("warning", rel(path, root), "log file is long; split by date or task"))
+
+    brief = root / "brief.md"
+    if brief.exists() and text_size(brief) > MAX_BRIEF_CHARS:
+        issues.append(Issue("warning", rel(brief, root), "brief.md is long; keep public copy concise and move detail into notes/"))
+
+    visuals_dir = root / "visuals"
+    if visuals_dir.exists():
+        for path in visuals_dir.glob("*.md"):
+            if text_size(path) > MAX_VISUAL_CHARS:
+                issues.append(Issue("warning", rel(path, root), "visual prompt file is long; split by cover, character, scene, or chapter"))
+
+    return issues
+
+
+def check_index_alignment(root: Path, entries: list[dict[str, Any]]) -> list[Issue]:
+    issues: list[Issue] = []
+    content_root = publish_content_root(root)
+    seen_paths: set[str] = set()
+
+    for entry in entries:
+        raw_path = entry.get("path")
+        if not isinstance(raw_path, str) or not raw_path.strip():
+            issues.append(Issue("warning", "novel-studio/index.yaml", "index entry missing path"))
+            continue
+
+        path_text = raw_path.replace("\\", "/").strip()
+        if path_text in seen_paths:
+            issues.append(Issue("warning", "novel-studio/index.yaml", f"duplicate index path: {path_text}"))
+        seen_paths.add(path_text)
+
+        if content_root and not (path_text == content_root or path_text.startswith(f"{content_root}/")):
+            issues.append(Issue("warning", "novel-studio/index.yaml", f"index path is outside publish.yaml site.content_root: {path_text}"))
+
+        if not (root / path_text).exists():
+            issues.append(Issue("warning", "novel-studio/index.yaml", f"indexed Markdown file does not exist: {path_text}"))
+
     return issues
 
 
@@ -301,7 +390,7 @@ def check_volume(path: Path, root: Path) -> list[Issue]:
     return issues
 
 
-def check_chapter(path: Path, root: Path, indexed: set[str]) -> list[Issue]:
+def check_chapter(path: Path, root: Path, indexed: dict[str, dict[str, Any]]) -> list[Issue]:
     issues: list[Issue] = []
     text = path.read_text(encoding="utf-8")
     meta, body = split_frontmatter(text)
@@ -325,8 +414,13 @@ def check_chapter(path: Path, root: Path, indexed: set[str]) -> list[Issue]:
         if section not in found:
             issues.append(Issue("error", path_rel, f"missing section: ## {section}"))
 
-    if indexed and path_rel not in indexed:
+    entry = indexed.get(path_rel)
+    if indexed and entry is None:
         issues.append(Issue("warning", path_rel, "chapter is not listed in novel-studio/index.yaml entries"))
+    elif entry is not None:
+        for field in ["id", "volume_id", "chapter_number", "title", "status"]:
+            if field in entry and field in meta and str(entry[field]) != str(meta[field]):
+                issues.append(Issue("warning", path_rel, f"index.yaml {field} does not match chapter frontmatter"))
 
     metrics = effective_word_metrics(text)
     word_count = meta.get("word_count")
@@ -358,8 +452,11 @@ def main() -> int:
     root = Path(args.root).resolve()
     issues = check_project(root)
     issues.extend(check_novel_md(root))
+    issues.extend(check_file_lengths(root))
     issues.extend(check_scale(root))
-    indexed = index_paths(root)
+    entries = index_entries(root)
+    issues.extend(check_index_alignment(root, entries))
+    indexed = {entry["path"].replace("\\", "/"): entry for entry in entries if isinstance(entry.get("path"), str)}
     for path in volume_files(root):
         issues.extend(check_volume(path, root))
     for path in chapter_files(root):

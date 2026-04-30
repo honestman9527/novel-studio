@@ -1,4 +1,4 @@
 interface:
   display_name: "NS"
-  short_description: "Novel Studio 总入口，按目标产物路由到最小可用子技能"
+  short_description: "Novel Studio 总入口，按目标产物、notes 和文件体量路由"
   default_prompt: "使用 $ns 判断当前小说需求该进入哪个子技能，并直接推进下一步。"

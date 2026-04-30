@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Canon"
-  short_description: "维护 NOVEL.md、已定事实、连续性、索引和进度"
-  default_prompt: "使用 $ns-canon 更新这部小说的 NOVEL.md、已定事实、进度和连续性记忆。"
+  short_description: "维护已定事实、连续性、索引、notes；同意后维护 NOVEL.md"
+  default_prompt: "使用 $ns-canon 更新这部小说的已定事实、进度、连续性和 notes；写 NOVEL.md 前先确认同意。"

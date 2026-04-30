@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Visual"
-  short_description: "生成封面、角色、场景、道具和分镜插画提示词，并维护视觉索引"
-  default_prompt: "使用 $ns-visual 为这部小说生成封面或插画提示词。"
+  short_description: "生成封面、角色、场景、道具和分镜提示词，并拆分维护视觉索引"
+  default_prompt: "使用 $ns-visual 为这部小说生成封面或插画提示词，并按主题维护视觉索引。"
