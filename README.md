@@ -48,11 +48,7 @@ my-novel/
 
 当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；新项目正文默认放在 `content/volumes/`、`content/extras/`。旧项目已有 `volumes/`、`extras/` 时可沿用。
 
-根指导文件只使用 `AGENTS.md` 或 `CLAUDE.md`，记录必须遵守、不要写/不要改、风格偏好、内容边界、结构偏好和待确认。`ns-guidance` 负责把碎片化但全局有效的要求高效合并进去；普通维护时没有目标文件则先给候选文本，初始化时可生成基础模块。
-
-长人物档案、世界说明、时间线、梗概、资料摘要和风格样例写入 `novel-studio/notes/*.md`。YAML、frontmatter、根指导文件和单个 notes 文件都要保持短小；内容变长时按主题拆分 notes。
-
-YAML 和 Markdown 的协作遵循唯一来源：结构化事实、计划、索引和发布配置写 YAML；正文、卷简介、章末笔记和长说明写 Markdown；章节/卷 frontmatter 只做两者之间的连接层。新建或移动章节时，先写章节 Markdown 和 frontmatter，再同步 `index.yaml` 与卷 `_index.md`；修改正文后先审计字数，再回写 `index.yaml`、`continuity.yaml` 和 `memory.yaml`。
+根指导文件只使用 `AGENTS.md` 或 `CLAUDE.md`，保存作者长期偏好、禁区和待确认原则，不保存设定库、剧情大纲或资料摘录。`novel-studio/*.yaml` 保存结构化记忆和索引；`novel-studio/notes/*.md` 保存长说明；`content/`、`brief.md`、`visuals/` 和 `media/` 是主要创作产物。详细位置和同步关系见 `ns-canon` 的 `memory-schema.md` / `file-roles.md`。
 
 不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入启动、创意、框架、根指导、canon 记忆、调研、写作、修订、文案或视觉提示词技能。
 

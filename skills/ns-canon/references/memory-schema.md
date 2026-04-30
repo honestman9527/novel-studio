@@ -1,6 +1,6 @@
 # Memory Schema
 
-当前文件夹就是小说根目录。`novel-studio/` 是唯一结构化记忆目录；新正文放 `content/volumes/`、`content/extras/`。文件职责详解见 [file-roles.md](file-roles.md)，文件模板见 [content-templates.md](../assets/templates/content-templates.md)。
+当前文件夹就是小说根目录。NS 把内容分成三层：根指导、项目记忆、创作产物。具体文件职责见 [file-roles.md](file-roles.md)，创建模板见 [content-templates.md](../assets/templates/content-templates.md)。
 
 ## 目录
 
@@ -29,100 +29,50 @@ visuals/
 media/
 ```
 
-## 职责
+## 三层关系
 
-- 根指导文件：`AGENTS.md` 或 `CLAUDE.md`，记录必须遵守、不要写/不要改、风格偏好、内容边界、结构偏好和待确认；写入走 `$ns-guidance`。
-- `project.yaml`：项目身份、类型、受众、承诺、禁区。
-- `plan.yaml`：全书规模、卷、章节、番外、下一步。
-- `memory.yaml`：人物、世界、关系、名词、道具、伏笔、类型模块。
-- `continuity.yaml`：当前状态、事件、未收束线、改写影响。
-- `index.yaml`：正文条目路径、状态、字数、排序；不写 `content_root`。
-- `style.yaml`：文风、禁忌、章节结构契约。
-- `research.yaml`：来源、待查问题、事实边界。
-- `publish.yaml`：正文根目录唯一来源、排序、slug、封面、过滤规则。
-- `finish.yaml`：完稿状态、里程碑、输出索引；不存正文。
-- `art.yaml`：视觉一致性、提示词文件、媒体文件；不存完整提示词。
-- `notes/*.md`：人物、世界、时间线、术语、风格样例、梗概和待确认问题的长说明。
-- `brief.md`：对外简介、标签、卖点、pitch、封面文案。
-- `visuals/*.md`：完整提示词；`media/` 存实际图片素材。
+| 层 | 位置 | 作用 | 不放什么 |
+| --- | --- | --- | --- |
+| 根指导 | `AGENTS.md` / `CLAUDE.md` | 作者长期偏好、硬禁区、写法原则、待确认原则 | 人物档案、剧情大纲、资料摘录、章节进度 |
+| 项目记忆 | `novel-studio/*.yaml`、`notes/*.md`、`logs/*.md` | 已定事实、计划、连续性、索引、来源、长说明和过程记录 | 可发布正文、对外宣传成稿、完整视觉提示词 |
+| 创作产物 | `content/`、`brief.md`、`visuals/`、`media/` | 正文、番外、对外文案、视觉提示词和素材 | 结构化记忆的唯一来源 |
 
-## 协作规则
+## 主要产物位置
 
-- 先判断唯一来源：结构化事实归 YAML，正文和长说明归 Markdown，frontmatter 只做连接层。
-- YAML 管结构化事实；根指导文件管全局指导；其它 Markdown 管长说明或展示。
-- 根指导文件可以读取；写入走 `$ns-guidance`。普通维护时没有目标文件不主动新建，初始化时可生成基础模块。
-- Markdown frontmatter 只放身份、归属、时间、状态和字数；不要放长梗概、正文摘要、大段设定或执行过程。
-- `index.yaml.entries` 同步章节 frontmatter 的 `id`、`volume_id`、`chapter_number`、`title`、`path`、`status`、`word_count`、`created_at`、`updated_at`。
-- `publish.yaml.site.content_root` 是正文根目录唯一来源。
-- 卷 `_index.md` 存卷简介和章节目录，不替代 `plan.yaml` 的计划。
-- 根指导文件只存全局指导，不复制设定库和大纲。
-- `finish.yaml` 只在分卷完成、全书完稿或交付物变化时更新。
+| 产物 | 位置 | 记忆中的对应项 |
+| --- | --- | --- |
+| 主线章节 | `content/volumes/<volume>/ch*.md` | `index.yaml` 登记路径和字数；`continuity.yaml` / `memory.yaml` 记录影响 |
+| 番外/序章/尾声/短篇 | `content/extras/*.md` | `plan.yaml.extras[]` 记计划；`index.yaml` 记条目 |
+| 卷简介和章节目录 | `content/volumes/<volume>/_index.md` | `plan.yaml.volumes[]` 记计划；`index.yaml` 记章节事实 |
+| 长人物/世界/时间线/梗概 | `novel-studio/notes/*.md` | YAML 只留摘要和 notes 路径 |
+| 对外简介和 pitch | `brief.md` | `finish.yaml` 只记状态和路径；内部长梗概进 notes |
+| 调研结论和来源 | `research.yaml`、`novel-studio/logs/*.md` | YAML 存结论和来源边界；logs 存过程 |
+| 视觉提示词 | `visuals/*.md` | `art.yaml` 存稳定要素、媒体路径和索引 |
+| 图片素材 | `media/` | `art.yaml` 存文件路径和用途 |
+| 导出稿 | `export/*.md` 或用户指定路径 | `finish.yaml` 存交付物索引 |
+
+## 唯一来源
+
+- 根指导文件是行为原则来源；项目记忆是故事事实来源；创作产物是正文和展示稿来源。
+- 同一事实只完整写在一个地方，其它文件只保留摘要、状态或路径。
+- 根指导文件不复制设定、计划、进度和资料；这些内容写入 `novel-studio/`。
+- YAML 不复制 notes 全文；只保留短摘要和指向 notes 的路径。
+- `plan.yaml` 管计划，卷 `_index.md` 管人读简介和目录。
+- `publish.yaml.site.content_root` 是正文根目录唯一来源；`index.yaml` 不重复保存发布根。
+- `art.yaml` 管视觉索引，`visuals/*.md` 管完整提示词。
+- `brief.md` 管对外文案，内部长梗概写 `notes/synopsis*.md`。
 
 ## 同步顺序
 
-- 新建或移动章节：先写章节 Markdown 和 frontmatter，再同步 `index.yaml`，最后更新卷 `_index.md` 目录。
-- 修改正文或章末笔记：先审计字数和更新时间，再同步 `index.yaml`、`continuity.yaml`、`memory.yaml`。
-- 修改卷计划或全书规模：先改 `plan.yaml`，再同步卷 `_index.md` 的目录说明，不把计划长文复制进卷文件。
-- 修改 notes 长文：保留 YAML 摘要和 notes 路径；不要把 notes 全文回灌进 YAML。
-- 修改 `publish.yaml.site.content_root` 后，检查 `index.yaml.entries[].path` 是否仍位于正文根目录下。
+- 新建或移动章节：章节 Markdown + frontmatter -> `index.yaml` -> 卷 `_index.md`。
+- 修改正文或章末笔记：审计字数和更新时间 -> `index.yaml` -> `continuity.yaml` / `memory.yaml`。
+- 修改卷计划或全书规模：`plan.yaml` -> 必要的卷 `_index.md` 说明。
+- 修改 notes 长文：只把摘要和路径同步回 YAML。
+- 修改根指导：走 `$ns-guidance`，不要顺手改故事记忆。
 
 ## 文件体量
 
-- YAML 和 frontmatter 只保存索引、状态、短摘要和指向长文档的路径。
-- 根指导文件只保存全局指导，不保存设定库、剧情大纲、资料摘录或聊天记录。
-- `notes/*.md` 是长文记忆的默认位置；单个 notes 文件只处理一个主题，过长或混入多个主题时拆分。
-- `logs/*.md` 记录过程，长日志按日期或任务拆分。
-- 正文章节可以按创作目标变长；不要为了文件体量把一个章节正文拆到 notes。
-
-## 规模规划
-
-`plan.yaml` 是总章数、卷数和番外计划的唯一来源。
-
-- `scale.target_volumes`：预计卷数。
-- `scale.target_main_chapters`：预计主线章节数，不含番外。
-- `scale.target_extras`：预计番外篇数。
-- `scale.target_total_words`：全书目标字数。
-- `scale.chapter_word_target`：默认单章字数区间；章节 frontmatter 可覆盖。
-- `scale.limits_are`：`soft` 表示计划可调整；`hard` 表示用户明确要求不要突破。
-- `volumes[].planned_chapters` 的合计应接近 `scale.target_main_chapters`。
-- `volumes[].chapter_range` 记录计划章节范围。
-- `extras[]` 只登记计划和功能，正文写入 `content/extras/`。
-
-## 文件结构
-
-- 卷 `_index.md` 必须有 frontmatter、H1、`## 卷简介`、`## 卷承诺`、`## 本卷主要人物`、`## 章节目录`；`## 卷末笔记` 可选。
-- 章节必须有 frontmatter、H1、`## 写作目标`、`## 正文`；`## 章末笔记` 可选。
-- 发布或导出只取章节 `## 正文`。
-
-卷 frontmatter 只写必要索引：
-
-```yaml
-id: volume-001
-type: volume
-volume_number: 1
-title: "第一卷"
-status: planning
-created_at: "2026-04-29T00:00:00+08:00"
-updated_at: "2026-04-29T00:00:00+08:00"
-```
-
-章节 frontmatter 只写必要索引：
-
-```yaml
-id: ch001
-type: main
-chapter_number: 1
-title: "章节标题"
-volume_id: volume-001
-status: draft
-created_at: "2026-04-29T00:00:00+08:00"
-updated_at: "2026-04-29T00:00:00+08:00"
-word_target: "3000-5000"
-word_count:
-  effective:
-  counted_at:
-```
-
-`pov`、`timeline`、`location`、`tags` 写入 `## 写作目标` 或 `## 章末笔记`；`display_title`、`volume_number`、`volume_title`、`weight`、`memory_read`、`memory_write` 不进章节头部。
-
-卷的 `subtitle`、`display_title`、`word_target`、`chapter_range` 不进卷头部；卷计划写 `plan.yaml.volumes[]`，卷简介和承诺写 `_index.md` 正文。
+- YAML、frontmatter 和根指导文件只写短事实、短原则、状态和路径。
+- 单个 notes 文件只处理一个主题；过长或混入多个主题时拆分。
+- logs 按日期或任务拆分；不要代替 YAML 记录最终事实。
+- 正文章节可以按创作目标变长；不要为了体量把正文拆到 notes。
