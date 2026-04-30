@@ -1,4 +1,4 @@
 interface:
   display_name: "NS Ideate"
-  short_description: "和作者头脑风暴，把模糊想法收束成可写方向"
-  default_prompt: "使用 $ns-ideate 和作者讨论小说想法，先追问关键偏好，再收束成可写方向。"
+  short_description: "和作者头脑风暴，核对写前条件并收束可写方向"
+  default_prompt: "使用 $ns-ideate 和作者讨论小说想法，先追问关键偏好和写前条件，再收束成可写方向。"
