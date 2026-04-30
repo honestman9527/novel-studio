@@ -76,6 +76,18 @@ media/
 - 章节必须有 frontmatter、H1、`## 写作目标`、`## 正文`；`## 章末笔记` 可选。
 - 发布或导出只取章节 `## 正文`。
 
+卷 frontmatter 只写必要索引：
+
+```yaml
+id: volume-001
+type: volume
+volume_number: 1
+title: "第一卷"
+status: planning
+created_at: "2026-04-29T00:00:00+08:00"
+updated_at: "2026-04-29T00:00:00+08:00"
+```
+
 章节 frontmatter 只写必要索引：
 
 ```yaml
@@ -94,3 +106,5 @@ word_count:
 ```
 
 `pov`、`timeline`、`location`、`tags` 写入 `## 写作目标` 或 `## 章末笔记`；`display_title`、`volume_number`、`volume_title`、`weight`、`memory_read`、`memory_write` 不进章节头部。
+
+卷的 `subtitle`、`display_title`、`word_target`、`chapter_range` 不进卷头部；卷计划写 `plan.yaml.volumes[]`，卷简介和承诺写 `_index.md` 正文。

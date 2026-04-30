@@ -28,15 +28,9 @@ id: volume-001
 type: volume
 volume_number: 1
 title: "第一卷"
-subtitle: ""
-display_title: "第一卷"
 status: planning
 created_at: "2026-04-29T00:00:00+08:00"
 updated_at: "2026-04-29T00:00:00+08:00"
-word_target: ""
-chapter_range:
-  start: ch001
-  end:
 ---
 
 # 第一卷

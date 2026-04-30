@@ -43,7 +43,8 @@ media/
 
 ## 模板要求
 
-- 卷 `_index.md` 必须包含 YAML frontmatter、`# 第一卷`、`## 卷简介`、`## 卷承诺`、`## 本卷主要人物`、`## 章节目录`。
+- 卷 `_index.md` 必须包含精简 frontmatter、`# 第一卷`、`## 卷简介`、`## 卷承诺`、`## 本卷主要人物`、`## 章节目录`。
+- 卷 frontmatter 只写 `id`、`type`、`volume_number`、`title`、`status`、`created_at`、`updated_at`。
 - `## 卷末笔记` 可选。
 - 章节文件必须包含 YAML frontmatter、`# 第001章 章节标题`、`## 写作目标`、`## 正文`。
 - `## 章末笔记` 可选；需要时用普通 Markdown 列表写本章概要、未收束、已解决、下一章钩子和修订备注。
