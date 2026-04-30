@@ -42,14 +42,12 @@ REQUIRED_CHAPTER_FIELDS = [
     "type",
     "chapter_number",
     "title",
-    "display_title",
     "volume_id",
-    "volume_number",
-    "volume_title",
-    "weight",
     "status",
     "created_at",
     "updated_at",
+    "word_target",
+    "word_count",
 ]
 REQUIRED_CHAPTER_SECTIONS = ["写作目标", "正文"]
 
@@ -132,9 +130,13 @@ def parse_simple_yaml(text: str) -> dict[str, Any]:
                     next_line = following
                     break
             next_indent = len(next_line) - len(next_line.lstrip(" ")) if next_line else indent
-            is_list = bool(next_line.strip().startswith("- ") and next_indent > indent)
-            parent[key] = [] if is_list else {}
-            stack.append((indent, parent[key]))
+            has_children = bool(next_line and next_indent > indent)
+            if has_children:
+                is_list = next_line.strip().startswith("- ")
+                parent[key] = [] if is_list else {}
+                stack.append((indent, parent[key]))
+            else:
+                parent[key] = ""
     return root
 
 
@@ -145,6 +147,18 @@ def headings(text: str) -> set[str]:
 def first_h1(text: str) -> str:
     match = re.search(r"(?m)^#\s+(.+?)\s*$", text)
     return match.group(1).strip() if match else ""
+
+
+def expected_chapter_h1(meta: dict[str, Any]) -> str:
+    number = meta.get("chapter_number")
+    title = str(meta.get("title", "")).strip()
+    if not title or number in {"", None}:
+        return ""
+    try:
+        number_text = f"{int(number):03d}"
+    except (TypeError, ValueError):
+        number_text = str(number)
+    return f"第{number_text}章 {title}"
 
 
 def chapter_files(root: Path) -> list[Path]:
@@ -277,7 +291,8 @@ def check_volume(path: Path, root: Path) -> list[Issue]:
     if not meta:
         issues.append(Issue("error", rel(path, root), "missing YAML frontmatter"))
     for field in REQUIRED_VOLUME_FIELDS:
-        if field not in meta or meta.get(field) in {"", None}:
+        value = meta.get(field)
+        if field not in meta or value is None or value == "":
             issues.append(Issue("error", rel(path, root), f"missing frontmatter field: {field}"))
     found = headings(body)
     for section in REQUIRED_VOLUME_SECTIONS:
@@ -294,13 +309,14 @@ def check_chapter(path: Path, root: Path, indexed: set[str]) -> list[Issue]:
     if not meta:
         issues.append(Issue("error", path_rel, "missing YAML frontmatter"))
     for field in REQUIRED_CHAPTER_FIELDS:
-        if field not in meta or meta.get(field) in {"", None}:
+        value = meta.get(field)
+        if field not in meta or value is None or value == "":
             issues.append(Issue("error", path_rel, f"missing frontmatter field: {field}"))
 
-    title = str(meta.get("display_title", "")).strip()
     h1 = first_h1(body)
-    if title and h1 and title != h1:
-        issues.append(Issue("warning", path_rel, f"H1 does not match display_title: {h1!r} != {title!r}"))
+    expected_h1 = expected_chapter_h1(meta)
+    if expected_h1 and h1 and h1 != expected_h1:
+        issues.append(Issue("warning", path_rel, f"H1 does not match chapter_number/title: {h1!r} != {expected_h1!r}"))
     if not h1:
         issues.append(Issue("error", path_rel, "missing H1 chapter title"))
 

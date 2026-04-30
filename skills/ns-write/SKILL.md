@@ -30,8 +30,8 @@ description: "小说正文写作技能。用于写新的正文内容：下一章
 - 写主线章节前检查 `plan.yaml.scale` 和对应 `volumes[].planned_chapters`；`limits_are: hard` 时不要超出目标章数，除非用户明确同意。
 - 写番外前检查 `plan.yaml.extras[]`；计划外番外先登记目的、预计字数和状态。
 - 每章保留 frontmatter、H1、`## 写作目标`、`## 正文`。
-- 新建章节 frontmatter 必须包含第几章、章节标题、所属卷、创建时间、更新时间、状态、字数目标和记忆读写清单。
-- H1 用 `# 第001章 章节标题`；frontmatter 的 `display_title` 与 H1 保持一致。
+- 新建章节 frontmatter 只写必要索引：`id`、`type`、`chapter_number`、`title`、`volume_id`、`status`、`created_at`、`updated_at`、`word_target`、`word_count`。
+- H1 用 `# 第001章 章节标题`，由 `chapter_number` 和 `title` 生成。
 - 写完后直接更新 `index.yaml`、`continuity.yaml`、`memory.yaml`；如果用户希望保留回顾，可追加普通 Markdown 的 `## 章末笔记`。
 - 所属卷的 `_index.md` 同步章节目录行；新开卷时补 `## 卷简介` 和 `## 卷承诺`。
 - `finish.yaml` 只在分卷完成、全书完稿或交付物变化时更新。

@@ -52,7 +52,7 @@ def title_from_index(path: Path) -> str:
     if not index.exists():
         return path.name
     meta, body = split_frontmatter(index.read_text(encoding="utf-8"))
-    return str(meta.get("display_title") or meta.get("title") or h1(body) or path.name)
+    return str(h1(body) or meta.get("title") or path.name)
 
 
 def chapter_files(root: Path) -> list[Path]:
@@ -64,12 +64,12 @@ def chapter_files(root: Path) -> list[Path]:
     def key(path: Path) -> tuple[str, int, str]:
         meta, _ = split_frontmatter(path.read_text(encoding="utf-8"))
         volume = str(meta.get("volume_id") or path.parent.name)
-        weight = meta.get("weight") or meta.get("chapter_number") or 999999
+        order = meta.get("chapter_number") or 999999
         try:
-            weight = int(weight)
+            order = int(order)
         except (TypeError, ValueError):
-            weight = 999999
-        return (volume, weight, path.as_posix())
+            order = 999999
+        return (volume, order, path.as_posix())
 
     return sorted(files, key=key)
 
@@ -83,9 +83,9 @@ def render(root: Path, fmt: str, include_titles: bool) -> str:
         volume_id = str(meta.get("volume_id") or path.parent.name)
         if include_titles and volume_id != current_volume:
             current_volume = volume_id
-            volume_title = title_from_index(path.parent)
-            chunks.append(f"## {volume_title}" if fmt == "markdown" else volume_title)
-        title = str(meta.get("display_title") or h1(body) or path.stem)
+            volume_label = title_from_index(path.parent)
+            chunks.append(f"## {volume_label}" if fmt == "markdown" else volume_label)
+        title = str(h1(body) or meta.get("title") or path.stem)
         story = body_section(text).strip()
         if include_titles:
             chunks.append(f"### {title}" if fmt == "markdown" else title)

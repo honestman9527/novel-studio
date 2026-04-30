@@ -47,10 +47,10 @@ media/
 - `## 卷末笔记` 可选。
 - 章节文件必须包含 YAML frontmatter、`# 第001章 章节标题`、`## 写作目标`、`## 正文`。
 - `## 章末笔记` 可选；需要时用普通 Markdown 列表写本章概要、未收束、已解决、下一章钩子和修订备注。
-- 章节 frontmatter 至少写 `id`、`type`、`chapter_number`、`title`、`display_title`、`volume_id`、`volume_number`、`volume_title`、`weight`、`status`、`created_at`、`updated_at`、`word_target`。
+- 章节 frontmatter 只写必要索引：`id`、`type`、`chapter_number`、`title`、`volume_id`、`status`、`created_at`、`updated_at`、`word_target`、`word_count`。
 - `NOVEL.md` 生成初始全局约束模板，留给用户填写。
 - 时间用 ISO 8601 字符串，优先带时区，例如 `2026-04-29T20:30:00+08:00`。
-- 完整模板见 `$ns-canon` 的 `memory-schema.md`；本 skill 只创建骨架，不编造卷简介和正文。
+- 完整模板见 `$ns-canon` 的 `content-templates.md`；本 skill 只创建骨架，不编造卷简介和正文。
 
 ## 分工
 

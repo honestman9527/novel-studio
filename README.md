@@ -134,7 +134,7 @@ npx skills remove <技能名>    # 移除指定技能
 
 章节必须放在卷或番外目录中，新项目路径例如 `content/volumes/volume-001/ch001.md`、`content/extras/extra-001.md`。每卷用 `_index.md` 维护卷简介、卷承诺、主要人物和章节目录；`## 卷末笔记` 可选。
 
-每章必须包含 YAML frontmatter、H1、`## 写作目标`、`## 正文`。frontmatter 记录 `chapter_number`、`title`、`display_title`、`volume_id`、`volume_title`、`created_at`、`updated_at`、`status` 和字数信息；发布正文时只取 `## 正文`。`## 章末笔记` 是可选普通 Markdown，不要求 YAML。
+每章必须包含 YAML frontmatter、H1、`## 写作目标`、`## 正文`。frontmatter 只记录 `id`、`type`、`chapter_number`、`title`、`volume_id`、`status`、`created_at`、`updated_at`、`word_target` 和 `word_count`；发布正文时只取 `## 正文`。`## 章末笔记` 是可选普通 Markdown，不要求 YAML。
 
 全书规模只写在 `novel-studio/plan.yaml`：`scale.target_volumes`、`scale.target_main_chapters`、`scale.target_extras`、`scale.target_total_words`、`scale.chapter_word_target` 和 `scale.limits_are`。每卷用 `volumes[].planned_chapters` 和 `chapter_range` 记录计划章节数；番外用 `extras[]` 记录目的、预计字数和状态。
 
