@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Check Novel Studio project structure, root guidance file, chapter metadata, and index coverage."""
+"""Check Novel Studio project structure, agent constraint files, chapter metadata, and index coverage."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ REQUIRED_PROJECT_FILES = [
     "finish.yaml",
     "publish.yaml",
 ]
-ROOT_GUIDANCE_FILES = ["AGENTS.md", "CLAUDE.md"]
+AGENT_CONSTRAINT_FILES = ["AGENTS.md", "CLAUDE.md"]
 REQUIRED_VOLUME_FIELDS = ["id", "type", "volume_number", "title", "status", "created_at", "updated_at"]
 REQUIRED_VOLUME_SECTIONS = ["卷简介", "卷承诺", "本卷主要人物", "章节目录"]
 REQUIRED_CHAPTER_FIELDS = [
@@ -49,11 +49,11 @@ REQUIRED_CHAPTER_FIELDS = [
     "word_count",
 ]
 REQUIRED_CHAPTER_SECTIONS = ["写作目标", "正文"]
-MAX_ROOT_GUIDANCE_CHARS = 4000
+MAX_AGENT_CONSTRAINT_CHARS = 4000
 MAX_MEMORY_YAML_CHARS = 8000
 MAX_BRIEF_CHARS = 6000
 MAX_NOTE_CHARS = 12000
-MAX_LOG_CHARS = 12000
+MAX_RECORD_CHARS = 12000
 MAX_VISUAL_CHARS = 12000
 YAML_LENGTH_EXEMPTIONS = {"index.yaml"}
 
@@ -225,20 +225,20 @@ def check_project(root: Path) -> list[Issue]:
     return issues
 
 
-def root_guidance_files(root: Path) -> list[Path]:
-    return [root / name for name in ROOT_GUIDANCE_FILES if (root / name).exists()]
+def agent_constraint_files(root: Path) -> list[Path]:
+    return [root / name for name in AGENT_CONSTRAINT_FILES if (root / name).exists()]
 
 
-def check_root_guidance(root: Path) -> list[Issue]:
+def check_agent_constraints(root: Path) -> list[Issue]:
     issues: list[Issue] = []
-    files = root_guidance_files(root)
+    files = agent_constraint_files(root)
     if len(files) > 1:
         names = ", ".join(rel(path, root) for path in files)
-        issues.append(Issue("warning", ".", f"multiple root guidance files exist; write to first by priority only: {names}"))
+        issues.append(Issue("warning", ".", f"multiple agent constraint files exist; write to first by priority only: {names}"))
     for path in files:
         text = path.read_text(encoding="utf-8")
-        if len(text) > MAX_ROOT_GUIDANCE_CHARS:
-            issues.append(Issue("warning", rel(path, root), "root guidance file should stay short; move long detail into notes/"))
+        if len(text) > MAX_AGENT_CONSTRAINT_CHARS:
+            issues.append(Issue("warning", rel(path, root), "agent constraint file should stay short; move story memory into novel-studio/"))
     return issues
 
 
@@ -265,11 +265,15 @@ def check_file_lengths(root: Path) -> list[Issue]:
                 if text_size(path) > MAX_NOTE_CHARS:
                     issues.append(Issue("warning", rel(path, root), "notes file is long; split by topic"))
 
-        logs_dir = ns_dir / "logs"
-        if logs_dir.exists():
-            for path in logs_dir.glob("*.md"):
-                if text_size(path) > MAX_LOG_CHARS:
-                    issues.append(Issue("warning", rel(path, root), "log file is long; split by date or task"))
+        records_dir = ns_dir / "records"
+        if records_dir.exists():
+            for path in records_dir.glob("*.md"):
+                if text_size(path) > MAX_RECORD_CHARS:
+                    issues.append(Issue("warning", rel(path, root), "record file is long; split by date or task"))
+
+        legacy_logs_dir = ns_dir / "logs"
+        if legacy_logs_dir.exists():
+            issues.append(Issue("warning", rel(legacy_logs_dir, root), "legacy logs directory; move progress/process records into records/"))
 
     brief = root / "brief.md"
     if brief.exists() and text_size(brief) > MAX_BRIEF_CHARS:
@@ -447,7 +451,7 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     issues = check_project(root)
-    issues.extend(check_root_guidance(root))
+    issues.extend(check_agent_constraints(root))
     issues.extend(check_file_lengths(root))
     issues.extend(check_scale(root))
     entries = index_entries(root)

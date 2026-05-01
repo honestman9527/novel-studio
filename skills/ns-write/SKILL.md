@@ -11,7 +11,7 @@ description: "小说正文写作技能。用于写新正文：下一章、续写
 
 - `project.yaml`
 - `plan.yaml`
-- 根指导文件（存在时读取；不要自行创建或修改）
+- agent 约束文件（存在时读取；不要自行创建或修改）
 - `memory.yaml`
 - `continuity.yaml`
 - `style.yaml`
@@ -37,7 +37,7 @@ description: "小说正文写作技能。用于写新正文：下一章、续写
 - 章节保留 frontmatter、H1、`## 写作目标`、`## 正文`；章末笔记按需使用。
 - frontmatter 只写身份、归属、状态、时间、目标字数和统计字数。
 - 写完更新 `index.yaml`、`continuity.yaml`、`memory.yaml` 和卷 `_index.md`；长说明只留 notes 路径。
-- 新全局偏好或禁忌交给 `$ns-guidance`。
+- 新 agent 项目约束交给 `$ns-guidance`。
 
 ## 同步顺序
 

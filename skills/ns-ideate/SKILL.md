@@ -7,7 +7,7 @@ description: "小说创意头脑风暴和收束技能。用于刚开始写作时
 
 只做想法讨论、发散与收束；不写正文，不搭完整设定库。
 
-存在根指导文件时先读；只读指导，不改文件。
+存在 agent 约束文件时先读；只读约束，不改文件。
 
 刚开始写或信息不足时，优先追问作者想法。需要更细的追问角度或写前条件核对时读取 [brainstorm-questions.md](references/brainstorm-questions.md)；要输出写前准备表时使用 [story-prep.md](assets/templates/story-prep.md)；要保留完整脑暴记录时使用 [ideation-note.md](assets/templates/ideation-note.md)。
 

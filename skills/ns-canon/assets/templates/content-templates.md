@@ -1,6 +1,6 @@
 # Content Templates
 
-需要创建卷、章节或 notes 时读取本文件。只维护模板，不解释职责。
+需要创建卷、章节、notes 或 records 时读取本文件。只维护模板，不解释职责。
 
 ## Volume Index
 
@@ -81,4 +81,22 @@ word_count:
 ## 细节
 
 ## 待确认
+````
+
+## Record
+
+按日期或任务创建，例如 `records/progress-2026-05-01.md`、`records/research-city.md`、`records/revision-volume-001.md`。
+
+````markdown
+# 记录标题
+
+## 摘要
+
+## 已处理
+
+## 待处理
+
+## 影响到的记忆
+
+## 来源/证据
 ````

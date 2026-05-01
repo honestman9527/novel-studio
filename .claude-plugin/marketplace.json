@@ -4,13 +4,13 @@
     "name": "Dream"
   },
   "description": "Claude Code marketplace for the NS novel writing plugin.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "plugins": [
     {
       "name": "ns",
       "source": "./",
-      "description": "NS is a local-file based single-novel writing studio with YAML memory in novel-studio/ and chapter text organized by volumes and extras.",
-      "version": "1.2.1",
+      "description": "NS is a local-file based single-novel writing studio with YAML/Markdown memory in novel-studio/ and chapter text organized by volumes and extras.",
+      "version": "1.2.2",
       "author": {
         "name": "Dream"
       },

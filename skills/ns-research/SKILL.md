@@ -1,11 +1,11 @@
 ---
 name: ns-research
-description: "小说调研技能。用于查找和整理写作素材、类型资料、现实考据、职业细节、历史地理、技术资料、案例灵感、视觉参考和市场观察；沉淀到 research.yaml、logs 或 notes。当用户要求查资料、找素材、最新信息、考据、背景真实感、修改资料 notes 或保存来源时使用。"
+description: "小说调研技能。用于查找和整理写作素材、类型资料、现实考据、职业细节、历史地理、技术资料、案例灵感、视觉参考和市场观察；沉淀到 research.yaml、records 或 notes。当用户要求查资料、找素材、最新信息、考据、背景真实感、修改资料 notes 或保存来源时使用。"
 ---
 
 # NS Research
 
-为小说提炼可改造素材，不搬运原文。事实、最新信息或链接必须浏览网络。存在根指导文件时先读，不修改。
+为小说提炼可改造素材，不搬运原文。事实、最新信息或链接必须浏览网络。存在 agent 约束文件时先读，不修改。
 
 ## 流程
 
@@ -13,7 +13,7 @@ description: "小说调研技能。用于查找和整理写作素材、类型资
 2. 搜索/读取来源；事实类优先官方、学术、专业、新闻或机构来源。
 3. 提炼细节、冲突、场景、误区和可视元素。
 4. 记录标题、链接、访问日期和用途。
-5. 摘要写 `research.yaml` 或 logs；长资料写 `notes/research-*.md`。来源记录模板见 [source-log.md](assets/templates/source-log.md)。
+5. 摘要写 `research.yaml`；调研过程和来源清单写 `records/research-*.md`；长资料写 `notes/research-*.md`。来源记录模板见 [source-record.md](assets/templates/source-record.md)。
 
 ## 来源边界
 

@@ -1,6 +1,6 @@
 ---
 name: ns-revise
-description: "小说正文修订技能。用于修改已有章节或片段：润色、小改、对白优化、节奏调整、扩写/压缩、去 AI 味、重写场景、调整 POV 或结构改；区分轻改与结构改，并按影响同步章末笔记、continuity.yaml、memory.yaml、plan.yaml、notes/*.md 和 logs/revision.md。"
+description: "小说正文修订技能。用于修改已有章节或片段：润色、小改、对白优化、节奏调整、扩写/压缩、去 AI 味、重写场景、调整 POV 或结构改；区分轻改与结构改，并按影响同步章末笔记、continuity.yaml、memory.yaml、plan.yaml、notes/*.md 和 records/revision*.md。"
 ---
 
 # NS Revise
@@ -12,7 +12,7 @@ description: "小说正文修订技能。用于修改已有章节或片段：润
 - 待改章节或片段。
 - `project.yaml`
 - `plan.yaml`
-- 根指导文件（存在时读取；不要自行创建或修改）
+- agent 约束文件（存在时读取；不要自行创建或修改）
 - `memory.yaml`
 - `continuity.yaml`
 - `style.yaml`
@@ -28,18 +28,18 @@ description: "小说正文修订技能。用于修改已有章节或片段：润
 2. 轻改可直接改；结构改先给替换方案或场景顺序。
 3. 只替换目标片段或目标章节。
 4. 更新 `updated_at`、必要的 `word_count` 和 `index.yaml`。
-5. 结构改再同步 `plan.yaml`、`continuity.yaml`、`memory.yaml`、必要 notes 和 `logs/revision.md`。
-6. 新全局指导交给 `$ns-guidance`。
+5. 结构改再同步 `plan.yaml`、`continuity.yaml`、`memory.yaml`、必要 notes 和 `records/revision*.md`。
+6. 新 agent 项目约束交给 `$ns-guidance`。
 
 ## Notes
 
-修订过程写 logs；长人物/时间线变化写 notes。YAML 和 frontmatter 只留结果摘要、索引和路径。
+修订过程写 records；长人物/时间线变化写 notes。YAML 和 frontmatter 只留结果摘要、索引和路径。
 
 ## 同步顺序
 
 1. 改 Markdown。
 2. 统计字数，更新 frontmatter。
-3. 轻改同步 `index.yaml`；结构改同步相关 YAML/notes/logs。
+3. 轻改同步 `index.yaml`；结构改同步相关 YAML/notes/records。
 
 ## 字数
 

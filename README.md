@@ -13,7 +13,7 @@ Novel Studio 只保留新版单本小说目录模型：
 
 ```text
 my-novel/
-  AGENTS.md / CLAUDE.md  # 根指导文件
+  AGENTS.md / CLAUDE.md  # agent 项目约束
   novel-studio/
     project.yaml
     plan.yaml
@@ -26,9 +26,9 @@ my-novel/
     finish.yaml
     publish.yaml
     notes/
+    records/
     tools/
       word_count.py
-    logs/
   content/
     volumes/
       volume-001/
@@ -48,9 +48,9 @@ my-novel/
 
 当前文件夹就是这部小说的根目录；`novel-studio/` 是唯一记忆目录；新项目正文默认放在 `content/volumes/`、`content/extras/`。旧项目已有 `volumes/`、`extras/` 时可沿用。
 
-根指导文件只使用 `AGENTS.md` 或 `CLAUDE.md`，保存作者长期偏好、禁区和待确认原则，不保存设定库、剧情大纲或资料摘录。`novel-studio/*.yaml` 保存结构化记忆和索引；`novel-studio/notes/*.md` 保存长说明；`content/`、`brief.md`、`visuals/` 和 `media/` 是主要创作产物。详细位置和同步关系见 `ns-canon` 的 `memory-schema.md` / `file-roles.md`。
+`AGENTS.md` 或 `CLAUDE.md` 只保存 agent 在本项目里的执行约束，例如工作流、写入边界、协作偏好和禁区；不保存小说记忆、剧情进度、设定库或资料摘录。`novel-studio/*.yaml` 保存当前结构化记忆和索引；`novel-studio/notes/*.md` 保存长说明；`novel-studio/records/*.md` 保存进度、检查点、迁移、调研和修订过程记录；`content/`、`brief.md`、`visuals/` 和 `media/` 是主要创作产物。详细位置和同步关系见 `ns-canon` 的 `memory-schema.md` / `file-roles.md`。
 
-不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入启动、创意、框架、根指导、canon 记忆、调研、写作、修订、文案或视觉提示词技能。
+不知道该用哪个技能时，直接使用 `ns`。入口会根据请求判断应转入启动、创意、框架、agent 约束、canon 记忆、调研、写作、修订、文案或视觉提示词技能。
 
 ## Claude Code 在线安装
 
@@ -124,8 +124,8 @@ npx skills remove <技能名>    # 移除指定技能
 - `ns-start`：初始化空项目或接入已有正文项目，只创建结构、基础记忆和 `novel-studio/tools/word_count.py`。
 - `ns-ideate`：创意发散与收束，只产出题材方向、卖点、主角欲望和开篇钩子。
 - `ns-build`：搭建故事圣经，只负责世界观、人物、类型规则、大纲、卷纲、章节计划和必要的长文 notes。
-- `ns-guidance`：维护 `AGENTS.md` 或 `CLAUDE.md`，把长期规则、禁区、风格偏好和碎片化全局要求高效合并进去。
-- `ns-canon`：维护 `novel-studio/` canon 记忆、notes、已定事实、连续性、索引和进度。
+- `ns-guidance`：维护 `AGENTS.md` 或 `CLAUDE.md`，只记录 agent 项目约束和协作边界。
+- `ns-canon`：维护 `novel-studio/` canon 记忆、notes、records、已定事实、连续性、索引和进度。
 - `ns-research`：联网查找素材、考据、视觉参考并记录来源；创作素材优先从小说素材站、写作站、网文资料和类型小说相关网站提炼，事实考据再用官方/学术/专业来源核验。
 - `ns-write`：写新的正文内容，统一负责下一章、续写、新开卷、番外、序章、尾声和独立短篇。
 - `ns-revise`：修订已有正文，统一负责润色、小改、扩写、压缩、重写和结构改。
